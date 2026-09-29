@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>비상대응 훈련 시뮬레이터 · 서울교통공사</title>
+<title>또타 훈련소 · 서울교통공사</title>
 <style>*{box-sizing:border-box}html,body{margin:0;padding:0}</style>
 </head>
 <body>
-<title>비상대응 훈련 시뮬레이터</title>
+<title>또타 훈련소 · 서울교통공사</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
 <style>
@@ -55,9 +55,9 @@
   .topbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;background:var(--surface);
     border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:14px}
   .brandmark{display:flex;align-items:center;gap:10px;margin-right:auto}
-  .brandmark .rail{width:5px;height:28px;border-radius:3px;background:var(--accent)}
-  .brandmark b{font-size:15px;font-weight:600;letter-spacing:-.01em}
-  .brandmark span{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.08em}
+  .brandmark .rail{width:6px;height:40px;border-radius:3px;background:var(--accent)}
+  .brandmark b{font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+  .brandmark span{display:block;font-size:12px;color:var(--ink-3);letter-spacing:.06em;margin-top:2px}
   .stat{display:flex;flex-direction:column;line-height:1.25}
   .stat u{text-decoration:none;font-size:10px;letter-spacing:.12em;color:var(--ink-3)}
   .stat b{font-size:17px;font-weight:600}
@@ -74,6 +74,13 @@
   .menu{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:34px 26px 30px}
   .menu h1{margin:0 0 8px;font-size:clamp(22px,4.5vw,30px);font-weight:700;letter-spacing:-.02em;text-wrap:balance}
   .menu .lead{color:var(--ink-2);margin:0 0 26px;font-size:15px;max-width:52ch}
+  .menu-head{display:flex;align-items:flex-end;gap:16px;margin-bottom:26px}
+  .menu-head .menu-ht{flex:1;min-width:0}
+  .menu-head .lead{margin-bottom:0}
+  .menu-mascot{flex:none;width:112px}
+  .menu-mascot img{width:112px;height:112px;object-fit:contain;display:block;
+    background:var(--accent-soft);border:1px solid #f6d3e2;border-radius:16px;padding:6px}
+  @media(max-width:560px){ .menu-mascot{width:76px} .menu-mascot img{width:76px;height:76px;border-radius:12px} }
   .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:12px}
   .course{font:inherit;text-align:left;background:var(--surface);border:1px solid var(--line);
     border-radius:12px;padding:16px 17px;display:grid;gap:7px;cursor:pointer;color:var(--ink);
@@ -191,17 +198,22 @@
   .t-pan{display:grid;grid-template-columns:58px repeat(6,1fr) 68px;gap:3px 4px;align-items:center}
   .t-panto{grid-column:2 / 8;display:grid;grid-template-columns:repeat(6,1fr);height:12px}
   .t-panto span{position:relative}
-  .t-panto span.p::before,.t-panto span.p::after{content:"";position:absolute;bottom:0;width:8px;height:8px;
-    background:#fff;transform:rotate(45deg)}
-  .t-panto span.p::before{left:26%} .t-panto span.p::after{left:56%}
-  .t-consist{grid-column:2 / 8;display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
-  .t-car{border:1.5px solid #dff2ff;height:24px;display:grid;place-items:center;
-    color:#ffe23a;font-weight:700;font-size:13px;font-variant-numeric:tabular-nums}
-  .t-car.h,.t-car.t{border-radius:3px}
-  .t-arrow{display:grid;place-items:center start;color:#fff;font-size:15px;font-weight:700}
-  .t-temp{grid-column:2 / 8;display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin:3px 0 1px}
-  .t-temp div{display:flex;align-items:center;justify-content:space-around;font-size:8.5px;color:#4de0e0}
-  .t-temp i{width:6px;height:6px;border-radius:50%;background:#cfe9fb;display:inline-block}
+  .t-panto span.p::before,.t-panto span.p::after{content:"";position:absolute;bottom:1px;width:9px;height:9px;
+    background:none;border:1.4px solid #fff;transform:rotate(45deg)}
+  .t-panto span.p::before{left:24%} .t-panto span.p::after{left:58%}
+  .t-consist{grid-column:2 / 8;display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+  .t-car{position:relative;height:27px;display:grid;place-items:center}
+  .t-car svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .t-car b{position:relative;color:#ffe23a;font-weight:700;font-size:14px;letter-spacing:.06em;
+    font-variant-numeric:tabular-nums;text-shadow:0 0 5px rgba(255,226,58,.35)}
+  .t-arrow{display:flex;align-items:center;justify-content:flex-end;padding-right:5px}
+  .t-arrow svg{width:34px;height:20px;display:block}
+  .t-temp{grid-column:2 / 8;display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin:1px 0 2px}
+  .t-temp div{display:flex;align-items:center;justify-content:space-between;padding:0 9%;
+    font-size:8.5px;color:#4de0e0;line-height:1}
+  .t-temp i{width:8px;height:8px;border-radius:50%;background:#0b1020;border:1.3px solid #e8f4ff;
+    display:inline-block;flex:none;position:relative;top:-5px}
+  .t-temp i.f{background:#e3ecf5;border-color:#e3ecf5}
 
   .t-lb{text-align:right;padding-right:6px;font-size:10px;color:#dff2ff;font-weight:600;white-space:nowrap;
     align-self:center;position:relative}
@@ -238,7 +250,7 @@
   .t-state i.on{background:#ff5ce0;border-color:#ff5ce0;box-shadow:0 0 6px rgba(255,92,224,.8)}
   .t-btns{display:grid;grid-template-columns:repeat(6,1fr) 1.1fr;gap:4px;margin-top:10px;
     border-top:1.5px solid #31c9e8;padding-top:9px}
-  .t-btns span{border:1.5px solid #dff2ff;text-align:center;font-size:8.5px;padding:5px 2px;line-height:1.3;color:#dff2ff}
+  .t-btns span{border:1.5px solid #dff2ff;display:grid;place-items:center;text-align:center;font-size:8.5px;padding:5px 2px;line-height:1.3;color:#dff2ff;min-height:28px}
 
   /* ---------- 순서 맞추기 ---------- */
   .seqhint{font-size:12.5px;color:var(--ink-2);margin:0 0 10px}
@@ -782,7 +794,7 @@
   .mascot{flex:none;width:86px}
   .mascot img{width:86px;height:86px;object-fit:contain;display:block;
     filter:drop-shadow(0 3px 5px rgba(60,40,60,.14))}
-  .bubble{position:relative;flex:1;min-width:0;background:var(--accent-soft);border:1px solid #f6d3e2;
+  .bubble{position:relative;flex:1;min-width:0;font-weight:700;background:var(--accent-soft);border:1px solid #f6d3e2;
     border-radius:12px;padding:13px 15px;font-size:14.5px;line-height:1.65}
   .bubble::before{content:"";position:absolute;left:-7px;top:22px;width:12px;height:12px;background:var(--accent-soft);
     border-left:1px solid #f6d3e2;border-bottom:1px solid #f6d3e2;transform:rotate(45deg)}
@@ -792,7 +804,8 @@
   .pips i{width:18px;height:4px;border-radius:2px;background:var(--line)}
   .pips i.done{background:var(--accent)}
   .pips i.now{background:var(--accent);opacity:.45}
-  .steptag{font-size:10.5px;letter-spacing:.12em;color:var(--ink-3);font-weight:600}
+  .steptag{font-size:13px;letter-spacing:.1em;color:#fff;font-weight:800;background:var(--accent);
+    border-radius:999px;padding:5px 12px;line-height:1;white-space:nowrap}
   .prompt{font-size:15px;font-weight:600;margin:0 0 12px;line-height:1.5;text-wrap:balance}
   .prompt[hidden]{display:none}
 
@@ -815,10 +828,31 @@
   .fb.bad{background:var(--stop-soft);border:1px solid #f3c9c9;color:#8f1c26}
   .fb > b:first-child{display:block;font-size:12px;letter-spacing:.06em;margin-bottom:3px}
 
+  .extrab{margin-top:14px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+  .extrab-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px;
+    border-bottom:1px solid var(--line-soft);font-size:12px;letter-spacing:.08em;color:var(--ink-2);font-weight:600}
+  .extrab #extraBox{padding:10px}
+  #extraPrompt{margin-top:12px}
   .coach-foot{display:flex;gap:7px;align-items:center;margin-top:14px;flex-wrap:wrap}
   .coach-foot .spacer{margin-left:auto}
   .hinttext{font-size:12.5px;color:#7a5410;margin-top:10px;background:var(--warn-soft);border:1px solid #efdcc4;
     border-radius:10px;padding:10px 13px}
+
+  /* ---------- 요약영상: 운전실 재취급 ---------- */
+  .ccab{background:#fbf6f8;padding:12px}
+  .ccab-g{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;align-items:start}
+  .ccb{background:#efe9ec;border:1.5px solid var(--line);border-radius:10px;padding:7px 7px 8px;min-width:0}
+  .ccb-t{display:flex;align-items:baseline;gap:4px;margin-bottom:5px;flex-wrap:wrap}
+  .ccb-t i{flex:none;width:15px;height:15px;border-radius:50%;background:var(--accent);color:#fff;
+    font-style:normal;font-size:9.5px;font-weight:800;display:grid;place-items:center}
+  .ccb-t b{font-size:10.5px;font-weight:700;color:#2c2226}
+  .ccb-t u{text-decoration:none;font-size:9px;color:#8a6200;background:#fdf3c4;border-radius:5px;padding:1px 5px;font-weight:700}
+  .ccb.w{grid-column:1 / -1}
+  .ccb-two{display:flex;gap:8px;justify-content:center;align-items:flex-start;width:306px}
+  .mdial{flex:none}
+  .mdial-in{background:#15171a;border:1px solid #2a2d31;border-radius:6px;padding:10px 12px 26px}
+  .mdial-in.ds{padding:10px 12px}
+  @media(max-width:560px){ .ccab-g{grid-template-columns:1fr} }
 
   /* ---------- 장면 재생기 ---------- */
   .cine{position:fixed;inset:0;background:rgba(40,22,30,.74);display:grid;place-items:center;z-index:60;padding:16px}
@@ -862,7 +896,13 @@
   .cine-stage .arm{transform-origin:418px 158px;animation:swing 1s ease-in-out infinite alternate}
   @keyframes swing{from{transform:rotate(-42deg)}to{transform:rotate(14deg)}}
   .cine-stage .glow{animation:glow 1s ease-in-out infinite alternate}
+  #trainBox .glow{animation:glow 1s ease-in-out infinite alternate}
   @keyframes glow{from{opacity:.45}to{opacity:1}}
+  .mag{animation:mag 4.4s ease-in-out infinite}
+  @keyframes mag{0%,100%{transform:translate(0,0)}
+    20%{transform:translate(-36px,-26px)}
+    45%{transform:translate(24px,-58px)}
+    70%{transform:translate(14px,-8px)}}
   .cine-stage .roll{animation:roll 2.6s cubic-bezier(.4,0,.75,1) forwards}
   @keyframes roll{0%{transform:translateX(0)}100%{transform:translateX(190px)}}
   .cine-stage .dash{stroke-dasharray:10 8;animation:dash .7s linear infinite}
@@ -893,7 +933,7 @@
   .scorenums{display:flex;gap:26px;flex-wrap:wrap}
   .review{display:grid;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:12px;
     overflow:hidden;margin-bottom:22px}
-  .rv{background:var(--surface);padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start}
+  .rv{background:var(--surface);padding:13px 16px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
   .rv .ic{width:21px;height:21px;border-radius:6px;display:grid;place-items:center;font-size:12px;font-weight:700;
     margin-top:2px;color:#fff}
   .rv .ic.ok{background:var(--go)}
@@ -901,10 +941,17 @@
   .rv h4{margin:0 0 2px;font-size:14px;font-weight:600}
   .rv p{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.55}
   .rv .src{margin-top:5px;font-size:11px;color:var(--ink-3)}
-  .rv .pt{font-size:13px;font-weight:600;color:var(--ink-2)}
+  .rv .pt{font-size:14px;font-weight:800;color:var(--accent);background:var(--accent-soft);
+    border:1px solid #f6d3e2;border-radius:999px;padding:4px 11px;white-space:nowrap}
+  .rv .pt.part{color:#8a6200;background:var(--warn-soft);border-color:#efdcc4}
   .nextup{border:1px solid var(--line);border-radius:12px;padding:16px 18px;background:var(--surface-2);margin-bottom:20px}
   .nextup h3{margin:0 0 8px;font-size:13px;letter-spacing:.04em}
   .nextup ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:13px;display:grid;gap:4px}
+  .btn.lemon{background:#fdf3c4;border:1px solid #edd98a;color:#6b5312;font-weight:700}
+  .btn.lemon:hover{background:#fbe9a0;border-color:#e0c55f}
+  .resdocs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 0}
+  .resdocs-note{margin:10px 0 0;font-size:13px;color:var(--ink-2);background:var(--surface-2);
+    border:1px dashed var(--line);border-radius:10px;padding:11px 14px}
   .resfoot{display:flex;gap:8px;flex-wrap:wrap}
 </style>
 
@@ -914,8 +961,8 @@
     <div class="brandmark">
       <div class="rail"></div>
       <div>
-        <b>비상대응 훈련 시뮬레이터</b>
-        <span class="mono" id="hudSub">서울교통공사 8호선</span>
+        <b>또타 훈련소</b>
+        <span class="mono" id="hudSub">서울교통공사 · 8호선 기관사 훈련</span>
       </div>
     </div>
     <span id="hudStats" style="display:contents">
@@ -928,9 +975,14 @@
 
   <!-- ================= MENU ================= -->
   <section class="screen-sec menu" id="scMenu">
-    <p class="eyebrow">비상대응 훈련</p>
-    <h1>어떤 상황을 훈련할까요?</h1>
-    <p class="lead">상황을 단계별로 조치해 보세요.</p>
+    <div class="menu-head">
+      <div class="menu-ht">
+        <p class="eyebrow">또타 훈련소</p>
+        <h1>어떤 상황을 훈련할까요?</h1>
+        <p class="lead">상황을 단계별로 조치해 보세요.</p>
+      </div>
+      <div class="menu-mascot"><img id="menuMascot" alt="또타" src=""></div>
+    </div>
     <div class="menu-grid" id="menuGrid"></div>
   </section>
 
@@ -1115,6 +1167,18 @@
       <p class="prompt" id="prompt" hidden></p>
       <div id="answerArea"></div>
       <div id="fbArea"></div>
+
+      <div id="extraWrap" hidden>
+        <div class="extrab">
+          <div class="extrab-h"><span id="extraHead">바이패스 스위치 패널</span>
+            <span class="mono tag" id="extraTag">전체 출입문 BY-PASS</span></div>
+          <div id="extraBox"></div>
+          <p class="boardnote" id="extraNote"></p>
+        </div>
+        <p class="prompt" id="extraPrompt"></p>
+        <div id="extraFb"></div>
+      </div>
+
       <div id="hintArea"></div>
 
       <div class="coach-foot">
@@ -1122,6 +1186,7 @@
         <button class="btn ghost sm" id="btnHint">힌트</button>
         <span class="spacer"></span>
         <button class="btn ghost sm" id="btnReplay" hidden>▶ 시뮬레이션 영상</button>
+        <button class="btn ghost sm" id="btnSkip" hidden>건너뛰기 →</button>
         <button class="btn sm" id="btnNext" hidden>다음 단계 →</button>
       </div>
     </div>
@@ -1141,16 +1206,17 @@
       </div>
     </div>
 
-    <div class="review" id="review"></div>
-
-    <div class="nextup">
-      <h3>오늘 익힌 조치 순서</h3>
-      <ul id="recapList"></ul>
+    <div class="resdocs">
+      <button class="btn lemon" id="btnDoc">📄 고장 조치 정리본 다운받기</button>
+      <button class="btn lemon" id="btnRule">📖 관련 규정 확인</button>
+      <button class="btn lemon" id="btnSummary">▶ 조치 요약 영상 다시 보기</button>
     </div>
+    <p class="resdocs-note" id="resDocsNote" hidden></p>
+
+    <div class="review" id="review"></div>
 
     <div class="resfoot">
       <button class="btn" id="btnAgain">다시 하기</button>
-      <button class="btn ghost" id="btnSummary">▶ 조치 요약 영상 다시 보기</button>
       <button class="btn ghost" id="btnBack2">← 훈련 목록</button>
     </div>
   </section>
@@ -1359,11 +1425,11 @@
     s += '<path d="M 358 176 L 358 132 Q 358 108 398 108 Q 438 108 438 132 L 438 176 Z" fill="'+C.ink+'"/>';
     s += '<circle cx="398" cy="80" r="23" fill="'+C.ink+'"/>';
     if (o.point){   // 손가락으로 화면을 가리키며 지적확인 환호
-      s += '<line x1="376" y1="134" x2="300" y2="104" stroke="'+C.ink+'" stroke-width="12" stroke-linecap="round"/>';
-      s += '<circle cx="296" cy="102" r="8" fill="'+C.ink+'"/>';
-      s += '<line x1="294" y1="100" x2="278" y2="94" stroke="'+C.ink+'" stroke-width="5" stroke-linecap="round"/>';
+      s += '<line x1="376" y1="134" x2="336" y2="116" stroke="'+C.ink+'" stroke-width="12" stroke-linecap="round"/>';
+      s += '<circle cx="332" cy="114" r="8" fill="'+C.ink+'"/>';
+      s += '<line x1="330" y1="112" x2="316" y2="106" stroke="'+C.ink+'" stroke-width="5" stroke-linecap="round"/>';
       s += '<g stroke="'+C.pink+'" stroke-width="3" stroke-linecap="round" class="glow">' +
-           '<line x1="270" y1="84" x2="264" y2="78"/><line x1="268" y1="94" x2="260" y2="94"/><line x1="270" y1="104" x2="264" y2="110"/></g>';
+           '<line x1="308" y1="96" x2="302" y2="90"/><line x1="306" y1="106" x2="298" y2="106"/><line x1="308" y1="116" x2="302" y2="122"/></g>';
       s += '<rect x="304" y="10" width="170" height="28" rx="14" fill="'+C.pink+'"/>';
       s += '<path d="M 392 37 L 404 37 L 398 52 Z" fill="'+C.pink+'"/>';
       s += '<text x="389" y="29" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">6호차 R2 닫힘, 확인!</text>';
@@ -1529,8 +1595,6 @@
       });
     });
     s += '<line x1="19" y1="130" x2="265" y2="130" stroke="#31c9e8" stroke-width=".7"/>';
-    s += '<circle cx="24" cy="136" r="2.4" fill="#3b4360"/>' + tx(29,138,'출입문 대표등',5,'#dff2ff') + tx(65,138,'소등',5,'#ff8e93','start',700);
-    s += '<circle cx="92" cy="136" r="2.4" fill="#3b4360"/>' + tx(97,138,'6호차 R2',5,'#dff2ff') + tx(122,138,'닫힘 현시',5,'#ff8e93','start',700);
     var bl = ["검수메뉴","고장화면","상태화면","출발전시험","냉난방설정","응급상황","사용자"];
     for (var q=0;q<7;q++) s += bx(19+q*35.2,145,33,13) + tx(35.5+q*35.2,153.5,bl[q],3.9,'#fff','middle',600);
     return s;
@@ -1652,7 +1716,7 @@
   }
 
   /* 객실 안 — 6호차 R2 출입문 · 개별코크 (위치는 예시) */
-  function interiorSvg(mode){
+  function interiorSvg(mode, marked){
     var P = C.pink, s = '<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
     s += '<rect width="480" height="210" fill="#eef0f3"/>';
     s += '<path d="M 0 0 L 480 0 L 480 20 L 0 20 Z" fill="#f7f8fa"/><rect x="40" y="6" width="400" height="7" rx="3.5" fill="#fffbe6"/>';
@@ -1676,24 +1740,28 @@
       s += '<text x="213" y="41" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">DCU</text>';
       s += '<circle cx="236" cy="30" r="2" fill="#3ee87a"/><circle cx="236" cy="36" r="2" fill="#e02f3c" class="glow"/>';
       for (var t=0;t<6;t++) s += '<rect x="'+(250+t*8)+'" y="30" width="6" height="14" rx="1" fill="#9aa0a8"/>';
-      s += '<rect x="172" y="0" width="136" height="56" rx="6" fill="none" stroke="'+P+'" stroke-width="2.5" stroke-dasharray="7 5" class="glow"/>';
-      s += '<path d="M 308 30 L 336 62" stroke="'+P+'" stroke-width="2"/>';
-      s += '<rect x="330" y="58" width="140" height="22" rx="11" fill="'+P+'"/>' +
-           '<text x="400" y="73" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">출입문 위 배전반 · DCU</text>';
+      if (marked){
+        s += '<rect x="172" y="0" width="136" height="56" rx="6" fill="none" stroke="'+P+'" stroke-width="2.5" stroke-dasharray="7 5" class="glow"/>';
+        s += '<path d="M 308 30 L 336 62" stroke="'+P+'" stroke-width="2"/>';
+        s += '<rect x="330" y="58" width="140" height="22" rx="11" fill="'+P+'"/>' +
+             '<text x="400" y="73" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">DCU 확인 · TOB 취급</text>';
+      }
     } else {
-      s += '<rect x="186" y="30" width="108" height="18" rx="3" fill="#15181c"/><text x="240" y="43" text-anchor="middle" font-size="9" font-weight="700" fill="'+P+'">6호차 R2</text>';
-      // 우진차: 빨간 개별코크가 출입문 위쪽에 설치
-      s += '<rect x="298" y="28" width="22" height="22" rx="3" fill="#aeb4bc" stroke="#6f7782"/>';
-      s += '<rect x="306" y="24" width="7" height="24" rx="3" fill="#d91e1e" stroke="#7a0e0e" transform="rotate(-35 309 38)"/>';
-      s += '<circle cx="309" cy="38" r="3" fill="#7a0e0e"/>';
-      s += '<circle cx="309" cy="39" r="19" fill="none" stroke="'+P+'" stroke-width="3" stroke-dasharray="6 5" class="glow"/>';
-      s += '<path d="M 326 48 L 340 64" stroke="'+P+'" stroke-width="2"/>';
-      s += '<rect x="334" y="60" width="136" height="22" rx="11" fill="'+P+'"/>' +
-           '<text x="402" y="75" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">출입문 개별코크 (빨간색)</text>';
-      // 이물질 확인
-      s += '<circle cx="240" cy="160" r="11" fill="rgba(255,255,255,.35)" stroke="'+P+'" stroke-width="3"/>';
-      s += '<line x1="248" y1="168" x2="258" y2="178" stroke="'+P+'" stroke-width="4" stroke-linecap="round"/>';
-      s += '<text x="226" y="165" text-anchor="end" font-size="10" font-weight="800" fill="'+P+'">이물질</text>';
+      // 개별코크 — 출입문 옆 중간 높이 (빨간 코크)
+      s += '<rect x="298" y="98" width="24" height="26" rx="3" fill="#aeb4bc" stroke="#6f7782"/>';
+      s += '<rect x="306" y="94" width="8" height="26" rx="4" fill="#d91e1e" stroke="#7a0e0e" transform="rotate(-35 310 110)"/>';
+      s += '<circle cx="310" cy="111" r="3.2" fill="#7a0e0e"/>';
+      if (marked){
+        s += '<circle cx="310" cy="111" r="17" fill="none" stroke="'+P+'" stroke-width="2.5" stroke-dasharray="6 5" class="glow"/>';
+        s += '<path d="M 325 101 L 344 86" stroke="'+P+'" stroke-width="1.8"/>';
+        s += '<rect x="342" y="74" width="98" height="18" rx="9" fill="'+P+'"/>' +
+             '<text x="391" y="86.5" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fff">출입문 개별코크</text>';
+        // 이물질 확인 — 돋보기가 움직이며 찾는 모습
+        s += '<g class="mag"><circle cx="240" cy="160" r="12" fill="rgba(255,255,255,.4)" stroke="'+P+'" stroke-width="3"/>' +
+             '<line x1="249" y1="169" x2="259" y2="179" stroke="'+P+'" stroke-width="4" stroke-linecap="round"/></g>';
+        s += '<rect x="176" y="24" width="128" height="20" rx="10" fill="'+P+'"/>' +
+             '<text x="240" y="38" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">개별코크 · 이물질 확인</text>';
+      }
     }
     s += '<g transform="translate(120,0)"><ellipse cx="0" cy="206" rx="16" ry="3.5" fill="rgba(60,40,48,.2)"/>' +
       '<path d="M -11 206 L -8 178 L 8 178 L 11 206" fill="'+C.ink+'"/>' +
@@ -1707,54 +1775,44 @@
       '<g transform="translate(98,16)">' + miniTcms3() + '</g></svg>';
   }
   /* 전체 출입문 재취급 — ① B7 ② 운전모드 수동·출입문 수/수 ③ 측면 스위치 닫힘→열림 */
+  /* 다이얼 클로즈업 — 운전모드선택(수동) / 출입문 선택(수/수) */
+  function dialRun(){
+    var lb = "";
+    CF_RUNPOS.forEach(function(p, i){
+      var a = CF_RUNANG[i] * Math.PI / 180, lx = 55 + 41*Math.sin(a), ly = 66 - 41*Math.cos(a);
+      lb += '<span class="rmx-pl' + (i === 1 ? ' on' : '') + '" style="left:' + lx.toFixed(1) +
+            'px;top:' + ly.toFixed(1) + 'px">' + p + '</span>';
+    });
+    return '<div class="mdial"><div class="mdial-in rm">' +
+      '<div class="rmx-sw" style="position:relative;left:auto;top:auto;margin:0 auto">' + lb +
+      '<span class="rmx-knob" style="--rot:' + CF_RUNANG[1] + 'deg"><i></i></span>' +
+      '<b>운전모드선택</b></div></div></div>';
+  }
+  function dialDoor(){
+    var lbls = "";
+    CF_DOORLBL.forEach(function(t, i){
+      lbls += '<span class="dsx-pl p' + i + (i === 2 ? ' on' : '') + '">' + t + '</span>';
+    });
+    return '<div class="mdial"><div class="mdial-in ds">' +
+      '<div class="dsx-sel" style="position:relative;left:auto;top:auto;margin:0 auto">' +
+      '<span class="dsx-sn">출입문 선택</span><div class="dsx-dial">' + lbls +
+      '<span class="dsx-knob" style="--rot:' + CF_DOORANG[2] + 'deg"><i></i></span></div></div></div></div>';
+  }
+
   function reopen3Scene(){
-    var s = '<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="210" fill="#fbf6f8"/>';
-    var cap = [["① 주간제어기 B7","제동 확보"],["② 운전모드 수동","출입문모드 수/수"],["③ 측면 출입문 스위치","닫힘 → 열림"]];
-    for (var i=0;i<3;i++){
-      var x = 12 + i*156;
-      s += '<rect x="'+x+'" y="14" width="144" height="152" rx="10" fill="#efe9ec" stroke="'+C.line+'" stroke-width="2"/>';
-      s += '<text x="'+(x+72)+'" y="140" text-anchor="middle" font-size="11" font-weight="700" fill="#2c2226">'+cap[i][0]+'</text>';
-      s += '<text x="'+(x+72)+'" y="156" text-anchor="middle" font-size="9.5" fill="#6b5c62">'+cap[i][1]+'</text>';
-      if (i < 2) s += '<text x="'+(x+150)+'" y="92" text-anchor="middle" font-size="18" font-weight="700" fill="'+C.pink+'">›</text>';
+    var sv = { notch:CFS.notch, run:CFS.run, door:CFS.door, sidePos:CFS.sidePos };
+    CFS.notch = 7; CFS.run = 1; CFS.door = 2; CFS.sidePos = 0;
+    var mc = fx(460, mcStage(false)), sd = fx(340, sdStage(false));
+    CFS.notch = sv.notch; CFS.run = sv.run; CFS.door = sv.door; CFS.sidePos = sv.sidePos;
+    function cell(no, name, inner){
+      return '<div class="ccb"><div class="ccb-t"><i>' + no + '</i><b>' + name + '</b></div>' + inner + '</div>';
     }
-    // ① MC
-    var x1 = 12;
-    s += '<rect x="'+(x1+12)+'" y="22" width="120" height="100" rx="5" fill="#0a0b0d"/>';
-    s += '<rect x="'+(x1+64)+'" y="28" width="14" height="88" rx="5" fill="#26292d" stroke="#eee" stroke-width="2"/>';
-    [["EB",34,"#ff4b4b"],["B7",46,"#fff"],["B5",56,"#fff"],["B3",66,"#fff"],["B1",76,"#fff"],["N",88,"#3ee87a"],["P2",100,"#fff"],["P4",112,"#fff"]].forEach(function(n){
-      s += '<text x="'+(x1+58)+'" y="'+(n[1]+3)+'" text-anchor="end" font-size="8" font-weight="700" fill="'+n[2]+'">'+n[0]+'</text>';
-      s += '<line x1="'+(x1+60)+'" y1="'+n[1]+'" x2="'+(x1+64)+'" y2="'+n[1]+'" stroke="#eee" stroke-width="1.2"/>';
-    });
-    s += '<rect x="'+(x1+30)+'" y="41" width="90" height="11" rx="5" fill="#2a2d31" stroke="#8a9098"/>';
-    s += '<rect x="'+(x1+42)+'" y="41" width="18" height="11" rx="3" fill="#ffd84d"/><text x="'+(x1+51)+'" y="49.5" text-anchor="middle" font-size="7.5" font-weight="800" fill="#111">B7</text>';
-    // ② 운전모드 · 출입문 선택
-    var x2 = 168;
-    s += '<rect x="'+(x2+10)+'" y="30" width="56" height="56" rx="4" fill="#ecece8" stroke="#9a9a95"/>';
-    s += '<text x="'+(x2+26)+'" y="42" text-anchor="middle" font-size="7.5" font-weight="800" fill="#b01452">수동</text>';
-    s += '<text x="'+(x2+48)+'" y="42" text-anchor="middle" font-size="7" fill="#555">자동</text>';
-    s += '<circle cx="'+(x2+38)+'" cy="62" r="11" fill="#1b1d20"/>';
-    s += '<rect x="'+(x2+35)+'" y="44" width="6" height="30" rx="3" fill="#0b0c0e" transform="rotate(-40 '+(x2+38)+' 62)"/>';
-    s += '<text x="'+(x2+38)+'" y="100" text-anchor="middle" font-size="8" font-weight="700" fill="#2c2226">운전모드</text>';
-    s += '<rect x="'+(x2+76)+'" y="30" width="58" height="56" rx="5" fill="#0a0a0b"/>';
-    s += '<circle cx="'+(x2+105)+'" cy="62" r="17" fill="#141517" stroke="#e6e6e6" stroke-width="2"/>';
-    s += '<rect x="'+(x2+102)+'" y="42" width="6" height="30" rx="3" fill="#2c2e32" transform="rotate(45 '+(x2+105)+' 62)"/>';
-    s += '<text x="'+(x2+124)+'" y="40" text-anchor="middle" font-size="7.5" font-weight="800" fill="#ffd84d">수/수</text>';
-    s += '<text x="'+(x2+105)+'" y="100" text-anchor="middle" font-size="8" font-weight="700" fill="#2c2226">출입문 선택</text>';
-    // ③ 측면 출입문 스위치
-    var x3 = 324;
-    s += '<rect x="'+(x3+10)+'" y="40" width="124" height="66" rx="8" fill="#141517"/>';
-    s += '<rect x="'+(x3+16)+'" y="50" width="112" height="50" rx="8" fill="none" stroke="#d6d8db" stroke-width="1.5"/>';
-    [["#1f9e46",40,"닫힘"],["#e3b000",72,"재개폐"],["#cf2a21",104,"열림"]].forEach(function(b){
-      s += '<circle cx="'+(x3+b[1])+'" cy="70" r="10" fill="'+b[0]+'" stroke="#c9ccd0" stroke-width="3"/>';
-      s += '<text x="'+(x3+b[1])+'" y="94" text-anchor="middle" font-size="7.5" font-weight="700" fill="#fff">'+b[2]+'</text>';
-    });
-    s += '<circle cx="'+(x3+40)+'" cy="28" r="8" fill="'+C.pink+'"/><text x="'+(x3+40)+'" y="31.5" text-anchor="middle" font-size="9" font-weight="800" fill="#fff">1</text>';
-    s += '<circle cx="'+(x3+104)+'" cy="28" r="8" fill="'+C.pink+'"/><text x="'+(x3+104)+'" y="31.5" text-anchor="middle" font-size="9" font-weight="800" fill="#fff">2</text>';
-    s += '<path d="M '+(x3+50)+' 26 Q '+(x3+72)+' 14 '+(x3+94)+' 26" fill="none" stroke="'+C.pink+'" stroke-width="2"/>';
-    s += '<path d="M '+(x3+90)+' 22 L '+(x3+96)+' 27 L '+(x3+89)+' 29 Z" fill="'+C.pink+'"/>';
-    s += '<rect x="12" y="176" width="196" height="26" rx="7" fill="'+C.pink+'"/>';
-    s += '<text x="110" y="194" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">전체 출입문 재취급 (2회)</text>';
-    return s + '</svg>';
+    return '<div class="ccab"><div class="ccab-g">' +
+      cell(1, "주간제어기(MC) B7", mc) +
+      cell(2, "운전모드 수동 · 출입문 수/수",
+           fx(306, '<div class="ccb-two">' + dialRun() + dialDoor() + '</div>')) +
+      cell(3, "출입문 재개폐", sd) +
+    '</div></div>';
   }
   /* DBS (출입문 바이패스) — 사진: NORMAL/BYPASS 사각 로터리 */
   function dbsScene(){
@@ -1818,52 +1876,90 @@
     h += '<div class="bpx-bar"><span class="bpx-np"><b>UCPB</b>&nbsp;</span></div></div>';
     return fx(330, h, 1);
   }
-  function bpsBind(){
-    var box = $("trainBox"); fitFix(box);
+  function bpsBind(boxId){
+    var box = $(boxId || "trainBox"); fitFix(box);
     setTimeout(function(){ fitFix(box); }, 0);
     box.querySelectorAll(".bpx-k[data-id]").forEach(function(el){
       el.addEventListener("click", function(){ onBps(el.dataset.id, el); });
     });
   }
-  function bpsArm(){
-    $("btnNext").hidden = true; $("btnReplay").hidden = true;
-    $("bubble").textContent = "좋아! 이제 스위치 패널에서 전체 출입문 BY-PASS 스위치를 직접 돌려 봐!";
-    $("trainNote").innerHTML = "<b>전체 출입문 BY-PASS 스위치</b>를 찾아 BYPASS로 돌리세요.";
+  function exFb(good, text){
+    $("extraFb").innerHTML = '<div class="fb ' + (good ? "good" : "bad") + '"><b>' +
+      (good ? "정확합니다" : "다시 생각해 봐요") + '</b>' + text + '</div>';
   }
   function onBps(id, el){
-    var ans = S.answers[S.i];
-    if (!ans){ setMascot("no"); feedback(false, "먼저 아래 질문에 답해 봐. 그다음 스위치를 직접 취급할 수 있어."); return; }
+    var st = CUR.steps[S.i], ans = S.answers[S.i];
+    if (!ans){ setMascot("no"); feedback(false, "먼저 위 질문에 답해 봐. 그다음 스위치를 직접 취급할 수 있어."); return; }
     if (ans.bps) return;
     if (id !== "DBS"){
       var nm = ""; BPS.forEach(function(b){ if (b.id === id) nm = b.id + "(" + b.nm + ")"; });
       setMascot("no");
-      feedback(false, "그건 <b>" + nm + "</b> 스위치야. 전체 출입문 바이패스 스위치를 찾아 봐. (감점 없음)");
+      exFb(false, "그건 <b>" + nm + "</b> 스위치야. 전체 출입문 바이패스 스위치를 찾아 봐. (감점 없음)");
       return;
     }
     ans.bps = true;
     el.style.setProperty("--rot", "90deg");
     el.closest(".bpx-sq").classList.add("done");
     setMascot("ok");
-    feedback(true, "<b>DBS(출입문 바이패스)</b>를 BYPASS로 취급했어. 이제 관제 지시대로 회송해. 영상으로 확인해 보자.");
-    $("trainNote").innerHTML = "DBS(출입문 바이패스) <b>BYPASS</b> 취급 완료.";
-    showNext(); $("btnReplay").hidden = false;
+    exFb(true, st.bpsFb || "<b>DBS(출입문 바이패스)</b>를 BYPASS로 취급했어.<br>이제 관제 지시대로 회송해. 영상으로 확인해 보자.");
+    $("extraNote").innerHTML = "DBS(출입문 바이패스) <b>BYPASS</b> 취급 완료.";
+    $("btnSkip").hidden = true;
+    showNext();
+    if (st.cine) $("btnReplay").hidden = false;
+  }
+  function showBpsTask(ans){
+    var st = CUR.steps[S.i];
+    $("extraWrap").hidden = false;
+    $("extraHead").textContent = "바이패스 스위치 패널";
+    $("extraTag").textContent = "전체 출입문 BY-PASS";
+    $("extraBox").innerHTML = bpsHtml();
+    $("extraPrompt").innerHTML = st.bpsPrompt || "직접 BY-PASS를 취급해 보자.";
+    if (ans && ans.bps){
+      $("extraNote").innerHTML = "DBS(출입문 바이패스) <b>BYPASS</b> 취급 완료.";
+      exFb(true, st.bpsFb || "");
+    } else {
+      $("extraNote").innerHTML = "<b>전체 출입문 BY-PASS 스위치</b>를 찾아 BYPASS로 돌리세요.";
+      $("extraFb").innerHTML = "";
+    }
+    bpsBind("extraBox");
   }
 
-  /* TOB 버튼 (임시 그림 — 사진 받으면 교체) */
-  function tobSvg(){
+  /* TOB (Test Open Button) — 출입문 위 배전반 안의 출입문 동작 시험 버튼 */
+  function tobSvg(marked){
+    var P = C.pink;
     var s = '<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
-    s += '<rect width="480" height="210" fill="#eef0f3"/>';
-    s += '<rect x="170" y="22" width="140" height="160" rx="12" fill="#d9d6c9" stroke="#a9a698" stroke-width="2"/>';
-    s += '<rect x="184" y="36" width="112" height="132" rx="9" fill="none" stroke="#3f8f56" stroke-width="1.5"/>';
-    s += '<rect x="212" y="28" width="56" height="16" fill="#d9d6c9"/>';
-    s += '<text x="240" y="41" text-anchor="middle" font-size="13" font-weight="800" fill="#1f5a33">T O B</text>';
-    s += '<circle cx="240" cy="102" r="34" fill="#5f646b" stroke="#8f8d81" stroke-width="7"/>';
-    s += '<circle cx="231" cy="93" r="11" fill="#8b9097" opacity=".7"/>';
-    s += '<text x="240" y="156" text-anchor="middle" font-size="13" font-weight="800" fill="#24282c">TOB</text>';
-    s += '<text x="240" y="200" text-anchor="middle" font-size="10" fill="#7a6f74">임시 그림 · TOB 버튼 사진을 받으면 실제 모습으로 교체합니다</text>';
+    s += '<rect width="480" height="210" fill="#e9ebee"/>';
+    // 배전반 내부 판 (열린 상태)
+    s += '<rect x="42" y="18" width="396" height="174" rx="8" fill="#3a4049" stroke="#2a2f36" stroke-width="2"/>';
+    s += '<rect x="54" y="30" width="372" height="150" rx="5" fill="#d7dbe0" stroke="#a8aeb6" stroke-width="1.5"/>';
+    for (var i=0;i<4;i++) s += '<circle cx="'+(66+i%2*348)+'" cy="'+(42+Math.floor(i/2)*126)+'" r="4" fill="#9aa0a8" stroke="#6f7782"/>';
+    // DCU 모듈 (좌측)
+    s += '<rect x="76" y="52" width="128" height="106" rx="4" fill="#2c3e6b" stroke="#1a2645" stroke-width="1.5"/>';
+    s += '<text x="140" y="80" text-anchor="middle" font-size="17" font-weight="800" fill="#fff" letter-spacing="2">DCU</text>';
+    s += '<text x="140" y="95" text-anchor="middle" font-size="8.5" fill="#b9c6e6">출입문 제어장치</text>';
+    s += '<circle cx="104" cy="118" r="4" fill="#3ee87a"/><text x="114" y="121" font-size="8" fill="#cfd8ee">POWER</text>';
+    s += '<circle cx="104" cy="136" r="4" fill="#e02f3c"/><text x="114" y="139" font-size="8" fill="#cfd8ee">FAULT</text>';
+    // 단자대
+    for (var t=0;t<8;t++) s += '<rect x="'+(214+t*9)+'" y="52" width="7" height="30" rx="1" fill="#9aa0a8" stroke="#7b818a"/>';
+    // TOB 버튼 플레이트 (우측)
+    s += '<rect x="292" y="48" width="122" height="114" rx="6" fill="#c9ccd0" stroke="#8f959d" stroke-width="2"/>';
+    s += '<rect x="302" y="56" width="102" height="18" rx="3" fill="#f2f3f5" stroke="#8f959d"/>';
+    s += '<text x="353" y="69" text-anchor="middle" font-size="11" font-weight="800" fill="#1f5a33" letter-spacing="3">TOB</text>';
+    // 버튼 본체
+    s += '<circle cx="353" cy="110" r="30" fill="#1b1e22"/>';
+    s += '<circle cx="353" cy="108" r="25" fill="#2b3037" stroke="#585f68" stroke-width="2"/>';
+    s += '<circle cx="353" cy="106" r="20" fill="#1f9e46" stroke="#0d6e2e" stroke-width="2"/>';
+    s += '<ellipse cx="346" cy="99" rx="8" ry="5.5" fill="#6fe39a" opacity=".55"/>';
+    s += '<text x="353" y="152" text-anchor="middle" font-size="9.5" font-weight="700" fill="#33383e">출입문 동작 시험</text>';
+    if (marked){
+      s += '<circle cx="353" cy="108" r="38" fill="none" stroke="'+P+'" stroke-width="3" stroke-dasharray="7 5" class="glow"/>';
+      s += '<rect x="132" y="184" width="216" height="22" rx="11" fill="'+P+'"/>' +
+           '<text x="240" y="199.5" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">B7 · 출입문모드 수/수 에서 취급</text>';
+    } else {
+      s += '<text x="54" y="204" font-size="9.5" fill="#7a6f74">출입문 위 배전반 내부 · 이해를 돕기 위한 일러스트</text>';
+    }
     return s + '</svg>';
   }
-
 
   /* 8호선 전동차 (우진산전) 측면 — 6호차 R2 현장 (일러스트) */
   function train8Svg(o){
@@ -1976,9 +2072,11 @@
       if (it[3]) s += '<text x="' + (x + 72) + '" y="158" text-anchor="middle" font-size="9" fill="#6b5c62">' + it[3] + '</text>';
       if (i < items.length - 1) s += '<text x="' + (x + 150) + '" y="98" text-anchor="middle" font-size="18" font-weight="700" fill="' + C.pink + '">›</text>';
     }
-    var cw = caption.length * 12 + 36;
-    s += '<rect x="12" y="178" width="' + cw + '" height="26" rx="7" fill="' + C.pink + '"/>';
-    s += '<text x="' + (12 + cw/2) + '" y="196" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">' + caption + '</text>';
+    if (caption){
+      var cw = caption.length * 12 + 36;
+      s += '<rect x="12" y="178" width="' + cw + '" height="26" rx="7" fill="' + C.pink + '"/>';
+      s += '<text x="' + (12 + cw/2) + '" y="196" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">' + caption + '</text>';
+    }
     return s + '</svg>';
   }
 
@@ -2151,7 +2249,9 @@
   function drawScene(){
     var s = CUR.scn[cineKeys[cineIdx]];
     var last = (cineIdx === cineKeys.length - 1);
-    $("cineStage").innerHTML = s.svg;
+    $("cineStage").innerHTML = (typeof s.svg === "function") ? s.svg() : s.svg;
+    fitFix($("cineStage"));
+    setTimeout(function(){ fitFix($("cineStage")); }, 0);
     var bl = (s.tone === "blue") ? " blue" : "";
     $("cineCap").innerHTML =
       '<span class="t' + bl + '">' + s.t + '</span>' +
@@ -2501,14 +2601,22 @@
     add('<span></span><div class="t-panto">' +
         TC_CARS.map(function(_,i){ return '<span class="'+([1,3].indexOf(i)>=0?'p':'')+'"></span>'; }).join("") +
         '</div><span></span>');
-    add('<span></span><div class="t-consist">' +
+    add('<span class="t-arrow"><svg viewBox="0 0 34 20"><polygon points="0,10 13,0 13,5 34,5 34,15 13,15 13,20" fill="#fff"/></svg></span>' +
+        '<div class="t-consist">' +
         TC_CARS.map(function(n,i){
-          var cls = i===0 ? " h" : (i===5 ? " t" : "");
-          return '<div class="t-car'+cls+'">'+n+'</div>';
-        }).join("") + '</div><span class="t-arrow">➜</span>');
+          var pts = i===0 ? "1,13 21,1 99,1 99,26 1,26"
+                  : i===5 ? "1,1 79,1 99,13 99,26 1,26"
+                  : "1,1 99,1 99,26 1,26";
+          return '<div class="t-car"><svg viewBox="0 0 100 27" preserveAspectRatio="none">' +
+                 '<polygon points="'+pts+'" fill="none" stroke="#dff2ff" stroke-width="1.6" ' +
+                 'vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg><b>'+n+'</b></div>';
+        }).join("") + '</div><span></span>');
+    var WHEEL_FILL = [1,3,4];   // 2·6·7호차 대차 — 사진과 동일
     add('<span></span><div class="t-temp">' +
-        TC_TEMP.map(function(t){ return '<div><i></i><span>'+t+'</span><i></i></div>'; }).join("") +
-        '</div><span></span>');
+        TC_TEMP.map(function(t,i){
+          var f = WHEEL_FILL.indexOf(i) >= 0 ? ' class="f"' : '';
+          return '<div><i'+f+'></i><span>'+t+'</span><i'+f+'></i></div>';
+        }).join("") + '</div><span></span>');
 
     // HVAC
     add('<span class="t-lb">HVAC</span>' + cells(function(){ return '<span class="t-hv">OFF</span>'; }) +
@@ -2546,8 +2654,11 @@
     add('<span class="t-lb">CMSB</span>' + cells(function(i){
       return (i===0||i===5) ? '<span class="t-ok">OK</span>' : ''; }) + '<span></span>');
     var stt = (CUR && CUR.tcState) || [["off","출입문 대표등","소등"],["off","역행","불능"],["on","차측등","4호차 점등"]];
-    if ($("tcState")) $("tcState").innerHTML = stt.map(function(r){
-      return '<span><i class="'+r[0]+'"></i>'+r[1]+' <b>'+r[2]+'</b></span>'; }).join("");
+    if ($("tcState")){
+      $("tcState").hidden = !stt.length;
+      $("tcState").innerHTML = stt.map(function(r){
+        return '<span><i class="'+r[0]+'"></i>'+r[1]+' <b>'+r[2]+'</b></span>'; }).join("");
+    }
     setTimeout(fitTcms, 0);
   }
 
@@ -3056,7 +3167,7 @@
     var st = cfStep(), n = cfStages().length, names = st.cabNames || CF_NAMES, notes = st.cabNotes || CF_NOTES, s = "";
     for (var i = 0; i < n; i++){
       var cls = CFS.stage > i ? "ok" : (CFS.stage === i ? "now" : "");
-      s += '<span class="cf-st ' + cls + '"><i>' + (i+1) + '</i>' + (CFS.stage > i ? names[i] : "?") + '</span>';
+      s += '<span class="cf-st ' + cls + '"><i>' + (i+1) + '</i>' + (CFS.stage > i ? names[i] : "") + '</span>';
     }
     if ($("cfSteps")) $("cfSteps").innerHTML = s;
     if ($("cfNote"))  $("cfNote").innerHTML  = notes[Math.min(CFS.stage, n)];
@@ -3457,9 +3568,12 @@
     $("lampWrap").hidden = (st.board !== "lamp");
     var SCENE_BOARDS = {
       train8:   ["현장 · 8호선 전동차", "6호차 R2 출입문", train8Svg, "6호차 R2 출입문 앞입니다. 다음에 확인할 것을 고르세요."],
-      interior: ["객실 안 · 6호차 R2", "출입문 개별코크", interiorSvg, "객실 안에서 6호차 R2 출입문을 확인합니다."],
-      tob:      ["TOB 버튼", "출입문 동작 확인", tobSvg, "TOB 버튼은 임시 그림입니다. 사진을 받으면 실제 모습으로 교체합니다."],
-      panel:    ["객실 안 · 출입문 위 배전반", "DCU 확인", function(){ return interiorSvg("panel"); }, "객실 안 출입문 위 배전반을 열었습니다."],
+      interior: ["객실 안 · 6호차 R2", "출입문 개별코크", function(){ return interiorSvg(null, !!ans); },
+                 "객실 안에서 6호차 R2 출입문을 확인합니다."],
+      tob:      ["출입문 위 배전반 · TOB 버튼", "출입문 동작 확인", function(){ return tobSvg(!!ans); },
+                 "출입문 위 배전반 안의 TOB(출입문 동작 시험) 버튼입니다."],
+      panel:    ["객실 안 · 출입문 위 배전반", "출입문 제어장치 확인", function(){ return interiorSvg("panel", !!ans); },
+                 "객실 안 출입문 위 배전반을 열었습니다."],
       bps:      ["바이패스 스위치 패널", "전체 출입문 BY-PASS", bpsHtml, "질문에 답한 뒤, 스위치를 직접 취급할 수 있습니다."]
     };
     var sb = SCENE_BOARDS[st.board];
@@ -3515,7 +3629,7 @@
       }
     }
     setMascot(ans ? "ok" : "que");
-    $("bubble").textContent = st.coach;
+    $("bubble").innerHTML = st.coach;
 
     var pr = $("prompt");
     if (st.prompt){ pr.textContent = st.prompt; pr.hidden = false; }
@@ -3523,8 +3637,11 @@
 
     $("fbArea").innerHTML = "";
     $("hintArea").innerHTML = "";
+    $("extraWrap").hidden = true;
+    $("extraFb").innerHTML = "";
     $("btnNext").hidden = true;
     $("btnReplay").hidden = true;
+    $("btnSkip").hidden = !!ans;
     $("btnPrev").hidden = false;
     $("btnHint").disabled = !!ans;
 
@@ -3572,9 +3689,13 @@
     if (ans){
       feedback(true, correctOf(st).fb);
       if (ans.hinted) $("hintArea").innerHTML = '<div class="hinttext">💡 ' + st.hint + '</div>';
+      if (st.bpsTask){
+        showBpsTask(ans);
+        if (ans.bps){ showNext(); if (st.cine) $("btnReplay").hidden = false; }
+        return;
+      }
       showNext();
       if (st.cine) $("btnReplay").hidden = false;
-      if (st.board === "bps" && !ans.bps) bpsArm();
     }
   }
 
@@ -3637,9 +3758,30 @@
     $("hudScore").textContent = totalScore();
     $("btnHint").disabled = true;
     renderPips();
+    if (st.board === "panel"){
+      $("trainBox").innerHTML = interiorSvg("panel", true);
+    }
+    if (st.board === "interior"){
+      $("trainBox").innerHTML = interiorSvg(null, true);
+    }
+    if (st.board === "tob"){
+      $("trainBox").innerHTML = tobSvg(true);
+    }
+    if (st.showBps){
+      $("trainWrap").hidden = false;
+      $("trainHead").textContent = "바이패스 스위치 패널";
+      $("trainTag").textContent = "전체 출입문 BY-PASS";
+      $("trainBox").innerHTML = bpsHtml();
+      $("trainNote").textContent = "다음 단계에서 이 스위치를 직접 취급합니다.";
+      fitFix($("trainBox"));
+      setTimeout(function(){ fitFix($("trainBox")); }, 0);
+    }
+    if (st.bpsTask){
+      showBpsTask(S.answers[S.i]);
+      return;
+    }
     showNext();
     if (st.cine) $("btnReplay").hidden = false;
-    if (st.board === "bps") bpsArm();
   }
 
   /* =========================================================
@@ -3652,20 +3794,20 @@
      ========================================================= */
   var SCN_DOOR3 = {
     e_fault: { t:"출입문 열림 불능",
-               q:"정차 후 출입문을 열었으나 TCMS에 6호차 R2 출입문 하나가 닫힘으로 표시됩니다.",
+               q:"정차 후 출입문을 열었으나<br>TCMS에 6호차 R2 출입문 하나가 닫힘으로 표시됩니다.",
                svg: trainDoors3({ badge:"6호차 R2 출입문 열림 불능" }) },
     e_state: { t:"현상 확인",
-               q:"출입문 전체 개방하였으나 TCMS 화면에 6호차 R2 출입문이 닫힘으로 현시됩니다.",
+               q:"출입문 전체 개방하였으나<br>TCMS 화면에 6호차 R2 출입문이 닫힘으로 현시됩니다.",
                svg: cab({ look:true, screen:"tcms3" }) },
     e_reopen:{ t:"전체 출입문 재취급",
                q:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치로 재취급합니다. 2회 재취급하였으나 6호차 R2 출입문이 열리지 않았습니다.",
                svg: reopenSeq() },
     e_pa:    { t:"고객안내방송",
-               q:"객실 안내방송으로 지연 사유를 안내합니다.",
+               q:"객실 안내방송으로<br>지연 사유를 안내합니다.",
                say:"“안내말씀 드리겠습니다. 열차가 출입문 고장으로 정차중입니다. 조치 후 출발할 예정이니 잠시만 기다려 주시기 바랍니다. 열차 이용에 불편을 드려 대단히 죄송합니다.”",
                svg: cab({ waves:true, look:true, screen:"tcms3" }) },
     e_report:{ t:"관제 상황보고",
-               q:"확인한 현상과 시행한 조치를 운전 관제에 보고합니다.",
+               q:"확인한 현상과 시행한 조치를<br>운전 관제에 보고합니다.",
                say:"“관제 관제, 8192열차 827편성 출입문 전체 개방하였으나 TCMS 화면에 6호차 R2 출입문 닫힘 현시되어 있습니다. 출입문 전체 재취급 2번 하였으나 해당 출입문 닫힘 상태입니다.”",
                svg: radio("out","8192열차 827편성") },
     e_site:  { t:"현장확인 · 개별코크 · 이물질",
@@ -3692,62 +3834,66 @@
                svg: trainDoors3({ allClosed:true, badge:"관제 협의 후 회송" }) }
   };
   SCN_DOOR3.f_pa   = { t:"안내방송",
-                       q:"현장으로 이동하기 전에 객실 안내방송을 실시합니다.",
+                       q:"현장으로 이동하기 전에<br>객실 안내방송을 실시합니다.",
                        say:"“안내말씀 드리겠습니다. 6호차 출입문 고장으로 기관사가 현장을 확인하겠습니다. 조치 후 출발할 예정이니 잠시만 기다려 주시기 바랍니다.”",
                        svg: cab({ waves:true, look:true, screen:"tcms3" }) };
   SCN_DOOR3.f_open = { t:"전체 출입문 · 안전문 개방",
                        q:"전체 출입문, 안전문을 개방합니다.",
                        svg: openAllScene() };
   SCN_DOOR3.f_kit  = { t:"휴대용 무전기 · 출입문 키",
-                       q:"휴대용 무전기와 출입문 키를 잊지 말고 챙깁니다.",
+                       q:"휴대용 무전기와 출입문 키를<br>잊지 말고 챙깁니다.",
                        svg: kitScene() };
   SCN_DOOR3.f_go   = { t:"현장 출동",
-                       q:"6호차 R2 출입문으로 출동해 현장을 확인합니다. 6호차 출입문 4개 중 R2만 닫혀 있습니다.",
+                       q:"6호차 R2 출입문으로 출동해<br>현장을 확인합니다.",
                        svg: train8Svg({ go:true }) };
-  SCN_DOOR3.e_site = { t:"출입문 개별코크 확인",
-                       q:"객실 안에서 6호차 R2 출입문의 개별코크를 확인합니다.",
-                       svg: interiorSvg() };
-  SCN_DOOR3.e_valve = { t:"우진차 확인 사항",
-                       q:"우진차는 DCU 고장 여부를 확인하고, TOB 취급으로 출입문 동작을 확인합니다(B7, 수/수).",
+  SCN_DOOR3.e_site = { t:"개별코크 · 이물질 확인",
+                       q:"객실 안에서 출입문 개별코크와<br>이물질 여부를 확인합니다.",
+                       svg: interiorSvg(null, true) };
+  SCN_DOOR3.e_valve = { t:"DCU · TOB 확인",
+                       q:"배전반을 열고 DCU 고장 여부를 확인,<br>TOB 취급으로 출입문 동작을 확인합니다.<br>(취급 조건 MC B7, 출입문 모드 수/수)",
                        svg: stepCards([["dcu","① DCU","고장 여부 확인"],
-                                       ["tob","② TOB 취급","출입문 동작 확인","(B7, 수/수)"]], "우진차 확인 사항") };
-  SCN_DOOR3.g_req  = { t:"조치 불능 보고",
-                       q:"조치가 되지 않으면 관제에 보고하고 협의합니다.",
+                                       ["tob","② TOB 취급","출입문 동작 확인","(B7, 수/수)"]]) };
+  SCN_DOOR3.g_req  = { t:"관제 보고",
+                       q:"조치가 되지 않으면<br>관제에 보고하고 협의합니다.",
                        say:"“관제 관제, 8192열차 827편성 6호차 R2 출입문 조치하였으나 열림 불능입니다.”",
                        svg: radio("out","8192열차 827편성") };
-  SCN_DOOR3.g_order= { t:"관제 협의", tone:"blue",
-                       q:"관제와 협의하여 전체 출입문 BY-PASS 취급 후 회송하기로 합니다.",
+  SCN_DOOR3.g_order= { t:"관제 지시 확인", tone:"blue",
+                       q:"관제 승인 후 전체 출입문 BY-PASS 취급 후<br>회송합니다.",
                        say:"“8192열차, 6호차 R2 출입문 열림 불능 확인했습니다. 전체 출입문 BY-PASS 취급 후 회송 조치하시기 바랍니다.”",
                        svg: radio("in","8192열차 827편성") };
-  var MID_DOOR3 = ["e_pa","e_report"];
+  SCN_DOOR3.e_dir = { t:"관제 지시", tone:"blue",
+                      q:"운전 관제로부터 지시를 받습니다.",
+                      say:"“8192열차 출입문·안전문 개방, 안내방송 후 현장 출동하여 출입문 확인해 보세요.”",
+                      svg: radio("in","8192열차 827편성") };
+  var MID_DOOR3 = ["e_pa","e_report","e_dir"];
   var MID_SITE  = ["f_pa","f_open","f_kit","f_go"];
   SCN_DOOR3.e_fault.t = "TCMS 확인";
   SCN_DOOR3.e_fault.svg = tcmsScene();
   SCN_DOOR3.e_state = { t:"지적확인 환호",
-                        q:"TCMS 화면을 손가락으로 가리키며 지적확인 환호합니다.",
+                        q:"TCMS 화면을 손가락으로 가리키며<br>지적확인 환호합니다.",
                         say:"“6호차 R2 출입문 닫힘, 확인!”",
                         svg: cab({ point:true, screen:"tcms3" }) };
-  SCN_DOOR3.e_reopen.q = "B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치(닫힘 → 열림)로 재취급합니다. 2회 재취급하였으나 6호차 R2 출입문이 열리지 않았습니다.";
-  SCN_DOOR3.e_reopen.svg = reopen3Scene();
+  SCN_DOOR3.e_reopen.q = "B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치로 재취급합니다.<br>재취급하였으나 6호차 R2 출입문이 열리지 않았습니다.";
+  SCN_DOOR3.e_reopen.svg = reopen3Scene;
   SCN_DOOR3.e_bypass = { t:"전체 출입문 BY-PASS",
-                         q:"DBS(출입문 바이패스) 스위치를 BYPASS로 취급합니다. 개별 바이패스는 금지입니다.",
+                         q:"DBS(출입문 바이패스) 스위치를 BYPASS로 취급합니다.<br>개별 바이패스는 금지",
                          svg: dbsScene() };
   SCN_DOOR3.e_done = { t:"회송",
-                       q:"모든 안전문이 닫힌 상태로 회송 출발합니다. 승객은 승강장에서 다음 열차를 기다립니다.",
+                       q:"회송 출발합니다.<br>승객은 승강장에서 다음 열차를 기다립니다.",
                        svg: departScene() };
   var MID_END   = ["g_req","g_order","e_bypass","e_done"];
-  var SUM_DOOR3 = ["e_fault","e_state","e_reopen","e_pa","e_report","f_open","f_kit","f_go","e_site","e_valve","g_req","g_order","e_bypass","e_done"];
+  var SUM_DOOR3 = ["e_fault","e_state","e_reopen","e_pa","e_report","e_dir","f_open","f_kit","f_go","e_site","e_valve","g_req","g_order","e_bypass","e_done"];
 
   var STEPS_DOOR3 = [
     {
-      pts:13,
+      pts:14,
       msg:["6호차 R2 출입문 닫힘 현시","alert"],
-      coach:"출입문이 개방되었어. 근데 TCMS 확인해보았어? 출입문 하나가 열리지 않은거 같아! 무엇을 해야할까?",
-      prompt:"가장 먼저 할 조치는?",
+      coach:"출입문이 개방되었어. 그런데 TCMS 확인해 봤어?<br>출입문 하나가 열리지 않은 것 같아! 무엇을 해야 할까?",
+      prompt:"1개 출입문 열림 불능 시 조치의 첫 번째는?",
       hint:"관제 보고나 현장 확인 전에, 운전실에서 할 수 있는 조치가 있어.",
       opts:[
         { t:"전체 출입문을 재취급한다", ok:true,
-          fb:"맞아. TCMS에 6호차 R2 출입문이 닫힘으로 현시돼 있어. 가장 먼저 전체 출입문을 재취급해 봐야 해. 다음 단계에서 운전실에서 직접 해 보자." },
+          fb:"맞아. TCMS에 6호차 R2 출입문이 닫힘으로 현시돼 있어.<br>가장 먼저 전체 출입문을 재취급해 봐야 해.<br>다음 단계에서 운전실에서 직접 해 보자." },
         { t:"곧바로 관제에 보고하고 지시를 기다린다", ok:false,
           fb:"보고는 필요하지만 아직 일러. 운전실에서 할 수 있는 재취급을 먼저 해 보고, 그 결과까지 담아 보고해야 해." },
         { t:"바로 해당 출입문으로 가서 현장확인한다", ok:false,
@@ -3757,65 +3903,47 @@
       done:"TCMS 닫힘 현시 확인 · 전체 재취급 판단"
     },
     {
-      pts:13,
+      pts:14,
       type:"cab",
       board:"cabfull",
       msg:["6호차 R2 출입문 닫힘 현시","alert"],
       cabNames:["주간제어기 B7","운전모드 수동 · 출입문모드 수 / 수","측면 출입문 스위치 재취급"],
       sideSeq:["SCLOSE","SOPEN"],
-      coach:"전체 출입문 재취급! 운전실에서 순서대로 직접 취급해 봐!",
+      coach:"전체 출입문 재취급해 보자.<br>운전실에서 순서대로 직접 취급해 봐!",
       prompt:"운전실 그림에서 재취급 순서대로 직접 취급해 보세요.",
       hint:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치에서 닫힘 → 열림.",
-      okFb:"정확해. <b>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치 재취급.</b> 그런데 재취급했는데도 6호차 R2 출입문이 열리지 않았어.",
+      okFb:"정확해.<br>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치 재취급.<br>그런데 재취급했는데도 6호차 R2 출입문이 열리지 않았어.",
       src:"현장 선행조치 · 전체 출입문 재취급 (B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치)",
       done:"전체 출입문 재취급 (B7 → 수동 · 수/수 → 측면 스위치)"
     },
     {
-      pts:13,
+      pts:14,
       msg:["6호차 R2 출입문 닫힘 현시","alert"],
-      cine: MID_DOOR3,
-      coach:"재취급했는데도 6호차 R2가 여전히 안 열려. 현장에 가기 전에 먼저 할 일은?",
+      cine: MID_DOOR3.concat(MID_SITE),
+      coach:"재취급했는데도 6호차 R2가 여전히 안 열려.<br>현장에 가기 전에 먼저 할 일은?",
       prompt:"현장 조치에 앞서 할 조치는?",
       hint:"승객이 먼저 불안해져. 그리고 혼자 판단할 일이 아니야.",
       opts:[
         { t:"고객안내방송을 실시하고 관제에 상황을 보고한다", ok:true,
-          fb:"맞아. 승객에게 지연 사유를 알리고 관제에 상황을 보고해야 해. 영상으로 방송 문안과 관제 보고를 확인해 보자." },
+          fb:"맞아. 승객에게 지연 사유를 알리고 관제에 상황을 보고해야 해.<br>영상으로 방송 문안과 관제 보고를 확인해 보자." },
         { t:"방송은 생략하고 바로 6호차로 이동한다", ok:false,
           fb:"정차가 길어지는데 안내가 없으면 승객이 불안해져. 안내방송과 관제 보고가 먼저야." },
         { t:"다음 역에서 조치하기로 하고 그대로 출발한다", ok:false,
           fb:"보고도 없이 출발하면 안 돼. 먼저 안내방송을 하고 관제에 상황을 보고해." }
       ],
-      src:"교육자료 · 현상확인 ③ 관제에 상황보고 / 선행조치 · 안내방송",
-      done:"고객안내방송 · 관제 상황보고"
+      src:"교육자료 · 현상확인 ③ 관제에 상황보고 / 선행조치 · 안내방송 · 현장 출동",
+      done:"고객안내방송 · 관제 상황보고 · 현장 출동"
     },
     {
-      pts:13,
-      msg:["1개 출입문 조치","warn"],
-      cine: MID_SITE,
-      coach:"안내방송과 관제 보고를 마쳤어. 이제 무엇을 해야 할까?",
-      prompt:"1개 출입문 조치의 첫 번째는?",
-      hint:"운전실에서 할 수 있는 건 다 해 봤어. 이제 직접 가서 봐야 해.",
-      opts:[
-        { t:"해당 출입문 현장을 확인한다", ok:true,
-          fb:"맞아. 현장을 확인해야 해. 대신 안내방송, 출입문 개방, 안전문 개방 후 휴대용 무전기와 출입문 키를 잊지 말고 챙겨서 출동해야 해! 영상으로 확인해 보자." },
-        { t:"운전실에서 열림 스위치를 계속 반복 취급한다", ok:false,
-          fb:"재취급은 이미 해 봤어. 반복한다고 달라지지 않아. 이제 현장을 확인할 차례야." },
-        { t:"전체 출입문 BY-PASS부터 취급한다", ok:false,
-          fb:"BY-PASS는 뒤 순서야. 현장 확인이 먼저야." }
-      ],
-      src:"교육자료 · 1개 출입문 ① 현장확인(출입문 개방)",
-      done:"현장확인 (안내방송 · 전체 출입문·안전문 개방 · 무전기·출입문 키)"
-    },
-    {
-      pts:12,
+      pts:14,
       msg:["1개 출입문 조치","warn"],
       board:"interior",
-      coach:"객실 안에서 6호차 R2 출입문을 보고 있어. 무엇부터 확인해야 할까?",
+      coach:"현장에 도착했어.<br>가장 먼저 무엇을 확인해야 할까?",
       prompt:"객실 안에서 확인할 것은?",
-      hint:"그 문 하나만 따로 차단하는 빨간 코크가 출입문 위쪽에 있어. 문틈도 살펴봐.",
+      hint:"그 문 하나만 따로 차단하는 빨간 코크가 있어. 문틈도 살펴봐.",
       opts:[
         { t:"출입문 개별코크와 이물질을 확인한다", ok:true,
-          fb:"맞아. 객실 안에서 출입문 위쪽의 빨간 개별코크와 출입문 이물질 여부를 확인해야 해." },
+          fb:"맞아. 객실 안에서 출입문 개별코크와<br>출입문 이물질 여부를 확인해야 해." },
         { t:"출입문을 손으로 강제로 벌려 연다", ok:false,
           fb:"강제로 여는 건 조치 순서에 없어. 개별코크부터 확인해." },
         { t:"확인 없이 바로 해당 출입문만 개별 바이패스한다", ok:false,
@@ -3825,15 +3953,15 @@
       done:"출입문 개별코크 · 이물질 확인"
     },
     {
-      pts:12,
+      pts:14,
       msg:["1개 출입문 조치","warn"],
       board:"panel",
-      coach:"개별코크와 이물질은 이상 없어. 우리 열차는 우진차야. 객실 안 출입문 위 배전반을 열었어. 다음에 확인할 건?",
+      coach:"개별코크와 이물질은 이상 없어.<br>출입문 위 배전반을 열었어. 다음에 확인할 건?",
       prompt:"우진차에서 다음 확인 사항은?",
       hint:"출입문 위 배전반 안에 출입문 제어장치(DCU)가 있어.",
       opts:[
         { t:"DCU 고장 여부를 확인하고, TOB 취급으로 출입문 동작을 확인한다", ok:true,
-          fb:"맞아. 우진차는 출입문 위 배전반에서 DCU 고장 여부를 확인하고, TOB 취급으로 출입문 동작을 확인해." },
+          fb:"맞아. 우진차는 출입문 위 배전반에서 DCU 고장 여부를 확인하고,<br>TOB 취급으로 출입문 동작을 확인해." },
         { t:"출입문 전자변 및 공기 누설음을 확인한다", ok:false,
           fb:"그건 1·2차분 차량의 조치야. 우진차는 DCU 고장 여부를 확인하고 TOB로 동작을 확인해." },
         { t:"객실 회로차단기를 차단한다", ok:false,
@@ -3843,15 +3971,15 @@
       done:"우진차 DCU 고장 여부 · TOB 동작 확인"
     },
     {
-      pts:12,
+      pts:15,
       msg:["1개 출입문 조치","warn"],
       board:"tob",
-      coach:"DCU는 확인했어. 이제 TOB로 출입문 동작을 확인할 거야. 그 전에 운전실 조건은?",
+      coach:"DCU는 문제가 없대.<br>이제 TOB로 출입문 동작을 확인할 거야. TOB 취급 시에 운전실 조건은?",
       prompt:"TOB 취급 시 운전실 조건은?",
       hint:"재취급할 때와 같은 제동 위치, 그리고 출입문 모드야.",
       opts:[
         { t:"주간제어기 B7, 출입문 모드 수/수", ok:true,
-          fb:"맞아. 주간제어기 B7, 출입문 모드 수/수 상태에서 TOB를 취급해 출입문 동작을 확인해." },
+          fb:"맞아. 주간제어기 B7, 출입문 모드 수/수 상태에서<br>TOB를 취급해 출입문 동작을 확인해." },
         { t:"주간제어기 N, 출입문 모드 자/자", ok:false,
           fb:"제동이 확보되지 않은 상태야. 주간제어기 B7, 출입문 모드 수/수로 맞춰야 해." },
         { t:"주간제어기 EB, 출입문 모드 자/수", ok:false,
@@ -3861,38 +3989,49 @@
       done:"TOB 취급 조건 (B7 · 수/수)"
     },
     {
-      pts:12,
+      pts:15,
       msg:["열림 불능","alert"],
-      board:"bps",
+      bpsTask:true,
       cine: MID_END,
-      coach:"조치를 했는데 여전히 6호차 R2가 안 열려. 조치가 안 될 경우 어떻게 해야 할까?",
+      bpsPrompt:"직접 BY-PASS를 취급해 보자.",
+      bpsFb:"<b>DBS(출입문 바이패스)</b>를 BYPASS로 취급했어.<br>이제 관제 지시대로 회송해. 영상으로 확인해 보자.",
+      coach:"모든 조치를 했는데 여전히 6호차 R2가 안 열려.<br>조치가 안 될 경우 어떻게 해야 할까?",
       prompt:"조치 불능 시 어떻게 해야 하나?",
       hint:"기관사 혼자 결정할 일이 아니야. 바이패스는 범위도 중요해.",
       opts:[
         { t:"열림 불능 시 관제와 협의하여 전체 출입문 BY-PASS 취급 후 회송 조치한다", ok:true,
-          fb:"맞아. 열림 불능이면 관제와 협의해서 전체 출입문 BY-PASS를 취급하고 회송 조치해. 개별 바이패스는 금지야. 영상으로 확인해 보자." },
+          fb:"맞아. 1개 출입문이라도 고장 나면 관제와 협의해서<br>전체 출입문 BY-PASS를 취급하고 회송 조치해.<br>개별 바이패스는 취급하면 안 돼." },
         { t:"해당 출입문만 개별 바이패스하고 계속 운행한다", ok:false,
           fb:"개별 바이패스는 금지야. 그리고 관제와 협의해서 회송해야 해." },
         { t:"관제 협의 없이 전체 출입문 BY-PASS 후 영업운전을 계속한다", ok:false,
           fb:"혼자 판단할 일이 아니야. 관제와 협의한 뒤 전체 출입문 BY-PASS 취급 후 회송해야 해." }
       ],
       src:"교육자료 · 1개 출입문 ④ 전체출입문 BY-PASS(개별바이패스 금지) ⑤ 열림불능 시 관제와 협의하여 회송조치",
-      done:"관제 협의 → 전체 출입문 BY-PASS → 회송"
+      done:"관제 협의 → 전체 출입문 BY-PASS 직접 취급 → 회송"
     }
   ];
 
   var COURSES = [
-    { id:"psd", n:"01", title:"승강장안전문 장애 발생", ready:true, meta:"4문항 · 약 4분",
-      desc:"승강장안전문 장애 발생 시 조치 순서",
-      sub:"8호선 · 승강장안전문 장애", device:"psd", trainNo:"8000", trainSet:"800",
-      steps:STEPS_PSD, scn:SCN_PSD, mid:MID_PSD, summary:SUM_PSD,
-      briefTitle:"승강장 안전문 장애 발생",
-      briefBody:"잠실역에 정위치 정차하여 승객 취급 후 출입문을 닫았습니다.<br>그런데 <b>승강장안전문에 장애가 발생</b>하였습니다.<br>어떻게 하시겠습니까?",
-      note:"조치 절차는 제공된 <b>「안전한 승강장안전문 취급법(이례상황)」</b>을 따랐습니다. HMI 화면은 <b>기관사 안내장치</b> 자료를 참고해 재현한 것으로 실제 기기와 세부 차이가 있을 수 있습니다.",
-      recap:["출입문·승강장안전문 <b>재취급</b>",
-             "복구되지 않으면 <b>안내방송 후 관제 보고</b>",
-             "관제 승인 후 <b>By-Pass 스위치 취급</b>",
-             "<b>역무원의 출발지시전호</b>에 의하여 출발"] },
+    { id:"door3", n:"01", title:"[우진전동차] 출입문 1개 열리지 않을 시", ready:true, meta:"7문항 · 약 7분",
+      desc:"상황을 단계별로 조치해 보세요.",
+      sub:"전동차 · 출입문 열림 불능", device:"tcms", trainNo:"8192", trainSet:"827",
+      steps:STEPS_DOOR3, scn:SCN_DOOR3, mid:MID_DOOR3, summary:SUM_DOOR3,
+      briefTitle:"출입문 고장",
+      briefBody:"정상적으로 정차 후 출입문을 열었습니다.<br>그런데 <b>TCMS에 1개의 출입문이 닫힘표시 되어있습니다.</b><br>어떻게 하시겠습니까?",
+      note:"조치 절차는 제공된 <b>교육자료(현상확인 · 1개 출입문)</b>를 따랐고, <b>전체 출입문 재취급 → 안내방송·관제보고</b>는 현장 선행조치로 앞에 추가했습니다. TCMS·표시등·운전실 그림은 이해를 돕기 위해 재현한 것으로 실제 기기와 차이가 있을 수 있습니다.",
+      tc:{ idx:14, allOpenBut:true, mini:"6호차 R2 출입문 닫힘" },
+      tcState:[],
+      lamp:{ doorOn:false,
+             notes:['출입문 열림 취급 후의 운전실 표시등입니다. 출입문 표시등 <b>(DOORLp)</b> 상태를 확인해 보세요.',
+                    '확인 완료 — 출입문 표시등 <b>(DOORLp) 소등</b>. 아래 TCMS 화면에서 닫힘 현시 개소를 확인합니다.'],
+             tags:["점등 상태 확인","출입문등 소등 확인"] },
+      recap:["TCMS <b>닫힘 현시 개소</b> 확인",
+             "<b>전체 출입문 재취급</b> — B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치(닫힘 → 열림)",
+             "<b>고객안내방송</b> 후 <b>관제 상황보고</b>",
+             "<b>현장 출동</b> — 전체 출입문·안전문 개방 · <b>휴대용 무전기 · 출입문 키</b>",
+             "객실 안에서 <b>출입문 개별코크 · 이물질</b> 확인",
+             "우진차 — 출입문 위 배전반 <b>DCU 고장 여부</b> 확인 · <b>TOB 취급(B7, 수/수)</b> 동작 확인",
+             "열림 불능 시 <b>관제와 협의</b> → <b>전체 출입문 BY-PASS</b>(개별 바이패스 금지) → <b>회송</b>"] },
     { id:"door", n:"02", title:"출입문 고장", ready:true, meta:"8문항 · 약 6분",
       desc:"1개 출입문 닫힘 불능 시 조치 순서",
       sub:"전동차 · 출입문 고장", device:"tcms", trainNo:"8192", trainSet:"827",
@@ -3907,26 +4046,17 @@
              "<b>측면 제어대</b> 닫힘 스위치 취급",
              "관련 회로차단기 차단 — 1차분 <b>DRN</b> / 2차분 <b>R(L)DEN</b>",
              "조치 불능 시 <b>DBS(ADSBS) 취급 — 관제 승인</b> 후 회송 요청"] },
-    { id:"door3", n:"03", title:"출입문 고장", ready:true, meta:"8문항 · 약 7분",
-      desc:"1개 출입문 열림 불능 시 조치 순서",
-      sub:"전동차 · 출입문 열림 불능", device:"tcms", trainNo:"8192", trainSet:"827",
-      steps:STEPS_DOOR3, scn:SCN_DOOR3, mid:MID_DOOR3, summary:SUM_DOOR3,
-      briefTitle:"출입문 고장",
-      briefBody:"정상적으로 정차 후 출입문을 열었습니다.<br>그런데 <b>TCMS에 1개의 출입문이 닫힘표시 되어있습니다.</b><br>어떻게 하시겠습니까?",
-      note:"조치 절차는 제공된 <b>교육자료(현상확인 · 1개 출입문)</b>를 따랐고, <b>전체 출입문 재취급 → 안내방송·관제보고</b>는 현장 선행조치로 앞에 추가했습니다. TCMS·표시등·운전실 그림은 이해를 돕기 위해 재현한 것으로 실제 기기와 차이가 있을 수 있습니다.",
-      tc:{ idx:14, allOpenBut:true, mini:"6호차 R2 출입문 닫힘" },
-      tcState:[["off","출입문 대표등","소등"],["off","6호차 R2","닫힘 현시"]],
-      lamp:{ doorOn:false,
-             notes:['출입문 열림 취급 후의 운전실 표시등입니다. 출입문 표시등 <b>(DOORLp)</b> 상태를 확인해 보세요.',
-                    '확인 완료 — 출입문 표시등 <b>(DOORLp) 소등</b>. 아래 TCMS 화면에서 닫힘 현시 개소를 확인합니다.'],
-             tags:["점등 상태 확인","출입문등 소등 확인"] },
-      recap:["TCMS <b>닫힘 현시 개소</b> 확인",
-             "<b>전체 출입문 재취급</b> — B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치(닫힘 → 열림)",
-             "<b>고객안내방송</b> 후 <b>관제 상황보고</b>",
-             "<b>현장 출동</b> — 안내방송 · 전체 출입문·안전문 개방 · <b>휴대용 무전기 · 출입문 키</b>",
-             "객실 안에서 <b>출입문 개별코크</b> 확인",
-             "우진차 — <b>DCU 고장 여부</b> 확인 · <b>TOB 취급(B7, 수/수)</b> 출입문 동작 확인",
-             "열림 불능 시 <b>관제와 협의</b> → <b>전체 출입문 BY-PASS</b>(개별 바이패스 금지) → <b>회송</b>"] },
+    { id:"psd", n:"03", title:"승강장 안전문 장애 발생 시", ready:true, meta:"4문항 · 약 4분",
+      desc:"상황을 단계별로 조치해 보세요.",
+      sub:"8호선 · 승강장안전문 장애", device:"psd", trainNo:"8000", trainSet:"800",
+      steps:STEPS_PSD, scn:SCN_PSD, mid:MID_PSD, summary:SUM_PSD,
+      briefTitle:"승강장 안전문 장애 발생",
+      briefBody:"잠실역에 정위치 정차하여 승객 취급 후 출입문을 닫았습니다.<br>그런데 <b>승강장안전문에 장애가 발생</b>하였습니다.<br>어떻게 하시겠습니까?",
+      note:"조치 절차는 제공된 <b>「안전한 승강장안전문 취급법(이례상황)」</b>을 따랐습니다. HMI 화면은 <b>기관사 안내장치</b> 자료를 참고해 재현한 것으로 실제 기기와 세부 차이가 있을 수 있습니다.",
+      recap:["출입문·승강장안전문 <b>재취급</b>",
+             "복구되지 않으면 <b>안내방송 후 관제 보고</b>",
+             "관제 승인 후 <b>By-Pass 스위치 취급</b>",
+             "<b>역무원의 출발지시전호</b>에 의하여 출발"] },
     { n:"04", title:"차량 화재", ready:false,
       desc:"터널 내 화재 발생 시 초기 조치와 대피 유도" },
     { n:"05", title:"급전 중단", ready:false,
@@ -3958,7 +4088,7 @@
     ["scMenu","scBrief","scSim","scResult"].forEach(function(k){ $(k).hidden = (k !== id); });
     $("notice").hidden = (id === "scMenu");
     $("hudStats").style.display = (id === "scMenu" || id === "scBrief") ? "none" : "contents";
-    $("hudSub").textContent = (id === "scMenu" || !CUR) ? "서울교통공사 · 기관사 훈련" : CUR.sub;
+    $("hudSub").textContent = (id === "scMenu" || !CUR) ? "서울교통공사 · 8호선 기관사 훈련" : CUR.sub;
     if (CUR){
       $("devPsd").hidden  = (CUR.device !== "psd");
       $("devTcms").hidden = (CUR.device !== "tcms");
@@ -3977,7 +4107,6 @@
     $("briefBody").innerHTML = CUR.briefBody;
     $("noticeBody").innerHTML = CUR.note;
     $("resultTitle").textContent = CUR.briefTitle + " 결과";
-    $("recapList").innerHTML = CUR.recap.map(function(t){ return "<li>"+t+"</li>"; }).join("");
     show("scBrief");
   }
 
@@ -3993,6 +4122,7 @@
 
   function showResult(){
     if (timer) clearInterval(timer);
+    if ($("resDocsNote")) $("resDocsNote").hidden = true;
     var total = Math.min(100, totalScore());
     var clean = S.answers.filter(function(l){ return l && l.clean; }).length;
     var g = total >= 95 ? "S" : total >= 85 ? "A" : total >= 70 ? "B" : "C";
@@ -4005,16 +4135,12 @@
     var rv = $("review"); rv.innerHTML = "";
     S.answers.forEach(function(l, i){
       if (!l) return;
-      var note = l.clean ? "한 번에 정확히 처리했습니다."
-        : ((l.tries > 0 ? "오답 " + l.tries + "회 후 정정" : "") +
-           (l.hinted ? (l.tries > 0 ? " · 힌트 사용" : "힌트 사용") : ""));
       var d = document.createElement("div");
       d.className = "rv";
       d.innerHTML =
         '<span class="ic ' + (l.clean ? "ok" : "no") + '">' + (l.clean ? "✓" : "!") + '</span>' +
-        '<div><h4>' + (i+1) + '. ' + l.title + '</h4><p>' + note + '</p>' +
-        '<p class="src">다시 볼 자료 — ' + l.src + '</p></div>' +
-        '<span class="pt mono">' + l.pts + ' / ' + l.max + '</span>';
+        '<div><h4>' + (i+1) + '. ' + l.title + '</h4></div>' +
+        '<span class="pt mono' + (l.pts === l.max ? '' : ' part') + '">' + l.pts + ' / ' + l.max + '점</span>';
       rv.appendChild(d);
     });
 
@@ -4035,6 +4161,21 @@
       return;
     }
     S.i++; renderStep(); window.scrollTo(0,0);
+  });
+  $("btnSkip").addEventListener("click", function(){
+    if (S.i === CUR.steps.length-1){
+      playCine("조치 요약 영상", CUR.summary, showResult);
+      return;
+    }
+    S.i++; renderStep(); window.scrollTo(0,0);
+  });
+  $("btnDoc").addEventListener("click", function(){
+    $("resDocsNote").hidden = false;
+    $("resDocsNote").innerHTML = "📄 <b>고장 조치 정리본</b> — 자료 준비 중입니다. 파일을 넣으면 여기에서 바로 내려받을 수 있습니다.";
+  });
+  $("btnRule").addEventListener("click", function(){
+    $("resDocsNote").hidden = false;
+    $("resDocsNote").innerHTML = "📖 <b>관련 규정</b> — 자료 준비 중입니다. 규정 내용을 넣으면 여기에서 바로 확인할 수 있습니다.";
   });
   $("btnPrev").addEventListener("click", function(){
     if (S.i === 0){ showBrief(); return; }
@@ -4065,6 +4206,7 @@
   /* 초기 표시 */
   S = freshState();
   buildCars(); buildBoard(); buildTcms(); buildCb(); buildCab(); buildMenu(); setMascot("que");
+  if ($("menuMascot")) $("menuMascot").src = DDOTA.que;
   show("scMenu");
 })();
 </script>
