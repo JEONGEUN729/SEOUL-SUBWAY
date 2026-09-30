@@ -74,6 +74,7 @@
   .menu{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:34px 26px 30px}
   .menu h1{margin:0 0 8px;font-size:clamp(22px,4.5vw,30px);font-weight:700;letter-spacing:-.02em;text-wrap:balance}
   .menu .lead{color:var(--ink-2);margin:0 0 26px;font-size:15px;max-width:52ch}
+  .vertag{margin:18px 0 0;text-align:right;font-size:10.5px;color:var(--ink-3);letter-spacing:.06em}
   .menu-head{display:flex;align-items:flex-end;gap:16px;margin-bottom:26px}
   .menu-head .menu-ht{flex:1;min-width:0}
   .menu-head .lead{margin-bottom:0}
@@ -984,12 +985,8 @@
       <div class="menu-mascot"><img id="menuMascot" alt="또타" src=""></div>
     </div>
     <div class="menu-grid" id="menuGrid"></div>
+    <p class="vertag mono">ver 1.5 · 2026-09-30</p>
   </section>
-
-  <div class="notice" id="notice">
-    <b>안내</b>
-    <div id="noticeBody">조치 절차는 제공된 <b>「안전한 승강장안전문 취급법(이례상황)」</b>을 따랐습니다. HMI 화면은 <b>기관사 안내장치</b> 자료를 참고해 재현한 것으로 실제 기기와 세부 차이가 있을 수 있습니다.</div>
-  </div>
 
   <!-- ================= BRIEF ================= -->
   <section class="screen-sec brief" id="scBrief" hidden>
@@ -1032,8 +1029,8 @@
             <div class="t-pwm"><b id="tcNotch">N</b><span>HB</span></div>
             <div class="t-bx">
               <div class="t-kv"><span>ATCCODE</span><b>STOP</b></div>
-              <div class="t-kv"><span>열차번호</span><b>8192</b></div>
-              <div class="t-kv"><span>편성번호</span><b>827</b></div>
+              <div class="t-kv"><span>열차번호</span><b id="tcNo">8192</b></div>
+              <div class="t-kv"><span>편성번호</span><b id="tcSet">827</b></div>
               <div class="t-kv"><span>다음역</span><b>암사</b></div>
             </div>
             <div class="t-fault">고장</div>
@@ -1419,7 +1416,8 @@
     s += '<rect x="0" y="176" width="480" height="34" fill="#e7e0e3"/>';
     s += '<line x1="0" y1="176" x2="480" y2="176" stroke="'+C.line+'" stroke-width="2"/>';
 
-    s += (o.screen === "tcms3") ? miniTcms3() : (o.screen === "tcms") ? miniTcms() : miniHmi();
+    s += (o.screen === "tcms4") ? miniTcms3(2) :
+         (o.screen === "tcms3") ? miniTcms3() : (o.screen === "tcms") ? miniTcms() : miniHmi();
 
     // 기관사
     s += '<path d="M 358 176 L 358 132 Q 358 108 398 108 Q 438 108 438 132 L 438 176 Z" fill="'+C.ink+'"/>';
@@ -1561,7 +1559,7 @@
   /* =========================================================
      시나리오 03 — 1개 출입문 열림 불능 : 장면 부품
      ========================================================= */
-  function miniTcms3(){
+  function miniTcms3(carFail){
     function bx(x,y,w,h,f,st){ return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+(f||'none')+'" stroke="'+(st||'#31c9e8')+'" stroke-width=".8"/>'; }
     function tx(x,y,t,z,f,an,wt){ return '<text x="'+x+'" y="'+y+'" font-size="'+z+'" fill="'+f+'" text-anchor="'+(an||'start')+'" font-weight="'+(wt||600)+'">'+t+'</text>'; }
     var s = '<line x1="142" y1="4" x2="142" y2="12" stroke="#6b5c62" stroke-width="3"/>';
@@ -1572,7 +1570,8 @@
          tx(44,32,'주행거리',4.6,'#fff') + tx(112,32,'0 m',4.6,'#fff','end') + tx(44,39,'역간거리',4.6,'#fff') + tx(112,39,'0 m',4.6,'#fff','end');
     s += bx(117,18,22,24) + tx(128,33,'N',12,'#fff','middle',800) + tx(128,40,'HB',4.5,'#ffd84d','middle',700);
     s += bx(141,18,94,24) + tx(144,25,'ATCCODE',4.6,'#fff') + tx(232,25,'STOP',4.6,'#fff','end') +
-         tx(144,32,'열차번호',4.6,'#fff') + tx(232,32,'8192',4.6,'#fff','end') + tx(144,39,'편성번호',4.6,'#fff') + tx(232,39,'827',4.6,'#fff','end');
+         tx(144,32,'열차번호',4.6,'#fff') + tx(232,32,((CUR&&CUR.trainNo)||'8192'),4.6,'#fff','end') +
+         tx(144,39,'편성번호',4.6,'#fff') + tx(232,39,((CUR&&CUR.trainSet)||'827'),4.6,'#fff','end');
     s += bx(237,18,28,24,'#fff','#fff') + tx(251,34,'고장',8,'#111','middle',800);
     s += tx(142,49,'일 반 화 면',5,'#fff','middle',700) + '<line x1="19" y1="52" x2="265" y2="52" stroke="#31c9e8" stroke-width=".7"/>';
     var cars = ["1","2","4","6","7","0"];
@@ -1580,7 +1579,9 @@
       var cx = 52 + c*34;
       s += bx(cx,56,30,9) + tx(cx+15,63,cars[c],6,'#ffd84d','middle',800);
       for (var k=0;k<4;k++) for (var r=0;r<2;r++){
-        var dx = cx + 1 + k*7.2, dy = 69 + r*6, bad = (c === 3 && k === 1 && r === 0), op = (r === 0 && !bad);
+        var dx = cx + 1 + k*7.2, dy = 69 + r*6;
+        var bad = (carFail == null) ? (c === 3 && k === 1 && r === 0) : (c === carFail && r === 0);
+        var op = (r === 0 && !bad);
         s += '<rect'+(bad?' class="glow"':'')+' x="'+dx.toFixed(1)+'" y="'+dy+'" width="6.2" height="5" fill="'+(op?'#ff5ce0':'none')+
              '" stroke="'+(bad?'#ffd84d':(op?'#ff5ce0':'#9fd8ee'))+'" stroke-width="'+(bad?1.4:.6)+'"/>';
       }
@@ -1613,7 +1614,9 @@
       if (c) s += '<line x1="'+(x0-3)+'" y1="36" x2="'+(x0-3)+'" y2="156" stroke="#dcdce4" stroke-width="2"/>';
       s += '<text x="'+(x0+21)+'" y="54" font-size="9" font-weight="700" fill="#5a4f54">'+TD_CARS[c]+'호차</text>';
       for (var dd=0; dd<2; dd++){
-        var dx = x0 + 8 + dd*35, bad = (c === 3 && dd === 0), open = !o.allClosed && !bad;
+        var dx = x0 + 8 + dd*35;
+        var bad = (o.carFail != null) ? (c === o.carFail) : (c === 3 && dd === 0);
+        var open = !o.allClosed && !bad;
         if (open){
           s += '<rect x="'+(dx+9)+'" y="68" width="12" height="82" fill="#39485c"/>';
           s += '<rect x="'+dx+'" y="68" width="9" height="82" rx="2" fill="'+C.glass+'" stroke="#7d98bb" stroke-width="1.5"/>';
@@ -1621,7 +1624,7 @@
         } else {
           s += '<rect x="'+dx+'" y="68" width="30" height="82" rx="3" fill="'+C.glass+'" stroke="'+(bad?'#e0a800':'#7d98bb')+'" stroke-width="'+(bad?3:1.5)+'"'+(bad?' class="glow"':'')+'/>';
           s += '<line x1="'+(dx+15)+'" y1="68" x2="'+(dx+15)+'" y2="150" stroke="'+(bad?'#e0a800':'#7d98bb')+'" stroke-width="1.5"/>';
-          if (bad){
+          if (bad && o.carFail == null){
             s += '<rect x="'+(dx-5)+'" y="58" width="40" height="15" rx="7.5" fill="#fff" stroke="#e0a800" stroke-width="1.5"/>';
             s += '<text x="'+(dx+15)+'" y="69" text-anchor="middle" font-size="9" font-weight="700" fill="#9a6b00">R2</text>';
           }
@@ -1680,15 +1683,28 @@
     return s + '</svg>';
   }
   /* 전체 출입문 · 안전문 개방 */
-  function openAllScene(){
+  function openAllScene(o){
+    o = o || {};
     var s = '<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="210" fill="#fbf6f8"/>';
     s += '<rect x="16" y="24" width="448" height="126" rx="12" fill="'+C.body+'" stroke="'+C.bodyLine+'" stroke-width="2"/>';
     s += '<rect x="16" y="24" width="448" height="15" rx="7" fill="'+C.pink+'"/>';
     for (var i=0;i<6;i++){
       var x = 26 + i*72, bad = (i === 3);
       s += '<rect x="'+(x+14)+'" y="44" width="38" height="16" rx="3" fill="#b9d2ea" stroke="#8fa9c6"/>';
-      // 열차 출입문 (6호차 R2만 닫힘)
-      if (bad){
+      if (o.carFail != null){
+        if (i === o.carFail){
+          // 고장 차량 — 출입문 4개 모두 닫힘
+          for (var q=0;q<4;q++){
+            var qx = x + 6 + q*15;
+            s += '<rect x="'+qx+'" y="64" width="13" height="84" rx="2" fill="'+C.glass+'" stroke="#e0a800" stroke-width="2" class="glow"/>';
+            s += '<line x1="'+(qx+6.5)+'" y1="64" x2="'+(qx+6.5)+'" y2="148" stroke="#e0a800" stroke-width="1"/>';
+          }
+        } else {
+          s += '<rect x="'+(x+15)+'" y="64" width="36" height="84" fill="#39485c"/>';
+          s += '<rect class="ol" x="'+(x+15)+'" y="64" width="18" height="84" rx="2" fill="#d6e2f0" stroke="#7d98bb" stroke-width="1.2"/>';
+          s += '<rect class="or" x="'+(x+33)+'" y="64" width="18" height="84" rx="2" fill="#d6e2f0" stroke="#7d98bb" stroke-width="1.2"/>';
+        }
+      } else if (bad){
         s += '<rect x="'+(x+15)+'" y="64" width="36" height="84" rx="2" fill="'+C.glass+'" stroke="#e0a800" stroke-width="2.5" class="glow"/>';
         s += '<line x1="'+(x+33)+'" y1="64" x2="'+(x+33)+'" y2="148" stroke="#e0a800" stroke-width="1.5"/>';
       } else {
@@ -1708,8 +1724,13 @@
     s += '<rect x="0" y="150" width="480" height="60" fill="'+C.floor+'"/>';
     s += '<line x1="0" y1="150" x2="480" y2="150" stroke="'+C.line+'" stroke-width="2"/>';
     s += '<line x1="0" y1="164" x2="480" y2="164" stroke="#e8b93a" stroke-width="5" stroke-dasharray="18 12"/>';
-    s += '<rect x="248" y="54" width="36" height="14" rx="7" fill="#fff" stroke="#e0a800" stroke-width="1.5"/>' +
-         '<text x="266" y="64.5" text-anchor="middle" font-size="9" font-weight="700" fill="#9a6b00">R2</text>';
+    if (o.carFail != null){
+      s += '<rect x="240" y="176" width="180" height="28" rx="8" fill="#fff" stroke="#e0a800" stroke-width="2"/>' +
+           '<text x="330" y="195" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9a6b00">4호차 출입문 4개 닫힘</text>';
+    } else {
+      s += '<rect x="248" y="54" width="36" height="14" rx="7" fill="#fff" stroke="#e0a800" stroke-width="1.5"/>' +
+           '<text x="266" y="64.5" text-anchor="middle" font-size="9" font-weight="700" fill="#9a6b00">R2</text>';
+    }
     s += '<rect x="18" y="176" width="210" height="28" rx="8" fill="'+C.pink+'"/>' +
          '<text x="123" y="195" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">전체 출입문 · 안전문 개방</text>';
     return s + '</svg>';
@@ -1732,7 +1753,21 @@
     s += '<rect x="186" y="54" width="108" height="128" rx="3" fill="#cfd4db" stroke="#7f8893" stroke-width="2"/>';
     s += '<line x1="240" y1="54" x2="240" y2="182" stroke="#7f8893" stroke-width="2.5"/>';
     s += '<rect x="196" y="66" width="34" height="60" rx="3" fill="#2b3440"/><rect x="250" y="66" width="34" height="60" rx="3" fill="#2b3440"/>';
-    if (mode === "panel"){
+    if (mode === "rep"){
+      // 전체 출입문 대표코크 — 객실 끝 벽면
+      s += '<rect x="298" y="92" width="34" height="38" rx="4" fill="#aeb4bc" stroke="#6f7782" stroke-width="1.5"/>';
+      s += '<rect x="304" y="98" width="22" height="10" rx="2" fill="#5c646e"/>';
+      s += '<rect x="311" y="104" width="9" height="28" rx="4" fill="#d91e1e" stroke="#7a0e0e" transform="rotate(-30 315 118)"/>';
+      s += '<circle cx="315" cy="119" r="3.4" fill="#7a0e0e"/>';
+      if (marked){
+        s += '<rect x="292" y="86" width="46" height="50" rx="7" fill="none" stroke="'+P+'" stroke-width="2.5" stroke-dasharray="6 5" class="glow"/>';
+        s += '<path d="M 340 100 L 356 88" stroke="'+P+'" stroke-width="1.8"/>';
+        s += '<rect x="350" y="74" width="118" height="20" rx="10" fill="'+P+'"/>' +
+             '<text x="409" y="88" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">전체 출입문 코크</text>';
+        s += '<rect x="168" y="24" width="144" height="20" rx="10" fill="'+P+'"/>' +
+             '<text x="240" y="38" text-anchor="middle" font-size="10.5" font-weight="800" fill="#fff">대표코크(전체 출입문) 확인</text>';
+      }
+    } else if (mode === "panel"){
       // 출입문 위 배전반 — 덮개를 열고 DCU 확인
       s += '<rect x="176" y="22" width="128" height="30" rx="2" fill="#2a2f36" stroke="#6f7782" stroke-width="1.5"/>';
       s += '<polygon points="176,22 304,22 296,4 184,4" fill="#cfd4db" stroke="#7f8893" stroke-width="1.5"/>';
@@ -1924,6 +1959,37 @@
     bpsBind("extraBox");
   }
 
+  /* 출입문 제어 회로차단기 — DCURN / DCULN (임시 그림, 사진 받으면 교체) */
+  function cbrScene(marked){
+    var P = C.pink;
+    var s = '<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
+    s += '<rect width="480" height="210" fill="#e9ebee"/>';
+    s += '<rect x="40" y="16" width="400" height="168" rx="8" fill="#3a4049" stroke="#2a2f36" stroke-width="2"/>';
+    s += '<rect x="52" y="28" width="376" height="144" rx="5" fill="#d3d7dc" stroke="#a8aeb6" stroke-width="1.5"/>';
+    s += '<text x="240" y="48" text-anchor="middle" font-size="11" font-weight="800" fill="#3a4049" letter-spacing="2">출입문 제어 회로차단기</text>';
+    var items = [["DCURN","우측 출입문 제어",true],["DCULN","좌측 출입문 제어",true],["DLCN","출입문 등",false],["SPARE","예비",false]];
+    items.forEach(function(it, i){
+      var x = 74 + i*90;
+      s += '<rect x="'+x+'" y="62" width="62" height="86" rx="5" fill="#eceae3" stroke="#8f8d81" stroke-width="1.8"/>';
+      s += '<rect x="'+(x+18)+'" y="72" width="26" height="40" rx="4" fill="#2c3630" stroke="#1a201c"/>';
+      var on = !(marked && it[2]);
+      s += '<rect x="'+(x+22)+'" y="'+(on ? 76 : 96)+'" width="18" height="18" rx="3" fill="'+(on ? "#3d4a3f" : "#b3202a")+'"/>';
+      s += '<text x="'+(x+31)+'" y="124" text-anchor="middle" font-size="8" font-weight="800" fill="'+(on ? "#1f7a3a" : "#b3202a")+'">'+(on ? "ON" : "OFF")+'</text>';
+      s += '<text x="'+(x+31)+'" y="137" text-anchor="middle" font-size="9.5" font-weight="800" fill="#24282c">'+it[0]+'</text>';
+      s += '<text x="'+(x+31)+'" y="147" text-anchor="middle" font-size="7" fill="#5d625f">'+it[1]+'</text>';
+      if (marked && it[2]){
+        s += '<rect x="'+(x-5)+'" y="56" width="72" height="98" rx="8" fill="none" stroke="'+P+'" stroke-width="2.5" stroke-dasharray="7 5" class="glow"/>';
+      }
+    });
+    if (marked){
+      s += '<rect x="122" y="176" width="236" height="22" rx="11" fill="'+P+'"/>' +
+           '<text x="240" y="191.5" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">DCUR(L)N 차단 → 복귀 (리셋)</text>';
+    } else {
+      s += '<text x="52" y="196" font-size="9.5" fill="#7a6f74">임시 그림 · 차단기 사진을 받으면 실제 모습으로 교체합니다</text>';
+    }
+    return s + '</svg>';
+  }
+
   /* TOB (Test Open Button) — 출입문 위 배전반 안의 출입문 동작 시험 버튼 */
   function tobSvg(marked){
     var P = C.pink;
@@ -1976,7 +2042,7 @@
     for (var r=0;r<30;r++) s += '<line x1="'+(14+r*18)+'" y1="168" x2="'+(14+r*18)+'" y2="196" stroke="#c7cbd1" stroke-width="1"/>';
     var doors = [48, 176, 304, 432];
     doors.forEach(function(dx, i){
-      var bad = (i === 1);
+      var bad = o.allBad ? true : (i === 1);
       if (i < 3) s += '<rect x="'+(dx+86)+'" y="52" width="38" height="52" rx="4" fill="url(#t8win)" stroke="#8a929c" stroke-width="1.5"/>';
       if (bad){
         s += '<rect x="'+(dx-6)+'" y="42" width="92" height="160" rx="6" fill="none" stroke="#e0a800" stroke-width="3" stroke-dasharray="8 6" class="glow"/>';
@@ -1994,10 +2060,12 @@
       s += '<rect x="'+(dx+(bad?44:62))+'" y="60" width="'+ww+'" height="58" rx="3" fill="url(#t8win)"/>';
       s += '<rect x="'+(dx+28)+'" y="40" width="24" height="6" rx="2" fill="'+(bad?'#ffd84d':'#e02f3c')+'"/>';
     });
-    s += '<rect x="226" y="6" width="108" height="20" rx="10" fill="#fff" stroke="#e0a800" stroke-width="2"/>';
-    s += '<text x="280" y="20.5" text-anchor="middle" font-size="11" font-weight="800" fill="#8a6200">6호차 R2 · 열림 불능</text>';
+    var bdg = o.allBad ? "4호차 · 1량 열림 불능" : "6호차 R2 · 열림 불능";
+    var bw2 = bdg.length * 11 + 22;
+    s += '<rect x="'+(280-bw2/2)+'" y="6" width="'+bw2+'" height="20" rx="10" fill="#fff" stroke="#e0a800" stroke-width="2"/>';
+    s += '<text x="280" y="20.5" text-anchor="middle" font-size="11" font-weight="800" fill="#8a6200">'+bdg+'</text>';
     s += '<rect x="12" y="3" width="17" height="17" rx="8.5" fill="'+P+'"/><text x="20.5" y="15.5" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">8</text>';
-    s += '<text x="34" y="16" font-size="11" font-weight="700" fill="#4a3f44">8호선 전동차 · 6호차</text>';
+    s += '<text x="34" y="16" font-size="11" font-weight="700" fill="#4a3f44">8호선 전동차 · '+(o.allBad ? "4호차" : "6호차")+'</text>';
     if (o.go){
       s += '<g class="walk"><g transform="translate(60,0)">' +
         '<ellipse cx="0" cy="240" rx="18" ry="4" fill="rgba(60,40,48,.2)"/>' +
@@ -2626,6 +2694,7 @@
 
     // 출입문 — 과정별 설정 (02: 1행 11번째만 열림 / 03: 1행 전체 열림 중 1개 닫힘)
     var tc = (CUR && CUR.tc) || {}, tIdx = tc.idx || 11, allBut = !!tc.allOpenBut;
+    var carFail = (tc.carFail == null) ? -1 : tc.carFail;
     var doors = "", n1 = 0;
     for (var c=0;c<6;c++){
       var g8 = "";
@@ -2633,8 +2702,9 @@
         var row1 = (k < 4), cls = "";
         if (row1){
           n1++;
-          if (allBut) cls = (n1 === tIdx) ? "fail" : "open st";
-          else        cls = (n1 === tIdx) ? "open" : "";
+          if (carFail >= 0) cls = (c === carFail) ? "fail" : "open st";
+          else if (allBut)  cls = (n1 === tIdx) ? "fail" : "open st";
+          else              cls = (n1 === tIdx) ? "open" : "";
         }
         g8 += '<i class="'+cls+'"></i>';
       }
@@ -2659,6 +2729,8 @@
       $("tcState").innerHTML = stt.map(function(r){
         return '<span><i class="'+r[0]+'"></i>'+r[1]+' <b>'+r[2]+'</b></span>'; }).join("");
     }
+    if ($("tcNo") && CUR) $("tcNo").textContent = CUR.trainNo || "8192";
+    if ($("tcSet") && CUR) $("tcSet").textContent = CUR.trainSet || "827";
     setTimeout(fitTcms, 0);
   }
 
@@ -3574,7 +3646,11 @@
                  "출입문 위 배전반 안의 TOB(출입문 동작 시험) 버튼입니다."],
       panel:    ["객실 안 · 출입문 위 배전반", "출입문 제어장치 확인", function(){ return interiorSvg("panel", !!ans); },
                  "객실 안 출입문 위 배전반을 열었습니다."],
-      bps:      ["바이패스 스위치 패널", "전체 출입문 BY-PASS", bpsHtml, "질문에 답한 뒤, 스위치를 직접 취급할 수 있습니다."]
+      bps:      ["바이패스 스위치 패널", "전체 출입문 BY-PASS", bpsHtml, "질문에 답한 뒤, 스위치를 직접 취급할 수 있습니다."],
+      repcock:  ["객실 안 · 4호차", "전체 출입문 코크", function(){ return interiorSvg("rep", !!ans); },
+                 "객실 안에서 4호차 출입문 상태를 확인합니다."],
+      cbr:      ["출입문 제어 회로차단기", "DCUR(L)N", function(){ return cbrScene(!!ans); },
+                 "출입문 제어 회로차단기함입니다. (임시 그림)"]
     };
     var sb = SCENE_BOARDS[st.board];
     $("trainWrap").hidden = !sb;
@@ -3766,6 +3842,12 @@
     }
     if (st.board === "tob"){
       $("trainBox").innerHTML = tobSvg(true);
+    }
+    if (st.board === "repcock"){
+      $("trainBox").innerHTML = interiorSvg("rep", true);
+    }
+    if (st.board === "cbr"){
+      $("trainBox").innerHTML = cbrScene(true);
     }
     if (st.showBps){
       $("trainWrap").hidden = false;
@@ -4011,6 +4093,184 @@
     }
   ];
 
+  /* =========================================================
+     시나리오 04 — 1량(4호차) 출입문 열림 불능
+     ========================================================= */
+  function tcmsScene4(){
+    return '<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="210" fill="#fbf6f8"/>' +
+      '<g transform="translate(98,16)">' + miniTcms3(2) + '</g></svg>';
+  }
+  var SCN_DOOR4 = {
+    d4_fault: { t:"TCMS 확인",
+                q:"정차 후 출입문을 열었으나<br>TCMS에 4호차 1량의 출입문이 닫힘으로 표시됩니다.",
+                svg: tcmsScene4 },
+    d4_state: { t:"지적확인 환호",
+                q:"TCMS 화면을 손가락으로 가리키며<br>지적확인 환호합니다.",
+                say:"“4호차 출입문 닫힘, 확인!”",
+                svg: function(){ return cab({ point:true, screen:"tcms4" }); } },
+    d4_reopen:{ t:"전체 출입문 재취급",
+                q:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치로 재취급합니다.<br>재취급하였으나 4호차 출입문이 열리지 않았습니다.",
+                svg: reopen3Scene },
+    d4_pa:    { t:"고객안내방송",
+                q:"객실 안내방송으로<br>지연 사유를 안내합니다.",
+                say:"“안내말씀 드리겠습니다. 열차가 출입문 고장으로 정차중입니다. 조치 후 출발할 예정이니 잠시만 기다려 주시기 바랍니다. 열차 이용에 불편을 드려 대단히 죄송합니다.”",
+                svg: function(){ return cab({ waves:true, look:true, screen:"tcms4" }); } },
+    d4_report:{ t:"관제 상황보고",
+                q:"확인한 현상과 시행한 조치를<br>운전 관제에 보고합니다.",
+                say:"“관제 관제, 8000열차 827편성 출입문 전체 개방하였으나 TCMS 화면에 4호차 1량 출입문 닫힘 현시되어 있습니다. 출입문 전체 재취급 2번 하였으나 해당 출입문 닫힘 상태입니다.”",
+                svg: radio("out","8000열차 827편성") },
+    d4_dir:   { t:"관제 지시", tone:"blue",
+                q:"운전 관제로부터 지시를 받습니다.",
+                say:"“8000열차 출입문·안전문 개방, 안내방송 후 현장 출동하여 출입문 확인해 보세요.”",
+                svg: radio("in","8000열차 827편성") },
+    d4_fpa:   { t:"안내방송",
+                q:"현장으로 이동하기 전에<br>객실 안내방송을 실시합니다.",
+                say:"“안내말씀 드리겠습니다. 4호차 출입문 고장으로 기관사가 현장을 확인하겠습니다. 조치 후 출발할 예정이니 잠시만 기다려 주시기 바랍니다.”",
+                svg: function(){ return cab({ waves:true, look:true, screen:"tcms4" }); } },
+    d4_open:  { t:"전체 출입문 · 안전문 개방",
+                q:"전체 출입문, 안전문을 개방합니다.<br>4호차 출입문 4개는 닫힌 상태입니다.",
+                svg: openAllScene({ carFail:2 }) },
+    d4_kit:   { t:"휴대용 무전기 · 출입문 키",
+                q:"휴대용 무전기와 출입문 키를<br>잊지 말고 챙깁니다.",
+                svg: kitScene() },
+    d4_go:    { t:"현장 출동",
+                q:"4호차로 출동해 현장을 확인합니다.",
+                svg: train8Svg({ go:true, allBad:true }) },
+    d4_cock:  { t:"전체 출입문 코크 확인",
+                q:"객실 안에서 전체 출입문 코크(대표코크)<br>상태를 확인합니다.",
+                svg: interiorSvg("rep", true) },
+    d4_cbr:   { t:"DCUR(L)N 리셋",
+                q:"출입문 제어 회로차단기 DCUR(L)N을<br>차단 후 복귀(리셋)합니다.",
+                svg: cbrScene(true) },
+    d4_req:   { t:"관제 보고",
+                q:"조치가 되지 않으면<br>관제에 보고하고 협의합니다.",
+                say:"“관제 관제, 8000열차 827편성 4호차 출입문 조치하였으나 열림 불능입니다.”",
+                svg: radio("out","8000열차 827편성") },
+    d4_order: { t:"관제 지시 확인", tone:"blue",
+                q:"관제 승인 후 전체 출입문 BY-PASS 취급 후<br>회송합니다.",
+                say:"“8000열차, 4호차 출입문 열림 불능 확인했습니다. 전체 출입문 BY-PASS 취급 후 회송 조치하시기 바랍니다.”",
+                svg: radio("in","8000열차 827편성") },
+    d4_bypass:{ t:"전체 출입문 BY-PASS",
+                q:"DBS(출입문 바이패스) 스위치를 BYPASS로 취급합니다.<br>개별 바이패스는 금지",
+                svg: dbsScene() },
+    d4_done:  { t:"회송",
+                q:"회송 출발합니다.<br>승객은 승강장에서 다음 열차를 기다립니다.",
+                svg: departScene() }
+  };
+  var MID_D4_A   = ["d4_pa","d4_report","d4_dir","d4_fpa","d4_open","d4_kit","d4_go"];
+  var MID_D4_END = ["d4_req","d4_order","d4_bypass","d4_done"];
+  var SUM_DOOR4  = ["d4_fault","d4_state","d4_reopen","d4_pa","d4_report","d4_dir","d4_open","d4_kit","d4_go",
+                    "d4_cock","d4_cbr","d4_req","d4_order","d4_bypass","d4_done"];
+
+  var STEPS_DOOR4 = [
+    {
+      pts:17,
+      msg:["4호차 1량 출입문 닫힘 현시","alert"],
+      coach:"출입문이 개방되었어. 그런데 TCMS 확인해 봤어?<br>출입문 1량이 열리지 않은 것 같아! 무엇을 해야 할까?",
+      prompt:"1량 출입문 열림 불능 시 조치의 첫 번째는?",
+      hint:"관제 보고나 현장 확인 전에, 운전실에서 할 수 있는 조치가 있어.",
+      opts:[
+        { t:"전체 출입문을 재취급한다", ok:true,
+          fb:"맞아. TCMS에 4호차 1량의 출입문이 닫힘으로 현시돼 있어.<br>가장 먼저 전체 출입문을 재취급해 봐야 해.<br>다음 단계에서 운전실에서 직접 해 보자." },
+        { t:"곧바로 관제에 보고하고 지시를 기다린다", ok:false,
+          fb:"보고는 필요하지만 아직 일러. 운전실에서 할 수 있는 재취급을 먼저 해 보고, 그 결과까지 담아 보고해야 해." },
+        { t:"바로 해당 차량으로 가서 현장확인한다", ok:false,
+          fb:"현장확인은 뒤 순서야. 운전실에서 전체 출입문 재취급부터 해 봐야 해." }
+      ],
+      src:"교육자료 · 현상확인 ② TCMS 화면에 1량 출입문 닫힘 현시 / 선행조치 · 전체 출입문 재취급",
+      done:"TCMS 1량 닫힘 현시 확인 · 전체 재취급 판단"
+    },
+    {
+      pts:17,
+      type:"cab",
+      board:"cabfull",
+      msg:["4호차 1량 출입문 닫힘 현시","alert"],
+      cabNames:["주간제어기 B7","운전모드 수동 · 출입문모드 수 / 수","측면 출입문 스위치 재취급"],
+      sideSeq:["SCLOSE","SOPEN"],
+      coach:"전체 출입문 재취급해 보자.<br>운전실에서 순서대로 직접 취급해 봐!",
+      prompt:"운전실 그림에서 재취급 순서대로 직접 취급해 보세요.",
+      hint:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치에서 닫힘 → 열림.",
+      okFb:"정확해.<br>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치 재취급.<br>그런데 재취급했는데도 4호차 출입문이 열리지 않았어.",
+      src:"현장 선행조치 · 전체 출입문 재취급 (B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치)",
+      done:"전체 출입문 재취급 (B7 → 수동 · 수/수 → 측면 스위치)"
+    },
+    {
+      pts:17,
+      msg:["4호차 1량 출입문 닫힘 현시","alert"],
+      cine: MID_D4_A,
+      coach:"재취급했는데도 4호차 1량이 여전히 안 열려.<br>다음에 해야 하는 일은?",
+      prompt:"현장 조치에 앞서 할 조치는?",
+      hint:"승객이 먼저 불안해져. 그리고 혼자 판단할 일이 아니야.",
+      opts:[
+        { t:"고객안내방송을 실시하고 관제에 상황을 보고한다", ok:true,
+          fb:"맞아. 승객에게 지연 사유를 알리고 관제에 상황을 보고해야 해.<br>영상으로 방송 문안과 관제 보고, 현장 출동까지 확인해 보자." },
+        { t:"방송은 생략하고 바로 4호차로 이동한다", ok:false,
+          fb:"정차가 길어지는데 안내가 없으면 승객이 불안해져. 안내방송과 관제 보고가 먼저야." },
+        { t:"다음 역에서 조치하기로 하고 그대로 출발한다", ok:false,
+          fb:"보고도 없이 출발하면 안 돼. 먼저 안내방송을 하고 관제에 상황을 보고해." }
+      ],
+      src:"교육자료 · 현상확인 ③ 관제에 상황보고 / 선행조치 · 안내방송 · 현장 출동",
+      done:"고객안내방송 · 관제 상황보고 · 현장 출동"
+    },
+    {
+      pts:17,
+      msg:["1량 출입문 조치","warn"],
+      board:"repcock",
+      coach:"현장에 도착했어.<br>가장 먼저 무엇을 확인해야 할까?",
+      prompt:"1량 전체가 열리지 않을 때 먼저 확인할 것은?",
+      hint:"1개가 아니라 1량 전체야. 그 차량 출입문을 한꺼번에 차단하는 코크가 있어.",
+      opts:[
+        { t:"출입문 개별코크를 하나씩 확인한다", ok:false,
+          fb:"1량 전체가 열리지 않는 상황이야. 개별코크보다 <b>전체 출입문 코크(대표코크)</b>를 먼저 확인해야 해." },
+        { t:"전체 출입문 코크를 확인한다", ok:true,
+          fb:"맞아. 1량 전체가 열리지 않으면<br>그 차량의 <b>전체 출입문 코크(대표코크)</b> 상태부터 확인해야 해." },
+        { t:"확인 없이 바로 전체 출입문 BY-PASS를 취급한다", ok:false,
+          fb:"BY-PASS는 마지막 순서야. 먼저 전체 출입문 코크를 확인해." }
+      ],
+      src:"교육자료 · 1량 출입문 열림 불능 — 전체 출입문 코크(대표코크) 확인",
+      done:"전체 출입문 코크(대표코크) 확인"
+    },
+    {
+      pts:16,
+      msg:["1량 출입문 조치","warn"],
+      board:"cbr",
+      coach:"대표코크는 이상 없어. 다음에 확인할 건?",
+      prompt:"다음 조치는?",
+      hint:"출입문 제어 회로에 전원을 넣어 주는 차단기를 한 번 내렸다 올려 봐.",
+      opts:[
+        { t:"DCUR(L)N 회로차단기 리셋", ok:true,
+          fb:"맞아. 출입문 제어 회로차단기 <b>DCUR(L)N</b>을 차단했다가 복귀(리셋)해 봐야 해." },
+        { t:"객실 등 회로차단기를 차단한다", ok:false,
+          fb:"출입문 제어와 관계없는 차단기야. <b>DCUR(L)N</b>을 리셋해야 해." },
+        { t:"해당 차량만 개별 바이패스한다", ok:false,
+          fb:"개별 바이패스는 금지야. 먼저 DCUR(L)N 회로차단기를 리셋해 봐." }
+      ],
+      src:"교육자료 · 1량 출입문 열림 불능 — DCUR(L)N 회로차단기 리셋",
+      done:"DCUR(L)N 회로차단기 리셋"
+    },
+    {
+      pts:16,
+      msg:["열림 불능","alert"],
+      bpsTask:true,
+      cine: MID_D4_END,
+      bpsPrompt:"직접 BY-PASS를 취급해 보자.",
+      bpsFb:"<b>DBS(출입문 바이패스)</b>를 BYPASS로 취급했어.<br>이제 관제 지시대로 회송해. 영상으로 확인해 보자.",
+      coach:"모든 조치를 했는데 여전히 4호차 1량이 안 열려.<br>조치가 안 될 경우 어떻게 해야 할까?",
+      prompt:"조치 불능 시 어떻게 해야 하나?",
+      hint:"기관사 혼자 결정할 일이 아니야. 바이패스는 범위도 중요해.",
+      opts:[
+        { t:"열림 불능 시 관제와 협의하여 전체 출입문 BY-PASS 취급 후 회송 조치한다", ok:true,
+          fb:"맞아. 1량이 고장 나도 관제와 협의해서<br>전체 출입문 BY-PASS를 취급하고 회송 조치해.<br>개별 바이패스는 취급하면 안 돼." },
+        { t:"해당 차량만 개별 바이패스하고 계속 운행한다", ok:false,
+          fb:"개별 바이패스는 금지야. 그리고 관제와 협의해서 회송해야 해." },
+        { t:"관제 협의 없이 전체 출입문 BY-PASS 후 영업운전을 계속한다", ok:false,
+          fb:"혼자 판단할 일이 아니야. 관제와 협의한 뒤 전체 출입문 BY-PASS 취급 후 회송해야 해." }
+      ],
+      src:"교육자료 · 전체출입문 BY-PASS(개별바이패스 금지) · 열림불능 시 관제와 협의하여 회송조치",
+      done:"관제 협의 → 전체 출입문 BY-PASS 직접 취급 → 회송"
+    }
+  ];
+
   var COURSES = [
     { id:"door3", n:"01", title:"[우진전동차] 출입문 1개 열리지 않을 시", ready:true, meta:"7문항 · 약 7분",
       desc:"상황을 단계별로 조치해 보세요.",
@@ -4032,7 +4292,22 @@
              "객실 안에서 <b>출입문 개별코크 · 이물질</b> 확인",
              "우진차 — 출입문 위 배전반 <b>DCU 고장 여부</b> 확인 · <b>TOB 취급(B7, 수/수)</b> 동작 확인",
              "열림 불능 시 <b>관제와 협의</b> → <b>전체 출입문 BY-PASS</b>(개별 바이패스 금지) → <b>회송</b>"] },
-    { id:"door", n:"02", title:"출입문 고장", ready:true, meta:"8문항 · 약 6분",
+    { id:"door4", n:"02", title:"[우진전동차] 출입문 1량 열리지 않을 시", ready:true, meta:"6문항 · 약 6분",
+      desc:"상황을 단계별로 조치해 보세요.",
+      sub:"전동차 · 1량 출입문 열림 불능", device:"tcms", trainNo:"8000", trainSet:"827",
+      steps:STEPS_DOOR4, scn:SCN_DOOR4, mid:MID_D4_A, summary:SUM_DOOR4,
+      briefTitle:"출입문 1량 열림 불능",
+      briefBody:"정상적으로 정차 후 출입문을 열었습니다.<br>그런데 <b>TCMS에 1량의 출입문이 닫힘표시 되어있습니다.</b><br>어떻게 하시겠습니까?",
+      note:"조치 절차는 제공된 <b>교육자료(1량 출입문 열림 불능)</b>를 따랐습니다. TCMS·운전실·차단기 그림은 이해를 돕기 위해 재현한 것으로 실제 기기와 차이가 있을 수 있습니다.",
+      tc:{ carFail:2, mini:"4호차 1량 출입문 닫힘" },
+      tcState:[],
+      recap:["TCMS <b>1량 닫힘 현시</b> 확인 (4호차)",
+             "<b>전체 출입문 재취급</b> — B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치",
+             "<b>고객안내방송</b> 후 <b>관제 상황보고</b> · 현장 출동",
+             "객실에서 <b>전체 출입문 코크(대표코크)</b> 확인",
+             "<b>DCUR(L)N 회로차단기 리셋</b>",
+             "열림 불능 시 <b>관제와 협의</b> → <b>전체 출입문 BY-PASS</b>(개별 바이패스 금지) → <b>회송</b>"] },
+    { id:"door", n:"03", title:"출입문 고장", ready:true, meta:"8문항 · 약 6분",
       desc:"1개 출입문 닫힘 불능 시 조치 순서",
       sub:"전동차 · 출입문 고장", device:"tcms", trainNo:"8192", trainSet:"827",
       steps:STEPS_DOOR, scn:SCN_DOOR, mid:MID_DOOR, summary:SUM_DOOR,
@@ -4046,7 +4321,7 @@
              "<b>측면 제어대</b> 닫힘 스위치 취급",
              "관련 회로차단기 차단 — 1차분 <b>DRN</b> / 2차분 <b>R(L)DEN</b>",
              "조치 불능 시 <b>DBS(ADSBS) 취급 — 관제 승인</b> 후 회송 요청"] },
-    { id:"psd", n:"03", title:"승강장 안전문 장애 발생 시", ready:true, meta:"4문항 · 약 4분",
+    { id:"psd", n:"04", title:"승강장 안전문 장애 발생 시", ready:true, meta:"4문항 · 약 4분",
       desc:"상황을 단계별로 조치해 보세요.",
       sub:"8호선 · 승강장안전문 장애", device:"psd", trainNo:"8000", trainSet:"800",
       steps:STEPS_PSD, scn:SCN_PSD, mid:MID_PSD, summary:SUM_PSD,
@@ -4057,13 +4332,13 @@
              "복구되지 않으면 <b>안내방송 후 관제 보고</b>",
              "관제 승인 후 <b>By-Pass 스위치 취급</b>",
              "<b>역무원의 출발지시전호</b>에 의하여 출발"] },
-    { n:"04", title:"차량 화재", ready:false,
+    { n:"05", title:"차량 화재", ready:false,
       desc:"터널 내 화재 발생 시 초기 조치와 대피 유도" },
-    { n:"05", title:"급전 중단", ready:false,
+    { n:"06", title:"급전 중단", ready:false,
       desc:"가선 정전 시 조치 절차와 승객 안내" },
-    { n:"06", title:"추진·제동 불능", ready:false,
+    { n:"07", title:"추진·제동 불능", ready:false,
       desc:"차종별 고장조치 및 구원 요청 절차" },
-    { n:"07", title:"사상사고 대응", ready:false,
+    { n:"08", title:"사상사고 대응", ready:false,
       desc:"보고 절차, 현장 보존, 승객 안내" }
   ];
 
@@ -4086,7 +4361,6 @@
 
   function show(id){
     ["scMenu","scBrief","scSim","scResult"].forEach(function(k){ $(k).hidden = (k !== id); });
-    $("notice").hidden = (id === "scMenu");
     $("hudStats").style.display = (id === "scMenu" || id === "scBrief") ? "none" : "contents";
     $("hudSub").textContent = (id === "scMenu" || !CUR) ? "서울교통공사 · 8호선 기관사 훈련" : CUR.sub;
     if (CUR){
@@ -4105,7 +4379,6 @@
     if (c) CUR = c;
     $("briefTitle").textContent = CUR.briefTitle;
     $("briefBody").innerHTML = CUR.briefBody;
-    $("noticeBody").innerHTML = CUR.note;
     $("resultTitle").textContent = CUR.briefTitle + " 결과";
     show("scBrief");
   }
