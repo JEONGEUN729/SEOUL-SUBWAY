@@ -850,12 +850,16 @@
   .pips i.now{background:var(--accent);opacity:.45}
   .steptag{font-size:13px;letter-spacing:.1em;color:#fff;font-weight:800;background:var(--accent);
     border-radius:999px;padding:5px 12px;line-height:1;white-space:nowrap}
-  .prompt{font-size:15px;font-weight:600;margin:0 0 12px;line-height:1.5;text-wrap:balance}
+  .prompt{font-size:15px;font-weight:600;margin:0 0 12px;line-height:1.5;text-wrap:balance;word-break:keep-all;overflow-wrap:anywhere}
+  body,.bubble,.boardnote,.fb,.hinttext{word-break:keep-all;overflow-wrap:anywhere}
   .prompt[hidden]{display:none}
 
+  .btn.quit{color:#b3202a;border-color:#eccbd0}
+  .btn.quit:hover{background:#fdeef0;border-color:#e08b96}
   .opts{display:grid;gap:8px}
   .opt{font:inherit;text-align:left;cursor:pointer;background:var(--surface);border:1px solid var(--line);
-    border-radius:10px;padding:13px 15px;color:var(--ink);font-size:14px;line-height:1.55;display:flex;gap:11px;
+    border-radius:10px;padding:13px 15px;color:var(--ink);font-size:15px;line-height:1.55;display:flex;gap:11px;
+    word-break:keep-all;overflow-wrap:anywhere;
     align-items:flex-start;transition:border-color .15s,background .15s}
   .opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)}
   .opt:disabled{cursor:default}
@@ -1107,7 +1111,7 @@
       <div class="menu-mascot"><img id="menuMascot" alt="또타" src=""></div>
     </div>
     <div class="menu-grid" id="menuGrid"></div>
-    <p class="vertag mono">ver 6.2 · 2026-10-11</p>
+    <p class="vertag mono">ver 6.5 · 2026-10-12</p>
   </section>
 
   <!-- ================= BRIEF ================= -->
@@ -1307,6 +1311,7 @@
         <button class="btn ghost sm" id="btnHint">힌트</button>
         <span class="spacer"></span>
         <button class="btn ghost sm" id="btnReplay" hidden>▶ 시뮬레이션 영상</button>
+        <button class="btn ghost sm quit" id="btnQuit">훈련 종료</button>
         <button class="btn ghost sm" id="btnSkip" hidden>건너뛰기 →</button>
         <button class="btn sm" id="btnNext" hidden>다음 단계 →</button>
       </div>
@@ -4759,7 +4764,7 @@
       manual:   ["수동운전 · 다음 정거장", "재설정", manualRunScene,
                  "수동운전으로 다음 정거장까지 운행합니다."],
       cb2:      ["객실 배전반 · 회로차단기", "2차분 (도시바)", function(){ return cb2BoardHtml(!!ans, false); },
-                 "차단기에 마우스를 올리면 확대되고, 누르면 크게 볼 수 있습니다."]
+                 "차단기를 한 번 누르면(PC는 마우스를 올리면) 확대되고, 한 번 더 누르면 크게 볼 수 있습니다."]
     };
     if (!window.__TRAIN_ANCHOR) window.__TRAIN_ANCHOR = $("trainWrap").nextSibling;
     var tw = $("trainWrap"), par = tw.parentNode;
@@ -4924,7 +4929,7 @@
         $("trainWrap").hidden = false;
         $("trainHead").textContent = "객실 배전반 · 회로차단기";
         $("trainTag").textContent = "DRN · DCRN · DCLN";
-        $("trainNote").textContent = "차단기에 마우스를 올리면 바로 확대되고, 누르면 크게 볼 수 있습니다. (점선 표시 = 출입문 관련 차단기)";
+        $("trainNote").textContent = "차단기를 한 번 누르면(PC는 마우스를 올리면) 확대되고, 한 번 더 누르면 크게 볼 수 있습니다. (점선 표시 = 출입문 관련 차단기)";
         $("trainBox").innerHTML = cbBoardHtml(true, false);
         cbBind();
       }
@@ -5046,7 +5051,7 @@
       $("trainWrap").hidden = false;
       $("trainHead").textContent = "객실 배전반 · 회로차단기";
       $("trainTag").textContent = "DRN · DCRN · DCLN";
-      $("trainNote").textContent = "차단기에 마우스를 올리면 바로 확대되고, 누르면 크게 볼 수 있습니다. (점선 표시 = 출입문 관련 차단기)";
+      $("trainNote").textContent = "차단기를 한 번 누르면(PC는 마우스를 올리면) 확대되고, 한 번 더 누르면 크게 볼 수 있습니다. (점선 표시 = 출입문 관련 차단기)";
       $("trainBox").innerHTML = cbBoardHtml(true, false);
       cbBind();
     }
@@ -5174,13 +5179,19 @@
   var MID_DOOR3 = ["e_pa","e_report","e_dir"];
   var MID_SITE  = ["f_pa","f_open","f_kit","f_go"];
   SCN_DOOR3.e_fault.t = "TCMS 확인";
-  SCN_DOOR3.e_fault.svg = tcmsScene();
+  SCN_DOOR3.e_fault.svg = function(){ return cab({ point:true, screen:"tcms3" }); };
+  SCN_DOOR3.e_fault.say = "“6호차 R2 출입문 닫힘, 확인!”";
   SCN_DOOR3.e_state = { t:"지적확인 환호",
                         q:"TCMS 화면을 손가락으로 가리키며<br>지적확인 환호합니다.",
                         say:"“6호차 R2 출입문 닫힘, 확인!”",
                         svg: function(){ return cab({ point:true, screen:"tcms3" }); } };
-  SCN_DOOR3.e_reopen.q = "B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치로 재취급합니다.<br>재취급하였으나 6호차 R2 출입문이 열리지 않았습니다.";
+  SCN_DOOR3.e_reopen.q = "B7 → 운전모드 수동 · 출입문모드 수/수 →<br>측면 출입문 스위치로 재취급합니다.";
   SCN_DOOR3.e_reopen.svg = reopen3Scene;
+  SCN_DOOR3.e_still = { t:"\uc7ac\ucde8\uae09 \ud6c4\uc5d0\ub3c4 \uadf8\ub300\ub85c",
+                        q:"\uc7ac\ucde8\uae09\ud558\uc600\uc73c\ub098 <b>6\ud638\ucc28 R2 \ucd9c\uc785\ubb38\uc774 \uc5f4\ub9ac\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4.</b>",
+                        svg: function(){ return '<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg">' +
+                             '<rect width="480" height="210" fill="#fbf6f8"/>' +
+                             '<g transform="translate(98,16)">' + miniTcms3(null, "B7", "M") + '</g></svg>'; } };
   SCN_DOOR3.e_bypass = { t:"전체 출입문 BY-PASS",
                          q:"DBS(출입문 바이패스) 스위치를 BYPASS로 취급합니다.<br>개별 바이패스는 금지",
                          svg: dbsScene() };
@@ -5188,7 +5199,7 @@
                        q:"회송 출발합니다.<br>승객은 승강장에서 다음 열차를 기다립니다.",
                        svg: departScene() };
   var MID_END   = ["g_req","g_order","e_bypass","e_done"];
-  var SUM_DOOR3 = ["e_fault","e_state","e_reopen","e_pa","e_report","e_dir","f_open","f_kit","f_go","e_site","e_valve","g_req","g_order","e_bypass","e_done"];
+  var SUM_DOOR3 = ["e_fault","e_reopen","e_still","e_pa","e_report","e_dir","f_open","f_kit","f_go","e_site","e_valve","g_req","g_order","e_bypass","e_done"];
 
   var STEPS_DOOR3 = [
     {
@@ -5217,13 +5228,14 @@
       sideSeq:["SCLOSE","SOPEN"],
       coach:"전체 출입문 재취급해 보자.<br>운전실에서 순서대로 직접 취급해 봐!",
       prompt:"운전실 그림에서 재취급 순서대로 직접 취급해 보세요.",
-      hint:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치에서 닫힘 → 열림.",
+      hint:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면스위치로 출입문 재취급",
       okFb:"정확해.<br>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치 재취급.<br>그런데 재취급했는데도 6호차 R2 출입문이 열리지 않았어.",
       src:"현장 선행조치 · 전체 출입문 재취급 (B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치)",
       done:"전체 출입문 재취급 (B7 → 수동 · 수/수 → 측면 스위치)"
     },
     {
       pts:14,
+      notch:"B7", mode:"M",
       msg:["6호차 R2 출입문 닫힘 현시","alert"],
       cine: MID_DOOR3.concat(MID_SITE),
       coach:"재취급했는데도 6호차 R2가 여전히 안 열려.<br>현장에 가기 전에 먼저 할 일은?",
@@ -5231,7 +5243,7 @@
       hint:"승객이 먼저 불안해져. 그리고 혼자 판단할 일이 아니야.",
       opts:[
         { t:"고객안내방송을 실시하고 관제에 상황을 보고한다", ok:true,
-          fb:"맞아. 승객에게 지연 사유를 알리고 관제에 상황을 보고해야 해.<br>영상으로 방송 문안과 관제 보고를 확인해 보자." },
+          fb:"맞아. 승객에게 지연 사유를 알리고 관제에 상황을 보고해야 해.<br><b>영상으로 방송 문안과 관제 보고를 확인해 보자.</b>" },
         { t:"방송은 생략하고 바로 6호차로 이동한다", ok:false,
           fb:"정차가 길어지는데 안내가 없으면 승객이 불안해져. 안내방송과 관제 보고가 먼저야." },
         { t:"다음 역에서 조치하기로 하고 그대로 출발한다", ok:false,
@@ -5271,7 +5283,7 @@
         { t:"출입문 전자변 및 공기 누설음을 확인한다", ok:false,
           fb:"그건 1·2차분 차량의 조치야. 우진차는 DCU 고장 여부를 확인하고 TOB로 동작을 확인해." },
         { t:"객실 회로차단기를 차단한다", ok:false,
-          fb:"열림 불능 조치 순서에 회로차단기 차단은 없어. 우진차는 DCU와 TOB를 확인해." }
+          fb:"출입문 위 배전반에서는 우진차는 <b>DCU와 TOB</b>를 확인해." }
       ],
       src:"교육자료 · 1개 출입문 ③ 3차분: DCU 고장 여부 확인, TOB 취급 출입문 동작 확인(B7, 수/수)",
       done:"우진차 DCU 고장 여부 · TOB 동작 확인"
@@ -5289,7 +5301,7 @@
         { t:"주간제어기 N, 출입문 모드 자/자", ok:false,
           fb:"제동이 확보되지 않은 상태야. 주간제어기 B7, 출입문 모드 수/수로 맞춰야 해." },
         { t:"주간제어기 EB, 출입문 모드 자/수", ok:false,
-          fb:"자료가 지정한 조건은 B7, 수/수야." }
+          fb:"<b>TOB 조건은 B7, 출입문 모드 수/수야.</b>" }
       ],
       src:"교육자료 · 1개 출입문 ③ TOB 취급 출입문 동작 확인(B7, 수/수)",
       done:"TOB 취급 조건 (B7 · 수/수)"
@@ -5738,7 +5750,18 @@
     if (above >= below){ lens.className = "cblens up"; lens.style.top = (above - lh - 12) + "px"; }
     else { lens.className = "cblens dn"; lens.style.top = (hr.bottom - wr.top + 12) + "px"; }
   }
-  function cbLensHide(){ var l = $("cbLens"); if (l){ l.hidden = true; l.innerHTML = ""; } }
+  function cbLensHide(){ var l = $("cbLens"); if (l){ l.hidden = true; l.innerHTML = ""; } LENS_EL = null; }
+  var LENS_EL = null, LENS_T = null;
+  /* 모바일: 첫 탭 = 확대(돋보기), 두 번째 탭 = 크게 보기 */
+  function lensTouch(el, show){
+    el.addEventListener("touchstart", function(ev){
+      if (LENS_EL === el) return;              /* 2회째 탭 → click 으로 진행 */
+      ev.preventDefault();
+      LENS_EL = el; show();
+      clearTimeout(LENS_T);
+      LENS_T = setTimeout(function(){ cbLensHide(); }, 3000);
+    }, { passive:false });
+  }
   function cbMiniSvg(id){
     var P = C.pink;
     var s = '<svg viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
@@ -5760,6 +5783,7 @@
     box.querySelectorAll(".cbhot").forEach(function(el){
       el.addEventListener("mouseenter", function(){ cbLensShow(el); });
       el.addEventListener("mouseleave", cbLensHide);
+      lensTouch(el, function(){ cbLensShow(el); });
       el.addEventListener("click", function(){
         cbLensHide();
         var id = el.getAttribute("data-cb") || "";
@@ -6125,6 +6149,7 @@
       var id = el.getAttribute("data-cb") || "";
       el.addEventListener("mouseenter", function(){ cbLensShow(el, CB2_NAME, CB2_HL, CB2_RED, marked); });
       el.addEventListener("mouseleave", cbLensHide);
+      lensTouch(el, function(){ cbLensShow(el, CB2_NAME, CB2_HL, CB2_RED, marked); });
       el.addEventListener("click", function(){
         cbLensHide();
         var hot = marked && CB2_HL.indexOf(id) >= 0;
@@ -6375,7 +6400,9 @@
   var SCN_D2 = {
     b_fault:  { t:"전체 출입문 열림 불능",
                 q:"정차 후 출입문 열림을 취급했으나<br><b>출입문이 전혀 열리지 않습니다.</b>",
-                svg: lampTcmsScene },
+                say:"\u201c출입문 대표등 점등, 전체 출입문 닫힘!\u201d",
+                svg: function(){ return cab({ point:true, screen:"tcms3", allClosed:true,
+                                              call:"출입문 대표등 점등, 전체 출입문 닫힘!" }); } },
     b_tcms:   { t:"현상 확인",
                 q:"출입문 대표등 점등되어 있고,<br>TCMS 일반화면에 <b>전 차량 출입문이 닫힘</b>으로 현시됩니다.",
                 say:"“출입문 대표등 점등, 전체 출입문 닫힘!”",
@@ -6422,8 +6449,8 @@
   };
   var MID_D2_A   = ["b_pa","b_report"];
   var MID_D2_END = ["b_req","b_order","b_done"];
-  var SUM_D2     = ["b_fault","b_tcms","b_manual","b_pa","b_report","b_close","b_zvbps",
-                    "b_cbr","b_restart","b_rear","b_req","b_order","b_done"];
+  var SUM_D2     = ["b_fault","b_manual","b_pa","b_report","b_close","b_zvbps",
+                    "b_cbr","b_restart","b_rear"];
 
   var STEPS_D2 = [
     {
@@ -6432,12 +6459,12 @@
       tcAlways:true,
       dual:true,
       msg:["전체 출입문 열림 불능","alert"],
-      coach:"<b>출입문등이 점등</b>되어 있고,<br>TCMS 화면을 확인하니 출입문이 열리지 않은 것 같아. 무엇을 해야 할까?",
+      coach:"출입문을 개방했어. 그런데 <b>출입문이 점등</b> 되어 있어.<br>TCMS 확인해 봤어? <b>전체 출입문이 열리지 않은 거 같아.</b><br>무엇을 해야 할까?",
       prompt:"전체 출입문 열림 불능 시 첫 번째 조치는?",
       hint:"관제 보고나 현장 확인 전에, 운전실에서 바로 해 볼 수 있는 조치가 있어.",
       opts:[
         { t:"출입문을 재취급한다", ok:true,
-          fb:"맞아. <b>출입문 대표등 계속 점등</b>, TCMS에 <b>전 차량 출입문 닫힘</b> 현시 —<br>전체 출입문 열림 불능이야. 가장 먼저 <b>출입문을 재취급</b>해 봐야 해.<br>다음 단계에서 운전실에서 직접 해 보자." },
+          fb:"전체 출입문 열림 불능이야. 가장 먼저 <b>출입문을 재취급</b>해 봐야 해.<br>다음 단계에서 운전실에서 직접 해 보자." },
         { t:"곧바로 관제에 회송을 요청한다", ok:false,
           fb:"아직 일러. 운전실에서 할 수 있는 <b>출입문 재취급</b>부터 해 보고, 그 결과까지 담아 보고해야 해." },
         { t:"객실로 내려가 개별코크를 하나씩 확인한다", ok:false,
@@ -6465,9 +6492,9 @@
       notch:"B7", mode:"M",
       msg:["전체 출입문 열림 불능","alert"],
       cine: MID_D2_A,
-      coach:"수동으로도 안 열려.<br>조치를 계속하기 전에 먼저 해야 할 일이 있어.",
+      coach:"재취급했는데도 여전히 안 열려.<br>조치를 계속하기 전에 먼저 해야하는 일이 있어.",
       prompt:"다음 조치를 하기 전에 먼저 할 일은?",
-      hint:"승객이 문 앞에서 기다리고 있어. 그리고 혼자 판단할 일이 아니야.",
+      hint:"승객이 기다리고 있어. 그리고 혼자 판단할 일이 아니야.",
       opts:[
         { t:"고객안내방송을 실시하고 관제에 상황을 보고한다", ok:true,
           fb:"맞아. 승객에게 지연 사유를 안내하고 관제에 현상과 시행한 조치를 보고해야 해.<br>영상으로 방송 문안과 관제 보고를 확인해 보자." },
@@ -6499,10 +6526,10 @@
       opts:[
         { t:"닫힘 버튼 경타 후 열림 취급한다", ok:true,
           fb:"맞아. <b>닫힘 버튼을 경타</b>해 출입문 회로를 정리한 뒤 다시 <b>열림</b>을 취급해 봐야 해.<br>아래 측면 출입문 스위치로 직접 취급해 보자." },
-        { t:"열림 버튼만 계속 누른다", ok:false,
-          fb:"열림만 반복해도 회로가 풀리지 않아. <b>닫힘</b>을 취급한 뒤 열림을 취급해." },
-        { t:"바로 전체 출입문 BY-PASS를 취급한다", ok:false,
-          fb:"바이패스는 열림 불능 조치가 아니야. 닫힘 → 열림 취급부터 해 봐." }
+        { t:"ZVBPS 취급 후 출입문 개방한다", ok:false,
+          fb:"ZVBPS는 <b>다음 순서</b>야. 먼저 <b>닫힘 버튼을 경타</b>해 회로를 정리한 뒤 열림을 취급해 봐야 해." },
+        { t:"후부 운전실로 가서 출입문 개방한다", ok:false,
+          fb:"후부 운전실 취급은 <b>마지막 조치</b>야. 지금은 <b>닫힘 경타 후 열림</b>을 취급해 봐." }
       ],
       src:"응급조치 2 · 닫힘버튼 여러 번 취급 후 열림 취급",
       done:"닫힘 경타 후 열림 재취급"
@@ -6528,10 +6555,10 @@
       msg:["ZVBPS 취급 · 비상모드","warn"],
       coach:"닫힘 버튼 경타 후 재취급해도 안 열려.<br>다음에는 어떤 조치를 해야 할까?",
       prompt:"닫힘 경타 후 재취급해도 열리지 않습니다. 다음 조치는?",
-      hint:"출입문 회로를 바이패스해서 열어 보는 조치가 있어. 모드 조건이 붙어.",
+      hint:"출입문 회로를 바이패스해서 열어 보는 조치가 있어. 우진차 3차분은 <b>비상모드</b>에서만 취급할 수 있어.",
       opts:[
         { t:"ZVS / ZVBPS 취급 후 출입문 취급", ok:true,
-          fb:"맞아. <b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해 봐야 해.<br>FSB 체결 후 취급하고, <b>취급 후에는 반드시 복귀</b>해야 해.<br><span class=\"warnline\">※ 3차분은 비상모드에서 ZVBPS 취급</span>" },
+          fb:"맞아. <b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해 봐야 해.<br><b>취급 후에는 반드시 복귀</b>해야 해.<br><span class=\"warnline\">※ 3차분은 비상모드에서 ZVBPS 취급</span>" },
         { t:"전체 출입문 BY-PASS(DBS)를 취급한다", ok:false,
           fb:"DBS는 열림 불능 조치가 아니야. <b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해." },
         { t:"비상 개폐 손잡이를 쓰라고 객실에 방송한다", ok:false,
@@ -6547,7 +6574,7 @@
       msg:["회로차단기 확인","warn"],
       coach:"여전히 조치가 되지 않았어.<br>배전반에서 차단기를 확인해 보자.",
       prompt:"우진차에서는 어떤 차단기를 확인해야 할까요?",
-      hint:"차종마다 이름이 달라. 우진차는 세 개야.",
+      hint:"차종마다 이름이 달라. 우진차는 <b>출입문 제어</b>와 <b>좌 · 우측 출입문</b> 세 개야. 배전반에서 차단기를 눌러 확대해 볼 수 있어.",
       opts:[
         { t:"DRN, DCRN, DCLN", ok:true,
           fb:"맞아. 우진차는 <b>DRN · DCRN · DCLN</b>을 확인하고 차단되어 있으면 복귀시켜.<br>아래 배전반에서 <b>점선 표시된 차단기를 눌러</b> 확대해 확인해 보자." },
@@ -7213,6 +7240,9 @@
   $("btnNext").addEventListener("click", function(){
     if (S.i === CUR.steps.length-1){ showResult(); return; }
     S.i++; renderStep(); window.scrollTo(0,0);
+  });
+  $("btnQuit").addEventListener("click", function(){
+    if (confirm("훈련을 종료하고 결과를 볼까요?")) { showResult(); window.scrollTo(0,0); }
   });
   $("btnSkip").addEventListener("click", function(){
     if (S.i === CUR.steps.length-1){ showResult(); return; }
