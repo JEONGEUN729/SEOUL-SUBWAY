@@ -886,8 +886,17 @@
   #extraPrompt{margin-top:12px}
   .coach-foot{display:flex;gap:7px;align-items:center;margin-top:14px;flex-wrap:wrap}
   .coach-foot .spacer{margin-left:auto}
+  @media (max-width:620px){
+    .coach-foot{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .coach-foot .spacer{display:none}
+    .coach-foot .btn{width:100%;justify-content:center;text-align:center;padding:12px 6px}
+    .coach-foot #btnReplay{grid-column:1 / -1;order:8}
+    .coach-foot #btnNext{grid-column:1 / -1;order:9}
+  }
   .warnline{display:inline-block;margin-top:6px;background:#fff3cd;border:1px solid #f0d58a;
     border-left:4px solid #e0a800;border-radius:7px;padding:6px 10px;color:#8a5a00;font-weight:800}
+  .goline{display:block;margin-top:8px;color:#0a4f2b;font-weight:800;font-size:14.5px;line-height:1.55}
+  .goline b{color:#07421f}
   .redline{display:block;margin-top:8px;background:#ffe9ea;border:1.5px solid #f3b4b8;
     border-left:5px solid #e01b24;border-radius:8px;padding:9px 12px;color:#9c1118;
     font-weight:800;font-size:14px;line-height:1.5}
@@ -1111,7 +1120,7 @@
       <div class="menu-mascot"><img id="menuMascot" alt="또타" src=""></div>
     </div>
     <div class="menu-grid" id="menuGrid"></div>
-    <p class="vertag mono">ver 6.5 · 2026-10-12</p>
+    <p class="vertag mono">ver 7.0 · 2026-10-13</p>
   </section>
 
   <!-- ================= BRIEF ================= -->
@@ -2462,8 +2471,7 @@
     $("extraHead").textContent = "운전실 · 운전모드 선택";
     $("extraTag").textContent = "수동 → 비상";
     $("extraBox").innerHTML = "";
-    $("extraPrompt").innerHTML = "<span class=\"redline\">👉 위 <b>운전실 전경</b>에서 <b>운전모드 선택</b>을 눌러 <u>비상</u>으로 바꾸세요!<br>" +
-      "<span style=\"font-size:12.5px;font-weight:700\">※ ZVBPS는 비상모드에서만 취급할 수 있습니다.</span></span>";
+    $("extraPrompt").innerHTML = "";
     $("extraNote").innerHTML = "ZVBPS는 <b>비상모드</b>에서만 취급할 수 있습니다.";
     $("extraFb").innerHTML = "";
   }
@@ -3970,7 +3978,7 @@
         '<i class="' + (CFS.run === 2 ? 'on' : '') + '" style="--c:#3ee87a"></i>' +
         '<i style="--c:#e3ad18"></i></div>' +
       '<div class="rmx-sled l"><i style="--c:#c8a63c"></i></div>' +
-      '<div class="rmx-sled r"><i style="--c:#e02f3c"></i></div>' +
+      '<div class="rmx-sled r"><i class="' + (CFS.run === 4 ? 'on' : '') + '" style="--c:#e02f3c"></i></div>' +
       sw(20,  "운전모드선택", CF_RUNPOS, CF_RUNANG, CFS.run, live, runIC(CFS.run), true) +
       sw(175, "전조등", ["하향","OFF","상향1단","상향2단","상향3단"], [-90,-45,0,45,90], 0, false) +
       sw(330, "창닦이스위치", ["살수","정지","1단","2단","3단"], [-90,-45,0,45,90], 1, false) +
@@ -4184,10 +4192,10 @@
            '<b>' + title + '</b><span class="tagx">' + tag + '</span></div>';
   }
   var CF_DET = {
-    mc:   ["주간제어기 (MC)", "제동 취급", '손잡이를 <b>끌어서 옮기거나</b> 왼쪽 노치 이름을 눌러 취급하세요. 운전실 명판이 알려주는 위치까지 옮겨야 합니다.'],
+    mc:   ["주간제어기 (MC)", "제동 취급", '손잡이를 <b>끌어서 옮기거나</b> 왼쪽 노치 이름을 눌러 취급하세요.'],
     run:  ["운전모드 선택 스위치", "모드 전환", '운전모드선택 스위치의 <b>위치 이름</b>을 누르거나 손잡이를 눌러 돌리세요.'],
     dsel: ["출입문 모드 선택 스위치", "출입문 선택", '출입문 선택 스위치의 <b>위치 이름</b>을 누르거나 손잡이를 눌러 돌리세요.'],
-    side: ["측면 출입문 스위치", "출입문 취급", '측면 출입문 스위치로 재취급하세요. 위 <b>TCMS</b>에서 출입문 상태가 바뀌는 것을 확인할 수 있습니다.']
+    side: ["측면 출입문 스위치", "출입문 취급", '측면 출입문 스위치로 재취급하세요.']
   };
   function cfRender(){
     var box = $("cfBox"); if (!box) return;
@@ -4202,7 +4210,10 @@
         v === "dsel" ? fx(460, dsStage(!ro, !cabLocked(), cfConsWant()), 1.4) :
                        '<div class="cf-sdtc"><div class="cf-cap">TCMS · 일반화면</div><div class="cf-tcw"></div></div>' +
                        fx(340, sdStage(!cabLocked()), 1.3);
-      box.innerHTML = cfHead(d[0], d[1]) + '<div class="cf-dbody">' + stage + '</div><p class="cf-dtip">' + d[2] + '</p>';
+      var _tp = ((CUR.steps[S.i] || {}).cfTips || {});
+      var _tx = (_tp[v] != null) ? _tp[v] : d[2];
+      box.innerHTML = cfHead(d[0], d[1]) + '<div class="cf-dbody">' + stage + '</div>' +
+                      (_tx ? '<p class="cf-dtip">' + _tx + '</p>' : '');
     }
     fitFix(box);
     if (v === "side") cfFillTcms(box);
@@ -4405,6 +4416,7 @@
     if (CFS.sidePos >= seq.length){
       CFS.pressed = "SOPEN";
       CFS.stage = cfStages().length;
+      if ((CUR.steps[S.i] || {}).cabAfter){ cfChips(); cfAfterDone(); return; }
       cfDone(true);
       return;
     }
@@ -5210,7 +5222,7 @@
       hint:"관제 보고나 현장 확인 전에, 운전실에서 할 수 있는 조치가 있어.",
       opts:[
         { t:"전체 출입문을 재취급한다", ok:true,
-          fb:"맞아. TCMS에 6호차 R2 출입문이 닫힘으로 현시돼 있어.<br>가장 먼저 전체 출입문을 재취급해 봐야 해.<br>다음 단계에서 운전실에서 직접 해 보자." },
+          fb:"맞아. TCMS에 6호차 R2 출입문이 닫힘으로 현시돼 있어.<br>가장 먼저 전체 출입문을 재취급해 봐야 해.<br><b>다음 단계에서 운전실에서 직접 해 보자.</b>" },
         { t:"곧바로 관제에 보고하고 지시를 기다린다", ok:false,
           fb:"보고는 필요하지만 아직 일러. 운전실에서 할 수 있는 재취급을 먼저 해 보고, 그 결과까지 담아 보고해야 해." },
         { t:"바로 해당 출입문으로 가서 현장확인한다", ok:false,
@@ -5258,14 +5270,14 @@
       board:"interior",
       coach:"현장에 도착했어.<br>가장 먼저 무엇을 확인해야 할까?",
       prompt:"객실 안에서 확인할 것은?",
-      hint:"그 문 하나만 따로 차단하는 빨간 코크가 있어. 문틈도 살펴봐.",
+      hint:"출입문 근처에 뭐가 있는지 확인해봐. 그리고 <b>빨간색 장치</b>를 확인해봐야 해!",
       opts:[
         { t:"출입문 개별코크와 이물질을 확인한다", ok:true,
           fb:"맞아. 객실 안에서 출입문 개별코크와<br>출입문 이물질 여부를 확인해야 해." },
         { t:"출입문을 손으로 강제로 벌려 연다", ok:false,
-          fb:"강제로 여는 건 조치 순서에 없어. 개별코크부터 확인해." },
+          fb:"강제로 열면 안 돼. <b>개별코크</b>를 이용해보자." },
         { t:"확인 없이 바로 해당 출입문만 개별 바이패스한다", ok:false,
-          fb:"개별 바이패스는 금지야. 그리고 아직 확인할 게 남아 있어." }
+          fb:"<b>개별 바이패스 취급은 금지</b>야. 이물질과 개별코크를 먼저 확인해보자." }
       ],
       src:"교육자료 · 1개 출입문 ② 출입문 개별코크 및 이물질 여부 확인",
       done:"출입문 개별코크 · 이물질 확인"
@@ -5755,12 +5767,19 @@
   /* 모바일: 첫 탭 = 확대(돋보기), 두 번째 탭 = 크게 보기 */
   function lensTouch(el, show){
     el.addEventListener("touchstart", function(ev){
-      if (LENS_EL === el) return;              /* 2회째 탭 → click 으로 진행 */
+      clearTimeout(LENS_T);
+      if (LENS_EL === el) return;              /* 두 번째 탭 → click 으로 크게 보기 */
       ev.preventDefault();
       LENS_EL = el; show();
-      clearTimeout(LENS_T);
-      LENS_T = setTimeout(function(){ cbLensHide(); }, 3000);
     }, { passive:false });
+    el.addEventListener("touchend", function(){
+      clearTimeout(LENS_T);
+      LENS_T = setTimeout(function(){ cbLensHide(); }, 1600);
+    });
+    el.addEventListener("touchcancel", function(){
+      clearTimeout(LENS_T);
+      LENS_T = setTimeout(function(){ cbLensHide(); }, 600);
+    });
   }
   function cbMiniSvg(id){
     var P = C.pink;
@@ -6408,6 +6427,9 @@
                 say:"“출입문 대표등 점등, 전체 출입문 닫힘!”",
                 svg: function(){ return cab({ point:true, screen:"tcms3", allClosed:true,
                                               call:"출입문 대표등 점등, 전체 출입문 닫힘!" }); } },
+    b_still:  { t:"재취급 후에도 그대로",
+                q:"재취급하였으나 <b>출입문 전체가 열리지 않았습니다.</b>",
+                svg: tcmsSceneAll },
     b_manual: { t:"수동 재취급",
                 q:"B7 → 운전모드 수동 · 출입문모드 수/수 →<br>측면 제어대 열림 스위치로 취급합니다.",
                 svg: reopen3Scene },
@@ -6422,7 +6444,7 @@
     b_close:  { t:"닫힘 → 열림 반복 취급",
                 q:"<b>중앙 / 측면 제어대</b>에서 닫힘 버튼을 여러 번 누른 뒤<br>다시 <b>열림</b>을 취급합니다.",
                 svg: centerDoorScene },
-    b_zvbps:  { t:"ZVBPS 취급 후 열림",
+    b_zvbps:  { t:"ZVBPS 취급 후 출입문 재취급",
                 q:"<b>비상모드</b>에서만 가능합니다. <b>FSB 체결</b> 후 ZVBPS를 취급하고<br>열림을 취급합니다. <b>취급 후 반드시 복귀</b>합니다.",
                 svg: zvbpsScene },
     b_cbr:    { t:"관련 회로차단기 확인",
@@ -6449,7 +6471,7 @@
   };
   var MID_D2_A   = ["b_pa","b_report"];
   var MID_D2_END = ["b_req","b_order","b_done"];
-  var SUM_D2     = ["b_fault","b_manual","b_pa","b_report","b_close","b_zvbps",
+  var SUM_D2     = ["b_fault","b_manual","b_still","b_pa","b_report","b_close","b_zvbps",
                     "b_cbr","b_restart","b_rear"];
 
   var STEPS_D2 = [
@@ -6468,7 +6490,7 @@
         { t:"곧바로 관제에 회송을 요청한다", ok:false,
           fb:"아직 일러. 운전실에서 할 수 있는 <b>출입문 재취급</b>부터 해 보고, 그 결과까지 담아 보고해야 해." },
         { t:"객실로 내려가 개별코크를 하나씩 확인한다", ok:false,
-          fb:"전 차량이 열리지 않는 상황이야. 개별코크 확인 전에 운전실에서 <b>출입문 재취급</b>이 먼저야." }
+          fb:"전 차량이 열리지 않는 상황이야. 운전실에서 <b>출입문 재취급</b>이 먼저야." }
       ],
       src:"교육자료 · 현상확인 ① 출입문 대표등 계속 점등 ② TCMS 일반화면 전 차량 닫힘 현시 / 선행조치 · 출입문 재취급",
       done:"현상 확인 · 출입문 재취급 판단"
@@ -6497,7 +6519,7 @@
       hint:"승객이 기다리고 있어. 그리고 혼자 판단할 일이 아니야.",
       opts:[
         { t:"고객안내방송을 실시하고 관제에 상황을 보고한다", ok:true,
-          fb:"맞아. 승객에게 지연 사유를 안내하고 관제에 현상과 시행한 조치를 보고해야 해.<br>영상으로 방송 문안과 관제 보고를 확인해 보자." },
+          fb:"맞아. 승객에게 지연 사유를 안내하고 관제에 현상과 시행한 조치를 보고해야 해.<br><b>영상으로 방송 문안과 관제 보고를 확인해 보자.</b>" },
         { t:"방송 없이 바로 ZVBPS를 취급한다", ok:false,
           fb:"ZVBPS는 뒤 순서야. 승객 안내와 관제 보고가 먼저야." },
         { t:"그대로 다음 역까지 운행한다", ok:false,
@@ -6510,6 +6532,7 @@
       pts:15,
       notch:"B7", mode:"M",
       cabAfter:true,
+      cfTips:{ dsel:"" },
       cabTag:"닫힘 경타 후 열림",
       cabSeq:["dsel","side"],
       consSeq:["DCS"],
@@ -6525,7 +6548,7 @@
       hint:"바로 열림만 누르지 말고, 닫힘을 먼저 취급해 봐.",
       opts:[
         { t:"닫힘 버튼 경타 후 열림 취급한다", ok:true,
-          fb:"맞아. <b>닫힘 버튼을 경타</b>해 출입문 회로를 정리한 뒤 다시 <b>열림</b>을 취급해 봐야 해.<br>아래 측면 출입문 스위치로 직접 취급해 보자." },
+          fb:"맞아. <b>닫힘 버튼을 경타</b>해 출입문 회로를 정리한 뒤 다시 <b>열림</b>을 취급해 봐야 해.<br><b>위 운전실에서 중앙 / 측면 닫힘버튼 취급 후 출입문을 다시 개방해보자.</b>" },
         { t:"ZVBPS 취급 후 출입문 개방한다", ok:false,
           fb:"ZVBPS는 <b>다음 순서</b>야. 먼저 <b>닫힘 버튼을 경타</b>해 회로를 정리한 뒤 열림을 취급해 봐야 해." },
         { t:"후부 운전실로 가서 출입문 개방한다", ok:false,
@@ -6555,12 +6578,13 @@
       msg:["ZVBPS 취급 · 비상모드","warn"],
       coach:"닫힘 버튼 경타 후 재취급해도 안 열려.<br>다음에는 어떤 조치를 해야 할까?",
       prompt:"닫힘 경타 후 재취급해도 열리지 않습니다. 다음 조치는?",
-      hint:"출입문 회로를 바이패스해서 열어 보는 조치가 있어. 우진차 3차분은 <b>비상모드</b>에서만 취급할 수 있어.",
+      hint:"운전실 배전반에서 하는 조치가 있어. 우진차 3차분은 <b>비상모드</b>에서만 취급할 수 있어.",
       opts:[
         { t:"ZVS / ZVBPS 취급 후 출입문 취급", ok:true,
-          fb:"맞아. <b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해 봐야 해.<br><b>취급 후에는 반드시 복귀</b>해야 해.<br><span class=\"warnline\">※ 3차분은 비상모드에서 ZVBPS 취급</span>" },
+          fb:"맞아. <b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해 봐야 해.<br><b>취급 후에는 반드시 복귀</b>해야 해." +
+             "<span class=\"goline\">운전실에서 직접 취급해보자. ZVBPS는 <b>비상모드</b>에서만 취급할 수 있어.</span>" },
         { t:"전체 출입문 BY-PASS(DBS)를 취급한다", ok:false,
-          fb:"DBS는 열림 불능 조치가 아니야. <b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해." },
+          fb:"<b>DBS</b>는 전체 출입문 바이패스야. <b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해." },
         { t:"비상 개폐 손잡이를 쓰라고 객실에 방송한다", ok:false,
           fb:"임의로 안내하면 안 돼. <b>ZVS / ZVBPS</b> 취급 후 출입문 취급이 먼저야." }
       ],
@@ -6574,14 +6598,14 @@
       msg:["회로차단기 확인","warn"],
       coach:"여전히 조치가 되지 않았어.<br>배전반에서 차단기를 확인해 보자.",
       prompt:"우진차에서는 어떤 차단기를 확인해야 할까요?",
-      hint:"차종마다 이름이 달라. 우진차는 <b>출입문 제어</b>와 <b>좌 · 우측 출입문</b> 세 개야. 배전반에서 차단기를 눌러 확대해 볼 수 있어.",
+      hint:"차종마다 차단기 이름이 달라. 우진차는 <b>3개 차단기</b>를 확인해야 해.",
       opts:[
         { t:"DRN, DCRN, DCLN", ok:true,
           fb:"맞아. 우진차는 <b>DRN · DCRN · DCLN</b>을 확인하고 차단되어 있으면 복귀시켜.<br>아래 배전반에서 <b>점선 표시된 차단기를 눌러</b> 확대해 확인해 보자." },
         { t:"RDEN, LDEN", ok:false,
           fb:"2차분 차단기야. 우진차는 <b>DRN · DCRN · DCLN</b>이야." },
         { t:"DCURN, DCULN", ok:false,
-          fb:"다른 차종 표기야. 우진차는 <b>DRN · DCRN · DCLN</b>을 확인해." }
+          fb:"<b>DCURN · DCULN</b>은 <b>1량 출입문 열림 / 닫힘 불능</b> 시 관련 차단기야." }
       ],
       src:"응급조치 4 · 관련 회로차단기 확인 — 우진차 : DRN, DCRN, DCLN",
       done:"회로차단기 DRN · DCRN · DCLN 확인"
@@ -7242,7 +7266,7 @@
     S.i++; renderStep(); window.scrollTo(0,0);
   });
   $("btnQuit").addEventListener("click", function(){
-    if (confirm("훈련을 종료하고 결과를 볼까요?")) { showResult(); window.scrollTo(0,0); }
+    showResult(); window.scrollTo(0,0);
   });
   $("btnSkip").addEventListener("click", function(){
     if (S.i === CUR.steps.length-1){ showResult(); return; }
