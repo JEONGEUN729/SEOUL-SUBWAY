@@ -830,6 +830,8 @@
   .lampunit .lamp.on.g{background:#12c517;box-shadow:0 0 14px rgba(18,197,23,.8), inset 0 2px 5px rgba(0,0,0,.25)}
   .lampunit .lamp.on.a{background:#f2c024;box-shadow:0 0 14px rgba(242,192,36,.85), inset 0 2px 5px rgba(0,0,0,.25)}
   .boardnote{font-size:11px;color:var(--ink-3);padding:0 14px 13px;line-height:1.5}
+  .boardnote .bigtip{display:block;font-size:14.5px;font-weight:800;color:var(--accent);line-height:1.55;margin-bottom:3px}
+  .boardnote .bigtip em{font-style:normal;color:var(--ink-2);font-weight:700}
 
   /* ---------- coach ---------- */
   .coach{padding:16px 14px}
@@ -1119,7 +1121,7 @@
       <div class="menu-mascot"><img id="menuMascot" alt="또타" src=""></div>
     </div>
     <div class="menu-grid" id="menuGrid"></div>
-    <p class="vertag mono">ver 7.1 · 2026-10-13</p>
+    <p class="vertag mono">ver 7.2 · 2026-10-14</p>
   </section>
 
   <!-- ================= BRIEF ================= -->
@@ -4775,7 +4777,7 @@
       manual:   ["수동운전 · 다음 정거장", "재설정", manualRunScene,
                  "수동운전으로 다음 정거장까지 운행합니다."],
       cb2:      ["객실 배전반 · 회로차단기", "2차분 (도시바)", function(){ return cb2BoardHtml(!!ans, false); },
-                 "차단기를 한 번 누르면(PC는 마우스를 올리면) 확대되고, 한 번 더 누르면 크게 볼 수 있습니다."]
+                 '<span class="bigtip">👉 차단기를 <b>한 번 누르면</b>(PC는 마우스를 올리면) 확대되고, <b>한 번 더 누르면</b> 크게 볼 수 있습니다.</span><em>※ 점선 표시 = 출입문 관련 차단기</em>']
     };
     if (!window.__TRAIN_ANCHOR) window.__TRAIN_ANCHOR = $("trainWrap").nextSibling;
     var tw = $("trainWrap"), par = tw.parentNode;
@@ -4940,7 +4942,7 @@
         $("trainWrap").hidden = false;
         $("trainHead").textContent = "객실 배전반 · 회로차단기";
         $("trainTag").textContent = "DRN · DCRN · DCLN";
-        $("trainNote").textContent = "차단기를 한 번 누르면(PC는 마우스를 올리면) 확대되고, 한 번 더 누르면 크게 볼 수 있습니다. (점선 표시 = 출입문 관련 차단기)";
+        $("trainNote").innerHTML = '<span class="bigtip">👉 차단기를 <b>한 번 누르면</b>(PC는 마우스를 올리면) 확대되고, <b>한 번 더 누르면</b> 크게 볼 수 있습니다.</span><em>※ 점선 표시 = 출입문 관련 차단기</em>';
         $("trainBox").innerHTML = cbBoardHtml(true, false);
         cbBind();
       }
@@ -5062,7 +5064,7 @@
       $("trainWrap").hidden = false;
       $("trainHead").textContent = "객실 배전반 · 회로차단기";
       $("trainTag").textContent = "DRN · DCRN · DCLN";
-      $("trainNote").textContent = "차단기를 한 번 누르면(PC는 마우스를 올리면) 확대되고, 한 번 더 누르면 크게 볼 수 있습니다. (점선 표시 = 출입문 관련 차단기)";
+      $("trainNote").innerHTML = '<span class="bigtip">👉 차단기를 <b>한 번 누르면</b>(PC는 마우스를 올리면) 확대되고, <b>한 번 더 누르면</b> 크게 볼 수 있습니다.</span><em>※ 점선 표시 = 출입문 관련 차단기</em>';
       $("trainBox").innerHTML = cbBoardHtml(true, false);
       cbBind();
     }
