@@ -1121,7 +1121,7 @@
       <div class="menu-mascot"><img id="menuMascot" alt="또타" src=""></div>
     </div>
     <div class="menu-grid" id="menuGrid"></div>
-    <p class="vertag mono">ver 7.2 · 2026-10-14</p>
+    <p class="vertag mono">ver 7.6 · 2026-10-14</p>
   </section>
 
   <!-- ================= BRIEF ================= -->
@@ -2007,8 +2007,9 @@
 
   /* 객실 안 — 6호차 R2 출입문 · 개별코크 (위치는 예시) */
   /* 객실 출입문 정면 — 비상 개폐 손잡이(개별코크) / 출입문 위 배전반 */
-  function doorSceneSvg(kind, marked){
+  function doorSceneSvg(kind, marked, half){
     var P = C.pink, panel = (kind === "panel");
+    var sh = half ? 46 : 0;
     var s = '<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
     s += '<defs>' +
       '<linearGradient id="dsteel" x1="0" y1="0" x2="0" y2="1">' +
@@ -2017,6 +2018,7 @@
         '<stop offset="0" stop-color="#3a4654"/><stop offset="1" stop-color="#11161d"/></linearGradient>' +
       '<linearGradient id="dpole" x1="0" y1="0" x2="1" y2="0">' +
         '<stop offset="0" stop-color="#9aa0a8"/><stop offset=".4" stop-color="#eceff2"/><stop offset="1" stop-color="#8f959d"/></linearGradient>' +
+      '<clipPath id="ddwclip"><rect x="144" y="36" width="192" height="156"/></clipPath>' +
       '</defs>';
     s += '<rect width="480" height="210" fill="#eceef1"/>';
     // 천장
@@ -2035,26 +2037,51 @@
     });
     // 출입문 (무지 스테인리스)
     s += '<rect x="144" y="36" width="192" height="156" fill="#9aa0a8"/>';
-    s += '<rect x="146" y="38" width="92" height="152" fill="url(#dsteel)"/>';
-    s += '<rect x="242" y="38" width="92" height="152" fill="url(#dsteel)"/>';
-    s += '<rect x="238" y="36" width="4" height="156" fill="#15181c"/>';
+    if (half){
+      /* 열린 틈새로 보이는 승강장 */
+      s += '<rect x="146" y="38" width="188" height="152" fill="#dde6ef"/>';
+      s += '<rect x="146" y="38" width="188" height="26" fill="#c3cfdb"/>';
+      s += '<rect x="196" y="38" width="7" height="110" fill="#aebbc9"/>';
+      s += '<rect x="277" y="38" width="7" height="110" fill="#aebbc9"/>';
+      s += '<rect x="150" y="72" width="180" height="4" rx="2" fill="#b8c4d0"/>';
+      s += '<rect x="146" y="148" width="188" height="42" fill="#cdc6bd"/>';
+      s += '<line x1="146" y1="148" x2="334" y2="148" stroke="#afa79d" stroke-width="2"/>';
+      s += '<rect x="146" y="158" width="188" height="7" fill="#e8b93a"/>';
+      /* 승강장에 서 있는 승객 */
+      [[208,.78],[240,.9],[272,.72]].forEach(function(f){
+        var fx0 = f[0], sc = f[1], by = 150;
+        s += '<g transform="translate('+fx0+','+by+') scale('+sc+')" opacity=".82">' +
+             '<ellipse cx="0" cy="2" rx="13" ry="3" fill="rgba(60,50,45,.18)"/>' +
+             '<path d="M -8 0 L -6 -22 L 6 -22 L 8 0 Z" fill="#6d6670"/>' +
+             '<rect x="-9" y="-48" width="18" height="27" rx="7" fill="#5c5560"/>' +
+             '<circle cx="0" cy="-56" r="7.5" fill="#4e4852"/></g>';
+      });
+      s += '<text x="240" y="184" text-anchor="middle" font-size="9.5" font-weight="700" fill="#7b7369">승강장</text>';
+    }
+    var dr = '';
+    dr += '<rect x="'+(146-sh)+'" y="38" width="92" height="152" fill="url(#dsteel)"/>';
+    dr += '<rect x="'+(242+sh)+'" y="38" width="92" height="152" fill="url(#dsteel)"/>';
+    if (!half) dr += '<rect x="238" y="36" width="4" height="156" fill="#15181c"/>';
+    else { dr += '<rect x="'+(234-sh)+'" y="38" width="4" height="152" fill="#15181c"/>';
+           dr += '<rect x="'+(242+sh)+'" y="38" width="4" height="152" fill="#15181c"/>'; }
     // 창
-    [[162,56],[254,56]].forEach(function(w){
-      s += '<rect x="'+(w[0]-4)+'" y="'+(w[1]-4)+'" width="68" height="92" rx="14" fill="#e6e9ec" stroke="#9aa0a8" stroke-width="1.2"/>';
-      s += '<rect x="'+w[0]+'" y="'+w[1]+'" width="60" height="84" rx="11" fill="url(#dglass)"/>';
-      s += '<path d="M '+(w[0]+6)+' '+(w[1]+72)+' L '+(w[0]+24)+' '+(w[1]+10)+' L '+(w[0]+33)+' '+(w[1]+10)+' L '+(w[0]+15)+' '+(w[1]+72)+' Z" fill="#fff" opacity=".07"/>';
+    [[162-sh,56],[254+sh,56]].forEach(function(w){
+      dr += '<rect x="'+(w[0]-4)+'" y="'+(w[1]-4)+'" width="68" height="92" rx="14" fill="#e6e9ec" stroke="#9aa0a8" stroke-width="1.2"/>';
+      dr += '<rect x="'+w[0]+'" y="'+w[1]+'" width="60" height="84" rx="11" fill="url(#dglass)"/>';
+      dr += '<path d="M '+(w[0]+6)+' '+(w[1]+72)+' L '+(w[0]+24)+' '+(w[1]+10)+' L '+(w[0]+33)+' '+(w[1]+10)+' L '+(w[0]+15)+' '+(w[1]+72)+' Z" fill="#fff" opacity=".07"/>';
     });
     // 금지 스티커
-    [[220,50],[260,50]].forEach(function(k, i){
-      s += '<circle cx="'+k[0]+'" cy="'+k[1]+'" r="5.6" fill="#fff" stroke="#d2322a" stroke-width="1.7"/>';
-      s += '<line x1="'+(k[0]-3.9)+'" y1="'+(k[1]+3.9)+'" x2="'+(k[0]+3.9)+'" y2="'+(k[1]-3.9)+'" stroke="#d2322a" stroke-width="1.7"/>';
-      s += (i === 0)
+    [[220-sh,50],[260+sh,50]].forEach(function(k, i){
+      dr += '<circle cx="'+k[0]+'" cy="'+k[1]+'" r="5.6" fill="#fff" stroke="#d2322a" stroke-width="1.7"/>';
+      dr += '<line x1="'+(k[0]-3.9)+'" y1="'+(k[1]+3.9)+'" x2="'+(k[0]+3.9)+'" y2="'+(k[1]-3.9)+'" stroke="#d2322a" stroke-width="1.7"/>';
+      dr += (i === 0)
         ? '<path d="M '+(k[0]-2.1)+' '+(k[1]+2.1)+' l 0 -3.5 l 1.4 0 l 0 2.1 l .7 -2.8 l 1.4 0 l 0 2.8 l .7 -2.1 l 1.4 0 l 0 3.5 Z" fill="#555"/>'
         : '<circle cx="'+k[0]+'" cy="'+(k[1]-2.1)+'" r="1.4" fill="#555"/><path d="M '+(k[0]-2.1)+' '+(k[1]+2.8)+' l 2.1 -2.8 l 2.1 2.8 Z" fill="#555"/>';
     });
     // 손잡이 홈
-    s += '<rect x="230" y="120" width="4" height="13" rx="2" fill="#eef1f4" stroke="#9aa0a8" stroke-width=".8"/>';
-    s += '<rect x="246" y="120" width="4" height="13" rx="2" fill="#eef1f4" stroke="#9aa0a8" stroke-width=".8"/>';
+    dr += '<rect x="'+(230-sh)+'" y="120" width="4" height="13" rx="2" fill="#eef1f4" stroke="#9aa0a8" stroke-width=".8"/>';
+    dr += '<rect x="'+(246+sh)+'" y="120" width="4" height="13" rx="2" fill="#eef1f4" stroke="#9aa0a8" stroke-width=".8"/>';
+    s += half ? '<g clip-path="url(#ddwclip)">' + dr + '</g>' : dr;
     // 세로 손잡이 봉
     [106, 374].forEach(function(px){
       s += '<rect x="'+(px-2.5)+'" y="48" width="5" height="136" rx="2.5" fill="url(#dpole)"/>';
@@ -2137,8 +2164,8 @@
     return s + '</svg>';
   }
 
-  function interiorSvg(mode, marked){
-    if (mode !== "rep") return doorSceneSvg(mode === "panel" ? "panel" : "cock", marked);
+  function interiorSvg(mode, marked, half){
+    if (mode !== "rep") return doorSceneSvg(mode === "panel" ? "panel" : "cock", marked, half);
     var P = C.pink, s = '<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
     s += '<rect width="480" height="210" fill="#eef0f3"/>';
     s += '<path d="M 0 0 L 480 0 L 480 20 L 0 20 Z" fill="#f7f8fa"/><rect x="40" y="6" width="400" height="7" rx="3.5" fill="#fffbe6"/>';
@@ -2833,7 +2860,11 @@
       if (bad){
         s += '<rect x="'+(dx-6)+'" y="42" width="92" height="160" rx="6" fill="none" stroke="#e0a800" stroke-width="3" stroke-dasharray="8 6" class="glow"/>';
       }
-      if (bad){
+      if (bad && o.halfBad){
+        s += '<rect x="'+(dx+28)+'" y="48" width="24" height="148" fill="#2e3a47"/>';
+        s += '<rect x="'+dx+'" y="48" width="28" height="148" rx="3" fill="#c9ced6" stroke="#6f7782" stroke-width="1.5"/>';
+        s += '<rect x="'+(dx+52)+'" y="48" width="28" height="148" rx="3" fill="#c9ced6" stroke="#6f7782" stroke-width="1.5"/>';
+      } else if (bad){
         s += '<rect x="'+dx+'" y="48" width="80" height="148" rx="3" fill="#c9ced6" stroke="#6f7782" stroke-width="2"/>';
         s += '<line x1="'+(dx+40)+'" y1="48" x2="'+(dx+40)+'" y2="196" stroke="#6f7782" stroke-width="2"/>';
       } else {
@@ -2841,9 +2872,10 @@
         s += '<rect x="'+dx+'" y="48" width="22" height="148" rx="3" fill="#c9ced6" stroke="#6f7782" stroke-width="1.5"/>';
         s += '<rect x="'+(dx+58)+'" y="48" width="22" height="148" rx="3" fill="#c9ced6" stroke="#6f7782" stroke-width="1.5"/>';
       }
-      var ww = bad ? 30 : 14;
-      s += '<rect x="'+(dx+(bad?6:4))+'" y="60" width="'+ww+'" height="58" rx="3" fill="url(#t8win)"/>';
-      s += '<rect x="'+(dx+(bad?44:62))+'" y="60" width="'+ww+'" height="58" rx="3" fill="url(#t8win)"/>';
+      var hb = bad && o.halfBad;
+      var ww = hb ? 20 : (bad ? 30 : 14);
+      s += '<rect x="'+(dx+(hb?4:(bad?6:4)))+'" y="60" width="'+ww+'" height="58" rx="3" fill="url(#t8win)"/>';
+      s += '<rect x="'+(dx+(hb?56:(bad?44:62)))+'" y="60" width="'+ww+'" height="58" rx="3" fill="url(#t8win)"/>';
       s += '<rect x="'+(dx+28)+'" y="40" width="24" height="6" rx="2" fill="'+(bad?'#ffd84d':'#e02f3c')+'"/>';
     });
     if (o.psd){
@@ -2863,7 +2895,7 @@
     if (o.allOpen){
       s += '<rect x="178" y="4" width="204" height="22" rx="11" fill="'+P+'"/>';
       s += '<text x="280" y="19.5" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">전체 출입문 · 안전문 개방</text>';
-      s += '<text x="552" y="244" text-anchor="end" font-size="9.5" fill="#7a6f74">전체 개방 · ' + (o.doorLbl || '6호차 R2') + ' 출입문만 닫힘</text>';
+      s += '<text x="552" y="244" text-anchor="end" font-size="9.5" fill="#7a6f74">전체 개방 · ' + (o.doorLbl || '6호차 R2') + (o.halfBad ? ' 출입문 닫힘 불능' : ' 출입문만 닫힘') + '</text>';
       return s + '</svg>';
     }
     var bdg = o.badge ? o.badge : (o.allBad ? "4호차 · 1량 열림 불능" : "6호차 R2 · 열림 불능");
@@ -4758,6 +4790,10 @@
                  "출입문 위 배전반 안의 TOB(출입문 동작 시험) 버튼입니다."],
       panel:    ["출입문 위 배전반", "", function(){ return interiorSvg("panel", !!ans); },
                  "객실 안 출입문 위 배전반을 열었습니다."],
+      interior2:["객실 · 출입문 확인", "", function(){ return interiorSvg(null, !!ans, true); },
+                 "닫히지 않은 출입문 앞입니다. 객실 안에서 확인합니다."],
+      panel2:   ["출입문 위 배전반", "", function(){ return interiorSvg("panel", !!ans, true); },
+                 "객실 안 출입문 위 배전반을 열었습니다."],
       bps:      ["바이패스 스위치 패널", "전체 출입문 BY-PASS", bpsHtml, "질문에 답한 뒤, 스위치를 직접 취급할 수 있습니다."],
       repcock:  ["객실 안 · 4호차", "전체 출입문 코크", function(){ return interiorSvg("rep", !!ans); },
                  "객실 안에서 4호차 출입문 상태를 확인합니다."],
@@ -4800,7 +4836,8 @@
     }
     $("cabFullWrap").hidden = (st.board !== "cabfull");
     var hideT = !!st.noTcms || (st.board === "cabfull" || st.board === "train8" || st.board === "interior" || st.board === "tob" ||
-                 st.board === "panel" || st.board === "bps" || st.board === "sdsw");
+                 st.board === "panel" || st.board === "bps" || st.board === "sdsw" ||
+                 st.board === "interior2" || st.board === "panel2");
     var lampStep = (st.board === "lamp");
     var showT = !hideT && (!lampStep || !!ans || !!st.tcAlways);
     if ($("tcmsHead")){
@@ -5047,6 +5084,12 @@
     }
     if (st.board === "interior"){
       $("trainBox").innerHTML = interiorSvg(null, true);
+    }
+    if (st.board === "interior2"){
+      $("trainBox").innerHTML = interiorSvg(null, true, true);
+    }
+    if (st.board === "panel2"){
+      $("trainBox").innerHTML = interiorSvg("panel", true, true);
     }
     if (st.board === "tob"){
       $("trainBox").innerHTML = tobSvg(true);
@@ -5333,7 +5376,7 @@
       hint:"기관사 혼자 결정할 일이 아니야. 바이패스는 범위도 중요해.",
       opts:[
         { t:"열림 불능 시 관제와 협의하여 전체 출입문 BY-PASS 취급 후 회송 조치한다", ok:true,
-          fb:"맞아. 1개 출입문이라도 고장 나면 관제와 협의해서<br>전체 출입문 BY-PASS를 취급하고 회송 조치해.<br>개별 바이패스는 취급하면 안 돼." },
+          fb:"맞아. 1개 출입문이라도 고장 나면 관제와 협의해서<br>전체 출입문 BY-PASS를 취급하고 회송 조치해.<br>개별 바이패스는 취급하면 안 돼.<br><b>아래 배전반에서 스위치를 조작해보자.</b>" },
         { t:"해당 출입문만 개별 바이패스하고 계속 운행한다", ok:false,
           fb:"개별 바이패스는 금지야. 그리고 관제와 협의해서 회송해야 해." },
         { t:"관제 협의 없이 전체 출입문 BY-PASS 후 영업운전을 계속한다", ok:false,
@@ -6775,11 +6818,11 @@
                svg: function(){ return radio("in", "8000열차 827편성"); } },
     c_go:    { t:"현장 출동",
                q:"4호차 R1 출입문으로 출동해<br>현장을 확인합니다.",
-               svg: function(){ return train8Svg({ go:true, psd:true, badIdx:3, noTop:true,
+               svg: function(){ return train8Svg({ go:true, psd:true, badIdx:3, halfBad:true, noTop:true,
                                                  badge:"4호차 R1 · 닫힘 불능" }); } },
     c_site:  { t:"개별코크 · 이물질 확인",
                q:"객실 안에서 출입문 개별코크와<br>이물질 여부를 확인합니다.",
-               svg: function(){ return interiorSvg(null, true); } },
+               svg: function(){ return interiorSvg(null, true, true); } },
     c_valve: { t:"DCU · TOB 확인",
                q:"배전반을 열고 DCU 고장 여부를 확인,<br>TOB 취급으로 출입문 동작을 확인합니다.<br>(취급 조건 MC B7, 출입문 모드 수/수)",
                svg: function(){ return tobSvg(false); } },
@@ -6794,7 +6837,7 @@
   };
   SCN_D5.c_open   = { t:"전체 출입문 · 안전문 개방",
                       q:"전체 출입문, 안전문을 개방합니다.",
-                      svg: function(){ return train8Svg({ allOpen:true, psd:true, badIdx:3, doorLbl:"4호차 R1" }); } };
+                      svg: function(){ return train8Svg({ allOpen:true, psd:true, badIdx:3, halfBad:true, doorLbl:"4호차 R1" }); } };
   SCN_D5.c_kit    = SCN_DOOR3.f_kit;
   SCN_D5.c_bypass = SCN_DOOR3.e_bypass;
   SCN_D5.c_done   = SCN_DOOR3.e_done;
@@ -6807,7 +6850,7 @@
     {
       pts:14,
       msg:["4호차 R1 출입문 열림 현시","alert"],
-      coach:"출입문 닫힘 취급을 했는데 닫히지 않았어.<br>무엇을 해야 할까?",
+      coach:"출입문 닫힘을 취급했는데, TCMS를 확인해보니<br><b>출입문 하나가 닫히지 않은 거 같아.</b><br>무엇을 해야 할까?",
       prompt:"1개 출입문 닫힘 불능 시 첫 번째 조치는?",
       hint:"관제 보고나 현장 확인 전에, 운전실에서 바로 해 볼 수 있는 조치가 있어.",
       opts:[
@@ -6828,8 +6871,8 @@
       msg:["4호차 R1 출입문 열림 현시","alert"],
       cabNames:["주간제어기 B7","운전모드 수동 · 출입문모드 수 / 수","측면 출입문 스위치 2회 재취급"],
       sideSeq:["SOPEN","SCLOSE","SOPEN","SCLOSE"],
-      coach:"출입문을 <b>2회 재취급</b>해 보자.<br>운전실에서 순서대로 직접 취급해 봐!",
-      prompt:"운전실 그림에서 2회 재취급 순서대로 직접 취급해 보세요.",
+      coach:"전체 출입문 다시 재취급 해보자. <b>적어도 두 번은 해봐야 해!</b><br>운전실에서 직접 취급해 봐!",
+      prompt:"운전실 그림에서 재취급 순서대로 직접 취급해 보세요.",
       hint:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치에서 열림 → 닫힘 → 열림 → 닫힘 (2회 재취급).",
       okFb:"정확해.<br>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치 <b>열림 → 닫힘 → 열림 → 닫힘</b>으로 2회 재취급.<br>그런데 <b>4호차 R1 출입문이 계속 열림</b>으로 현시돼. 닫히지 않았어.",
       src:"선행조치 · 전체 출입문 재취급 (B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치)",
@@ -6839,18 +6882,16 @@
       pts:14,
       msg:["4호차 R1 출입문 열림 현시","alert"],
       cine: MID_D5_A,
-      coach:"중앙 / 측면에서 닫힘 버튼을 취급했는데도 그대로야.<br>다음에 조치방법은?",
-      prompt:"재취급에도 닫히지 않습니다. 다음 조치는?",
-      hint:"운전실에서 할 수 있는 건 다 해 봤어. 이제 직접 눈으로 봐야 해.",
+      coach:"출입문 재취급을 했는데도 <b>4호차 R1</b>이 그대로 열려있어.<br>현장에 가기 전에 먼저 할 일은?",
+      prompt:"현장 조치에 앞서 할 조치는?",
+      hint:"승객이 먼저 불안해져. 그리고 혼자 판단할 일이 아니야.",
       opts:[
-        { t:"현장을 확인해 본다", ok:true,
-          fb:"맞아. 운전실 조치로 되지 않으면 <b>현장을 확인</b>해야 해." +
-             "<span class=\"redline\">⚠ 현장 출동 전에 반드시<br><b>고객안내방송</b>과 <b>관제 상황보고</b>를 먼저 해야 합니다!</span>" +
-             "<br>전체 출입문·안전문 개방, <b>LTE-R 무전기와 출입문 키</b>를 챙기는 것도 잊지 마.<br>자세한 순서는 아래 <b>시뮬레이션 영상</b>으로 확인해 봐!" },
-        { t:"해당 출입문만 개별 바이패스하고 출발한다", ok:false,
-          fb:"개별 바이패스는 금지야. 먼저 <b>현장을 확인</b>해야 해." },
-        { t:"닫힘 버튼을 계속 반복해서 누른다", ok:false,
-          fb:"같은 취급을 반복해도 닫히지 않아. <b>현장 확인</b>으로 넘어가야 해." }
+        { t:"고객안내방송을 실시하고 관제에 상황을 보고한다", ok:true,
+          fb:"맞아. 승객에게 지연 사유를 알리고 관제에 상황을 보고해야 해.<br><b>영상으로 방송 문안과 관제 보고를 확인해 보자.</b>" },
+        { t:"방송은 생략하고 바로 4호차로 이동한다", ok:false,
+          fb:"정차가 길어지는데 안내가 없으면 승객이 불안해져. 안내방송과 관제 보고가 먼저야." },
+        { t:"다음 역에서 조치하기로 하고 그대로 출발한다", ok:false,
+          fb:"보고도 없이 출발하면 안 돼. 먼저 안내방송을 하고 관제에 상황을 보고해." }
       ],
       src:"선행조치 · 고객안내방송 · 관제 상황보고 후 현장 출동",
       done:"고객안내방송 · 관제 상황보고 · 현장 확인"
@@ -6858,17 +6899,17 @@
     {
       pts:14,
       msg:["1개 출입문 조치","warn"],
-      board:"interior",
+      board:"interior2",
       coach:"현장에 도착했어.<br>가장 먼저 무엇을 확인해야 할까?",
       prompt:"객실 안에서 확인할 것은?",
-      hint:"그 문 하나만 따로 차단하는 빨간 코크가 있어. 문틈도 살펴봐.",
+      hint:"출입문 근처에 뭐가 있는지 확인해봐. 그리고 <b>빨간색 장치</b>도 확인해봐야 해!",
       opts:[
         { t:"출입문 개별코크와 이물질을 확인한다", ok:true,
           fb:"맞아. 객실 안에서 출입문 개별코크와<br>출입문 이물질 여부를 확인해야 해." },
         { t:"출입문을 손으로 강제로 닫는다", ok:false,
-          fb:"강제로 닫는 건 조치 순서에 없어. 개별코크부터 확인해." },
+          fb:"강제로 닫으면 안 돼. <b>개별코크</b>를 이용해보자." },
         { t:"확인 없이 바로 해당 출입문만 개별 바이패스한다", ok:false,
-          fb:"개별 바이패스는 금지야. 그리고 아직 확인할 게 남아 있어." }
+          fb:"<b>개별 바이패스는 금지</b>야. 이물질과 개별코크를 확인해보자." }
       ],
       src:"교육자료 · 1개 출입문 ② 출입문 개별코크 및 이물질 여부 확인",
       done:"출입문 개별코크 · 이물질 확인"
@@ -6876,7 +6917,7 @@
     {
       pts:14,
       msg:["1개 출입문 조치","warn"],
-      board:"panel",
+      board:"panel2",
       coach:"개별코크와 이물질은 이상 없어.<br>출입문 위 배전반을 열었어. 다음에 확인할 건?",
       prompt:"우진차에서 다음 확인 사항은?",
       hint:"출입문 위 배전반 안에 출입문 제어장치(DCU)가 있어.",
@@ -6886,7 +6927,7 @@
         { t:"출입문 전자변 및 공기 누설음을 확인한다", ok:false,
           fb:"그건 1·2차분 차량의 조치야. 우진차는 DCU 고장 여부를 확인하고 TOB로 동작을 확인해." },
         { t:"객실 회로차단기를 차단한다", ok:false,
-          fb:"조치 순서에 회로차단기 차단은 없어. 우진차는 DCU와 TOB를 확인해." }
+          fb:"우진차는 출입문 위 배전반에서 <b>DCU와 TOB</b>를 확인해야 해." }
       ],
       src:"교육자료 · 1개 출입문 ③ 3차분: DCU 고장 여부 확인, TOB 취급 출입문 동작 확인(B7, 수/수)",
       done:"우진차 DCU 고장 여부 · TOB 동작 확인"
@@ -6904,7 +6945,7 @@
         { t:"주간제어기 N, 출입문 모드 자/자", ok:false,
           fb:"제동이 확보되지 않은 상태야. 주간제어기 B7, 출입문 모드 수/수로 맞춰야 해." },
         { t:"주간제어기 EB, 출입문 모드 자/수", ok:false,
-          fb:"자료가 지정한 조건은 B7, 수/수야." }
+          fb:"<b>TOB 조건은 B7, 출입문 모드 수/수</b>야." }
       ],
       src:"교육자료 · 1개 출입문 ③ TOB 취급 출입문 동작 확인(B7, 수/수)",
       done:"TOB 취급 조건 (B7 · 수/수)"
@@ -6922,7 +6963,7 @@
       hint:"기관사 혼자 결정할 일이 아니야. 바이패스는 범위도 중요해.",
       opts:[
         { t:"관제와 협의하여 전체 출입문 BY-PASS 취급 후 회송 조치한다", ok:true,
-          fb:"맞아. 1개 출입문이라도 고장 나면 관제와 협의해서<br>전체 출입문 BY-PASS를 취급하고 회송 조치해.<br>개별 바이패스는 취급하면 안 돼." },
+          fb:"맞아. 1개 출입문이라도 고장 나면 관제와 협의해서<br>전체 출입문 BY-PASS를 취급하고 회송 조치해.<br>개별 바이패스는 취급하면 안 돼.<br><b>아래 배전반에서 스위치를 조작해보자.</b>" },
         { t:"해당 출입문만 개별 바이패스하고 계속 운행한다", ok:false,
           fb:"개별 바이패스는 금지야. 그리고 관제와 협의해서 회송해야 해." },
         { t:"관제 협의 없이 전체 출입문 BY-PASS 후 영업운전을 계속한다", ok:false,
