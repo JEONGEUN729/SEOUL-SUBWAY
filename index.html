@@ -82,7 +82,7 @@
   .menu-mascot img{width:112px;height:112px;object-fit:contain;display:block;
     background:var(--accent-soft);border:1px solid #f6d3e2;border-radius:16px;padding:6px}
   @media(max-width:560px){ .menu-mascot{width:76px} .menu-mascot img{width:76px;height:76px;border-radius:12px} }
-  .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:11px}
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:11px}
   .menu-grp{grid-column:1/-1;font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--ink-3);margin:14px 2px 1px}
   .menu-grp:first-child{margin-top:0}
   .course{font:inherit;text-align:left;background:var(--surface);border:1px solid var(--line);
@@ -1127,7 +1127,7 @@
       <div class="menu-mascot"><img id="menuMascot" alt="또타" src=""></div>
     </div>
     <div class="menu-grid" id="menuGrid"></div>
-    <p class="vertag mono">ver 8.7 · 2026-10-15</p>
+    <p class="vertag mono">ver 8.9 · 2026-10-15</p>
   </section>
 
   <!-- ================= BRIEF ================= -->
@@ -7124,7 +7124,7 @@
   ];
 
   var COURSES = [
-    { id:"door3", n:"01", title:"[우진] 1개 출입문 열림 불능 시", ready:true, meta:"7문항 · 약 7분",
+    { id:"door3", n:"01", title:"[우진] 1개 출입문 열림 불능 시", ready:true, meta:"7문항",
       desc:"상황을 단계별로 조치해 보세요.",
       sub:"전동차 · 1개 출입문 열림 불능", device:"tcms", trainNo:"8000", trainSet:"800",
       steps:STEPS_DOOR3, scn:SCN_DOOR3, mid:MID_DOOR3, summary:SUM_DOOR3,
@@ -7145,7 +7145,7 @@
              "객실 안에서 <b>출입문 개별코크 · 이물질</b> 확인",
              "우진차 — 출입문 위 배전반 <b>DCU 고장 여부</b> 확인 · <b>TOB 취급(B7, 수/수)</b> 동작 확인",
              "열림 불능 시 <b>관제와 협의</b> → <b>전체 출입문 BY-PASS</b>(개별 바이패스 금지) → <b>회송</b>"] },
-    { id:"d2", n:"02", title:"[우진] 전체 출입문 열림 불능 시", ready:true, meta:"7문항 · 약 7분",
+    { id:"d2", n:"02", title:"[우진] 전체 출입문 열림 불능 시", ready:true, meta:"7문항",
       desc:"상황을 단계별로 조치해 보세요.",
       sub:"전동차 · 전체 출입문 열림 불능", device:"tcms", trainNo:"8000", trainSet:"800", doorStay:true,
       steps:STEPS_D2, scn:SCN_D2, mid:MID_D2_A, summary:SUM_D2,
@@ -7168,7 +7168,7 @@
              "회로차단기 <b>DRN · DCRN · DCLN</b> 확인",
              "<b>재기동 후 재취급</b> · 조치 불능 시 <b>후부 운전실</b>에서 취급",
              "승객 하차 후 <b>관제 회송 요청</b>"] },
-    { id:"d5", n:"03", title:"[우진] 1개 출입문 닫힘 불능 시", ready:true, meta:"7문항 · 약 7분",
+    { id:"d5", n:"03", title:"[우진] 1개 출입문 닫힘 불능 시", ready:true, meta:"7문항",
       desc:"상황을 단계별로 조치해 보세요.",
       sub:"전동차 · 1개 출입문 닫힘 불능", device:"tcms", trainNo:"8000", trainSet:"827",
       steps:STEPS_D5, scn:SCN_D5, mid:MID_D5_A, summary:SUM_D5,
@@ -7187,7 +7187,7 @@
              "객실 안에서 <b>출입문 개별코크 · 이물질</b> 확인",
              "우진차 — 출입문 위 배전반 <b>DCU 고장 여부</b> 확인 · <b>TOB 취급(B7, 수/수)</b> 동작 확인",
              "닫힘 불능 시 <b>관제와 협의</b> → <b>전체 출입문 BY-PASS</b>(개별 바이패스 금지) → <b>회송</b>"] },
-    { id:"d6", n:"04", title:"[우진] 전체 출입문 닫힘 불능 시", ready:true, meta:"4문항 · 약 4분",
+    { id:"d6", n:"04", title:"[우진] 전체 출입문 닫힘 불능 시", ready:true, meta:"4문항",
       desc:"상황을 단계별로 조치해 보세요.",
       sub:"전동차 · 전체 출입문 닫힘 불능", device:"tcms", trainNo:"8000", trainSet:"800",
       doorOpenStay:true,
@@ -7207,7 +7207,7 @@
              "조치 불능 시 회로차단기 <b>DRN · DCRN · DCLN 차단(OFF)</b>",
              "<b>관제 승인</b> 후 <b>All-Door BY-PASS S/W</b> 취급 (우진차 3차분 — <b>DBS</b>)",
              "<b>관제와 협의</b>하여 <b>회송</b>"] },
-    { id:"tcms", n:"05", title:"[도시바] TCMS 고장 시", ready:true, meta:"3문항 · 약 3분",
+    { id:"tcms", n:"05", title:"[도시바] TCMS 고장 시", ready:true, meta:"3문항",
       sop: SOP_TCMS, sopName:"TCMS_ATC_ATO_고장시_조치", noRule:true,
       desc:"상황을 단계별로 조치해 보세요.",
       sub:"전동차 · TCMS 고장", device:"tcms", trainNo:"8000", trainSet:"800",
@@ -7223,7 +7223,7 @@
              "<b>역전기 재투입</b> — <b>꼭! 출입문 닫고 취급</b>",
              "차단기 리셋 — 1차분 <b>TCMSN · TCMSPN</b> / 2차분 <b>DSPN</b> / 3차분 <b>DUN</b>",
              "조치 불능 시 관제보고 후 <b>다음 정거장까지 수동운전 → 자동 재설정</b>"] },
-    { id:"psd", n:"06", title:"승강장 안전문 장애 발생 시", ready:true, meta:"4문항 · 약 4분",
+    { id:"psd", n:"06", title:"승강장 안전문 장애 발생 시", ready:true, meta:"4문항",
       desc:"상황을 단계별로 조치해 보세요.",
       sub:"8호선 · 승강장안전문 장애", device:"psd", trainNo:"8000", trainSet:"800",
       steps:STEPS_PSD, scn:SCN_PSD, mid:MID_PSD, summary:SUM_PSD,
