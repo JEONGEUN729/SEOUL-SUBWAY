@@ -1121,7 +1121,7 @@
       <div class="menu-mascot"><img id="menuMascot" alt="또타" src=""></div>
     </div>
     <div class="menu-grid" id="menuGrid"></div>
-    <p class="vertag mono">ver 7.6 · 2026-10-14</p>
+    <p class="vertag mono">ver 8.2 · 2026-10-15</p>
   </section>
 
   <!-- ================= BRIEF ================= -->
@@ -4837,7 +4837,7 @@
     $("cabFullWrap").hidden = (st.board !== "cabfull");
     var hideT = !!st.noTcms || (st.board === "cabfull" || st.board === "train8" || st.board === "interior" || st.board === "tob" ||
                  st.board === "panel" || st.board === "bps" || st.board === "sdsw" ||
-                 st.board === "interior2" || st.board === "panel2");
+                 st.board === "interior2" || st.board === "panel2" || st.board === "cbp");
     var lampStep = (st.board === "lamp");
     var showT = !hideT && (!lampStep || !!ans || !!st.tcAlways);
     if ($("tcmsHead")){
@@ -4979,7 +4979,7 @@
         $("trainWrap").hidden = false;
         $("trainHead").textContent = "객실 배전반 · 회로차단기";
         $("trainTag").textContent = "DRN · DCRN · DCLN";
-        $("trainNote").innerHTML = '<span class="bigtip">👉 차단기를 <b>한 번 누르면</b>(PC는 마우스를 올리면) 확대되고, <b>한 번 더 누르면</b> 크게 볼 수 있습니다.</span><em>※ 점선 표시 = 출입문 관련 차단기</em>';
+        $("trainNote").innerHTML = CB_TIP;
         $("trainBox").innerHTML = cbBoardHtml(true, false);
         cbBind();
       }
@@ -5088,6 +5088,11 @@
     if (st.board === "interior2"){
       $("trainBox").innerHTML = interiorSvg(null, true, true);
     }
+    if (st.board === "cbp"){
+      $("trainBox").innerHTML = cbBoardHtml(true, false);
+      cbBind();
+      $("trainNote").innerHTML = CB_TIP;
+    }
     if (st.board === "panel2"){
       $("trainBox").innerHTML = interiorSvg("panel", true, true);
     }
@@ -5107,7 +5112,7 @@
       $("trainWrap").hidden = false;
       $("trainHead").textContent = "객실 배전반 · 회로차단기";
       $("trainTag").textContent = "DRN · DCRN · DCLN";
-      $("trainNote").innerHTML = '<span class="bigtip">👉 차단기를 <b>한 번 누르면</b>(PC는 마우스를 올리면) 확대되고, <b>한 번 더 누르면</b> 크게 볼 수 있습니다.</span><em>※ 점선 표시 = 출입문 관련 차단기</em>';
+      $("trainNote").innerHTML = CB_TIP;
       $("trainBox").innerHTML = cbBoardHtml(true, false);
       cbBind();
     }
@@ -5283,7 +5288,7 @@
       cabNames:["주간제어기 B7","운전모드 수동 · 출입문모드 수 / 수","측면 출입문 스위치 재취급"],
       sideSeq:["SCLOSE","SOPEN"],
       coach:"전체 출입문 재취급해 보자.<br>운전실에서 순서대로 직접 취급해 봐!",
-      prompt:"운전실 그림에서 재취급 순서대로 직접 취급해 보세요.",
+      prompt:"운전실 그림에서 순서대로 직접 취급해 보세요.",
       hint:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면스위치로 출입문 재취급",
       okFb:"정확해.<br>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치 재취급.<br>그런데 재취급했는데도 6호차 R2 출입문이 열리지 않았어.",
       src:"현장 선행조치 · 전체 출입문 재취급 (B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치)",
@@ -5300,10 +5305,10 @@
       opts:[
         { t:"고객안내방송을 실시하고 관제에 상황을 보고한다", ok:true,
           fb:"맞아. 승객에게 지연 사유를 알리고 관제에 상황을 보고해야 해.<br><b>영상으로 방송 문안과 관제 보고를 확인해 보자.</b>" },
-        { t:"방송은 생략하고 바로 6호차로 이동한다", ok:false,
-          fb:"정차가 길어지는데 안내가 없으면 승객이 불안해져. 안내방송과 관제 보고가 먼저야." },
-        { t:"다음 역에서 조치하기로 하고 그대로 출발한다", ok:false,
-          fb:"보고도 없이 출발하면 안 돼. 먼저 안내방송을 하고 관제에 상황을 보고해." }
+        { t:"배전반에서 차단기를 리셋한다", ok:false,
+          fb:"1개 출입문 고장 시 관련 차단기 확인은 현장에서 할 조치야.<br>그 전에 <b>고객 안내방송</b>과 <b>관제 상황보고</b>를 먼저 해야 해." },
+        { t:"ZVBPS를 취급해 출입문 재취급을 해본다", ok:false,
+          fb:"ZVBPS는 <b>전체 출입문 열림 불능</b> 시 조치사항이야.<br>지금은 <b>고객 안내방송</b>과 <b>관제 상황보고</b>가 먼저야." }
       ],
       src:"교육자료 · 현상확인 ③ 관제에 상황보고 / 선행조치 · 안내방송 · 현장 출동",
       done:"고객안내방송 · 관제 상황보고 · 현장 출동"
@@ -5368,9 +5373,8 @@
       msg:["열림 불능","alert"],
       bpsTask:true,
       bpsNoBot:true,
-      cine: MID_END,
       bpsPrompt:"직접 BY-PASS를 취급해 보자.",
-      bpsFb:"<b>DBS(출입문 바이패스)</b>를 BYPASS로 취급했어.<br>이제 관제 지시대로 회송해. 영상으로 확인해 보자.",
+      bpsFb:"<b>DBS(출입문 바이패스)</b>를 BYPASS로 취급했어.<br>이제 관제 지시대로 회송해.",
       coach:"모든 조치를 했는데 여전히 6호차 R2가 안 열려.<br>조치가 안 될 경우 어떻게 해야 할까?",
       prompt:"조치 불능 시 어떻게 해야 하나?",
       hint:"기관사 혼자 결정할 일이 아니야. 바이패스는 범위도 중요해.",
@@ -5718,6 +5722,7 @@
     feedback(true, "<b>DRN · DCRN · DCLN</b>을 모두 <b>OFF → ON</b>으로 리셋했어.<br>그래도 출입문이 닫히지 않았어. 다음 조치로 넘어가자.");
     showNext();
   }
+  var CB_TIP = '<span class="bigtip">👉 차단기를 <b>한 번 누르면</b>(PC는 마우스를 올리면) 확대되고, <b>한 번 더 누르면</b> 크게 볼 수 있습니다.</span><em>※ 점선 표시 = 출입문 관련 차단기</em>';
   var CUTS = { off:{} };
   function cbShortName(id){ return (id === "DRN") ? "출입문 제어" : (CB_NAME[id] || ""); }
   function cutRowSvg(){
@@ -6485,11 +6490,11 @@
                 q:"확인한 현상과 시행한 조치를<br>운전 관제에 보고합니다.",
                 say:"“관제 관제, 8000열차 800편성 출입문 대표등 계속 점등, TCMS에 전체 출입문 닫힘 현시 상태입니다. 출입문 열림 취급하였으나 전체 출입문 열림 불능상태입니다.”",
                 svg: function(){ return radio("out", (CUR.trainNo||"8000") + "열차 " + (CUR.trainSet||"800") + "편성"); } },
-    b_close:  { t:"닫힘 → 열림 반복 취급",
+    b_close:  { t:"닫힘 경타 → 열림 취급",
                 q:"<b>중앙 / 측면 제어대</b>에서 닫힘 버튼을 여러 번 누른 뒤<br>다시 <b>열림</b>을 취급합니다.",
                 svg: centerDoorScene },
     b_zvbps:  { t:"ZVBPS 취급 후 출입문 재취급",
-                q:"<b>비상모드</b>에서만 가능합니다. <b>FSB 체결</b> 후 ZVBPS를 취급하고<br>열림을 취급합니다. <b>취급 후 반드시 복귀</b>합니다.",
+                q:"ZVBPS를 취급하고 열림을 취급합니다.<br><b>비상모드</b>에서만 가능, <b>취급 후 반드시 복귀</b>합니다.",
                 svg: zvbpsScene },
     b_cbr:    { t:"관련 회로차단기 확인",
                 q:"우진차 출입문 관련 회로차단기<br><b>DRN · DCRN · DCLN</b> 상태를 확인합니다.",
@@ -6497,6 +6502,9 @@
     b_restart:{ t:"재기동 후 재취급",
                 q:"재기동(전원 재투입) 후<br>출입문 열림을 다시 취급합니다.",
                 svg: restartScene },
+    b_rear2:  { t:"후부 운전실 이동 후 재취급",
+                q:"전부 운전실에서 조치가 안 되면<br><b>후부 운전실로 이동</b>해 출입문을 다시 취급합니다.",
+                svg: rearCabScene },
     b_rear:   { t:"후부 운전실 취급 보고",
                 q:"전부 운전실에서 조치 불능이면<br><b>후부 운전실로 이동해 취급하겠다</b>고 관제에 보고합니다.",
                 say:"“관제 관제, 8000열차 800편성 전부 운전실에서 출입문 열림 취급 불능입니다. 후부 운전실로 이동하여 취급하겠습니다.”",
@@ -6516,7 +6524,7 @@
   var MID_D2_A   = ["b_pa","b_report"];
   var MID_D2_END = ["b_req","b_order","b_done"];
   var SUM_D2     = ["b_fault","b_manual","b_still","b_pa","b_report","b_close","b_zvbps",
-                    "b_cbr","b_restart","b_rear"];
+                    "b_cbr","b_restart","b_rear2"];
 
   var STEPS_D2 = [
     {
@@ -6533,8 +6541,8 @@
           fb:"전체 출입문 열림 불능이야. 가장 먼저 <b>출입문을 재취급</b>해 봐야 해.<br>다음 단계에서 운전실에서 직접 해 보자." },
         { t:"곧바로 관제에 회송을 요청한다", ok:false,
           fb:"아직 일러. 운전실에서 할 수 있는 <b>출입문 재취급</b>부터 해 보고, 그 결과까지 담아 보고해야 해." },
-        { t:"객실로 내려가 개별코크를 하나씩 확인한다", ok:false,
-          fb:"전 차량이 열리지 않는 상황이야. 운전실에서 <b>출입문 재취급</b>이 먼저야." }
+        { t:"바이패스를 취급 후 출발하며 관제에게 보고한다", ok:false,
+          fb:"관제 승인 없이 바이패스를 취급하면 안 돼. 운전실에서 <b>출입문 재취급</b>이 먼저야." }
       ],
       src:"교육자료 · 현상확인 ① 출입문 대표등 계속 점등 ② TCMS 일반화면 전 차량 닫힘 현시 / 선행조치 · 출입문 재취급",
       done:"현상 확인 · 출입문 재취급 판단"
@@ -6546,9 +6554,9 @@
       msg:["전체 출입문 열림 불능","alert"],
       cabNames:["주간제어기 B7","운전모드 수동 · 출입문모드 수 / 수","측면 출입문 스위치 열림"],
       sideSeq:["SOPEN"],
-      coach:"자동 열림이 안 되면 수동으로 취급해 보자.<br>운전실에서 순서대로 직접 취급해 봐!",
-      prompt:"운전실 그림에서 수동 취급 순서대로 직접 취급해 보세요.",
-      hint:"제동 확보(B7) → 운전모드 수동 · 출입문모드 수/수 → 측면 제어대 열림 스위치.",
+      coach:"전체 출입문 재취급해 보자.<br>운전실에서 순서대로 직접 취급해 봐!",
+      prompt:"운전실 그림에서 순서대로 직접 취급해 보세요.",
+      hint:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면스위치로 출입문 열림 취급",
       okFb:"정확해.<br>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 제어대 열림 취급.<br>그런데 수동으로도 출입문이 열리지 않았어.",
       src:"응급조치 1 · 자동 열림 불능 시 — 운전모드 수동 · 출입문모드 수/수 · 측면 제어대 열림 스위치 취급",
       done:"수동 취급 (B7 → 수동 · 수/수 → 측면 열림)"
@@ -6596,7 +6604,7 @@
         { t:"ZVBPS 취급 후 출입문 개방한다", ok:false,
           fb:"ZVBPS는 <b>다음 순서</b>야. 먼저 <b>닫힘 버튼을 경타</b>해 회로를 정리한 뒤 열림을 취급해 봐야 해." },
         { t:"후부 운전실로 가서 출입문 개방한다", ok:false,
-          fb:"후부 운전실 취급은 <b>마지막 조치</b>야. 지금은 <b>닫힘 경타 후 열림</b>을 취급해 봐." }
+          fb:"후부 운전실로 이동하기 전에 전부 운전실에서 <b>닫힘 경타 후 열림</b>을 취급해 봐야 해." }
       ],
       src:"응급조치 2 · 닫힘버튼 여러 번 취급 후 열림 취급",
       done:"닫힘 경타 후 열림 재취급"
@@ -6626,9 +6634,9 @@
       opts:[
         { t:"ZVS / ZVBPS 취급 후 출입문 취급", ok:true,
           fb:"맞아. <b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해 봐야 해.<br><b>취급 후에는 반드시 복귀</b>해야 해." +
-             "<span class=\"goline\">운전실에서 직접 취급해보자. ZVBPS는 <b>비상모드</b>에서만 취급할 수 있어.</span>" },
+             "<span class=\"goline\">위 운전실에서 직접 취급해보자. ZVBPS는 <b>비상모드</b>에서만 취급할 수 있어.</span>" },
         { t:"전체 출입문 BY-PASS(DBS)를 취급한다", ok:false,
-          fb:"<b>DBS</b>는 전체 출입문 바이패스야. <b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해." },
+          fb:"<b>DBS</b>는 전체 출입문 바이패스야. 아직 DBS를 취급하긴 일러.<br><b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해." },
         { t:"비상 개폐 손잡이를 쓰라고 객실에 방송한다", ok:false,
           fb:"임의로 안내하면 안 돼. <b>ZVS / ZVBPS</b> 취급 후 출입문 취급이 먼저야." }
       ],
@@ -6638,7 +6646,7 @@
     {
       pts:15,
       notch:"B7", mode:"M",
-      boardAfter:"cbp",
+      board:"cbp",
       msg:["회로차단기 확인","warn"],
       coach:"여전히 조치가 되지 않았어.<br>배전반에서 차단기를 확인해 보자.",
       prompt:"우진차에서는 어떤 차단기를 확인해야 할까요?",
@@ -6658,10 +6666,9 @@
       pts:15,
       notch:"B7", mode:"M",
       msg:["재기동 · 후부 운전실","warn"],
-      cine: MID_D2_END,
       coach:"차단기도 정상이야.<br>할 수 있는 조치가 아직 남았어.",
       prompt:"회로차단기까지 확인했는데도 안 열립니다. 다음 조치는?",
-      hint:"전원을 한 번 끊었다 넣어 보고, 그래도 안 되면 반대쪽 운전실이 있어.",
+      hint:"열차를 재기동 해보자. 그래도 안 되면 반대쪽 운전실이 있어.",
       opts:[
         { t:"재기동 후 재취급하고, 조치 불능 시 후부 운전실에서 취급한다", ok:true,
           fb:"맞아. <b>재기동 후 재취급</b>하고, 조치 불능 시 <b>후부 운전실에서 취급</b>해 봐야 해.<br>그리고 <b>승객 모두 하차 후 관제에 회송을 요청</b>해." },
@@ -6792,7 +6799,9 @@
   var SCN_D5 = {
     c_fault: { t:"TCMS 확인",
                q:"출입문 닫힘을 취급했으나<br>TCMS에 <b>4호차 R1 출입문 하나가 열림</b>으로 현시됩니다.",
-               svg: tcmsSceneC1 },
+               say:"\u201c4호차 R1 출입문 열림, 확인!\u201d",
+               svg: function(){ return cab({ point:true, screen:"tcms3", openOne:{c:2,k:0},
+                                             call:"4호차 R1 출입문 열림, 확인!" }); } },
     c_state: { t:"지적확인 환호",
                q:"TCMS 화면을 손가락으로 가리키며<br>지적확인 환호합니다.",
                say:"\u201c4호차 R1 출입문 열림, 확인!\u201d",
@@ -6832,7 +6841,7 @@
                svg: function(){ return radio("out", "8000열차 827편성"); } },
     c_order: { t:"관제 지시 확인", tone:"blue",
                q:"관제 승인 후 전체 출입문 BY-PASS 취급 후<br>회송합니다.",
-               say:"\u201c8000열차, 4호차 R1 출입문 닫힘 불능 확인했습니다. 전체 출입문 BY-PASS 취급 후 회송 조치하시기 바랍니다.\u201d",
+               say:"\u201c8000열차, 4호차 R1 출입문 닫힘 불능 확인했습니다. 승객 하차 후 전체 출입문 BY-PASS 취급 후 회송 조치하시기 바랍니다.\u201d",
                svg: function(){ return radio("in", "8000열차 827편성"); } }
   };
   SCN_D5.c_open   = { t:"전체 출입문 · 안전문 개방",
@@ -6840,10 +6849,12 @@
                       svg: function(){ return train8Svg({ allOpen:true, psd:true, badIdx:3, halfBad:true, doorLbl:"4호차 R1" }); } };
   SCN_D5.c_kit    = SCN_DOOR3.f_kit;
   SCN_D5.c_bypass = SCN_DOOR3.e_bypass;
-  SCN_D5.c_done   = SCN_DOOR3.e_done;
+  SCN_D5.c_done   = { t:"회송",
+                      q:"회송 출발합니다.",
+                      svg: departScene() };
   var MID_D5_A   = ["c_pa","c_report","c_dir","c_open","c_kit","c_go"];
   var MID_D5_END = ["c_req","c_order","c_bypass","c_done"];
-  var SUM_D5     = ["c_fault","c_state","c_reopen","c_still","c_pa","c_report","c_dir",
+  var SUM_D5     = ["c_fault","c_reopen","c_still","c_pa","c_report","c_dir",
                     "c_open","c_kit","c_go","c_site","c_valve","c_req","c_order","c_bypass","c_done"];
 
   var STEPS_D5 = [
@@ -6871,8 +6882,8 @@
       msg:["4호차 R1 출입문 열림 현시","alert"],
       cabNames:["주간제어기 B7","운전모드 수동 · 출입문모드 수 / 수","측면 출입문 스위치 2회 재취급"],
       sideSeq:["SOPEN","SCLOSE","SOPEN","SCLOSE"],
-      coach:"전체 출입문 다시 재취급 해보자. <b>적어도 두 번은 해봐야 해!</b><br>운전실에서 직접 취급해 봐!",
-      prompt:"운전실 그림에서 재취급 순서대로 직접 취급해 보세요.",
+      coach:"전체 출입문 재취급 해보자. <b>적어도 두 번은 해봐야 해.</b><br>운전실에서 직접 취급해 봐!",
+      prompt:"운전실 그림에서 순서대로 직접 취급해 보세요.",
       hint:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치에서 열림 → 닫힘 → 열림 → 닫힘 (2회 재취급).",
       okFb:"정확해.<br>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치 <b>열림 → 닫힘 → 열림 → 닫힘</b>으로 2회 재취급.<br>그런데 <b>4호차 R1 출입문이 계속 열림</b>으로 현시돼. 닫히지 않았어.",
       src:"선행조치 · 전체 출입문 재취급 (B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치)",
@@ -6886,12 +6897,12 @@
       prompt:"현장 조치에 앞서 할 조치는?",
       hint:"승객이 먼저 불안해져. 그리고 혼자 판단할 일이 아니야.",
       opts:[
-        { t:"고객안내방송을 실시하고 관제에 상황을 보고한다", ok:true,
+        { t:"고객 안내방송을 실시하고 관제에 상황을 보고한다", ok:true,
           fb:"맞아. 승객에게 지연 사유를 알리고 관제에 상황을 보고해야 해.<br><b>영상으로 방송 문안과 관제 보고를 확인해 보자.</b>" },
-        { t:"방송은 생략하고 바로 4호차로 이동한다", ok:false,
-          fb:"정차가 길어지는데 안내가 없으면 승객이 불안해져. 안내방송과 관제 보고가 먼저야." },
-        { t:"다음 역에서 조치하기로 하고 그대로 출발한다", ok:false,
-          fb:"보고도 없이 출발하면 안 돼. 먼저 안내방송을 하고 관제에 상황을 보고해." }
+        { t:"배전반에서 차단기를 리셋한다", ok:false,
+          fb:"1개 출입문 고장 시 관련 차단기 확인은 현장에서 할 조치야.<br>그 전에 <b>고객 안내방송</b>과 <b>관제 상황보고</b>를 먼저 해야 해." },
+        { t:"ZVBPS를 취급해 출입문 재취급을 해본다", ok:false,
+          fb:"ZVBPS는 <b>열림 불능</b> 시 조치사항이야. 지금은 닫힘 불능이고,<br><b>고객 안내방송</b>과 <b>관제 상황보고</b>가 먼저야." }
       ],
       src:"선행조치 · 고객안내방송 · 관제 상황보고 후 현장 출동",
       done:"고객안내방송 · 관제 상황보고 · 현장 확인"
@@ -6908,7 +6919,7 @@
           fb:"맞아. 객실 안에서 출입문 개별코크와<br>출입문 이물질 여부를 확인해야 해." },
         { t:"출입문을 손으로 강제로 닫는다", ok:false,
           fb:"강제로 닫으면 안 돼. <b>개별코크</b>를 이용해보자." },
-        { t:"확인 없이 바로 해당 출입문만 개별 바이패스한다", ok:false,
+        { t:"확인 없이 바로 출입문만 개별 바이패스한다", ok:false,
           fb:"<b>개별 바이패스는 금지</b>야. 이물질과 개별코크를 확인해보자." }
       ],
       src:"교육자료 · 1개 출입문 ② 출입문 개별코크 및 이물질 여부 확인",
@@ -6938,7 +6949,7 @@
       board:"tob",
       coach:"DCU는 문제가 없대.<br>이제 TOB로 출입문 동작을 확인할 거야. TOB 취급 시에 운전실 조건은?",
       prompt:"TOB 취급 시 운전실 조건은?",
-      hint:"재취급할 때와 같은 제동 위치, 그리고 출입문 모드야.",
+      hint:"출입문 재취급할 때와 같은 제동 위치, 출입문 모드야.",
       opts:[
         { t:"주간제어기 B7, 출입문 모드 수/수", ok:true,
           fb:"맞아. 주간제어기 B7, 출입문 모드 수/수 상태에서<br>TOB를 취급해 출입문 동작을 확인해." },
@@ -6955,9 +6966,8 @@
       pts:15,
       msg:["닫힘 불능","alert"],
       bpsTask:true,
-      cine: MID_D5_END,
       bpsPrompt:"직접 BY-PASS를 취급해 보자.",
-      bpsFb:"<b>DBS(출입문 바이패스)</b>를 BYPASS로 취급했어.<br>이제 관제 지시대로 회송해. 영상으로 확인해 보자.",
+      bpsFb:"<b>DBS(출입문 바이패스)</b>를 BYPASS로 취급했어.<br>이제 관제 지시대로 회송해.",
       coach:"모든 조치를 했는데 여전히 4호차 R1가 안 닫혀.<br>조치가 안 될 경우 어떻게 해야 할까?",
       prompt:"조치 불능 시 어떻게 해야 하나?",
       hint:"기관사 혼자 결정할 일이 아니야. 바이패스는 범위도 중요해.",
@@ -6966,8 +6976,8 @@
           fb:"맞아. 1개 출입문이라도 고장 나면 관제와 협의해서<br>전체 출입문 BY-PASS를 취급하고 회송 조치해.<br>개별 바이패스는 취급하면 안 돼.<br><b>아래 배전반에서 스위치를 조작해보자.</b>" },
         { t:"해당 출입문만 개별 바이패스하고 계속 운행한다", ok:false,
           fb:"개별 바이패스는 금지야. 그리고 관제와 협의해서 회송해야 해." },
-        { t:"관제 협의 없이 전체 출입문 BY-PASS 후 영업운전을 계속한다", ok:false,
-          fb:"혼자 판단할 일이 아니야. 관제와 협의한 뒤 전체 출입문 BY-PASS 취급 후 회송해야 해." }
+        { t:"차단기를 차단 후 영업운전을 계속한다", ok:false,
+          fb:"관제와 협의한 뒤 전체 출입문 BY-PASS 취급 후 회송해야 해." }
       ],
       src:"교육자료 · 1개 출입문 ④ 전체출입문 BY-PASS(개별바이패스 금지) ⑤ 조치 불능 시 관제와 협의하여 회송조치",
       done:"관제 협의 → 전체 출입문 BY-PASS 직접 취급 → 회송"
