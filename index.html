@@ -82,18 +82,23 @@
   .menu-mascot img{width:112px;height:112px;object-fit:contain;display:block;
     background:var(--accent-soft);border:1px solid #f6d3e2;border-radius:16px;padding:6px}
   @media(max-width:560px){ .menu-mascot{width:76px} .menu-mascot img{width:76px;height:76px;border-radius:12px} }
-  .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:12px}
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:11px}
+  .menu-grp{grid-column:1/-1;font-size:12px;font-weight:800;letter-spacing:.08em;color:var(--ink-3);margin:14px 2px 1px}
+  .menu-grp:first-child{margin-top:0}
   .course{font:inherit;text-align:left;background:var(--surface);border:1px solid var(--line);
-    border-radius:12px;padding:16px 17px;display:grid;gap:7px;cursor:pointer;color:var(--ink);
+    border-left:5px solid var(--cc,var(--accent));
+    border-radius:12px;padding:13px 14px;display:flex;align-items:flex-start;gap:11px;cursor:pointer;color:var(--ink);
     transition:border-color .15s,box-shadow .15s,transform .1s}
-  .course:hover:not(:disabled){border-color:var(--accent);box-shadow:0 3px 12px rgba(230,24,108,.12)}
+  .course:hover:not(:disabled){box-shadow:0 3px 12px rgba(230,24,108,.12)}
   .course:active:not(:disabled){transform:translateY(1px)}
-  .course:disabled{cursor:not-allowed;background:var(--surface-2);color:var(--ink-3);border-style:dashed}
-  .course .row{display:flex;align-items:center;gap:8px}
-  .course .num{flex:none;width:24px;height:24px;border-radius:7px;background:var(--accent-soft);color:var(--accent);
-    font-size:11px;font-weight:700;display:grid;place-items:center}
-  .course:disabled .num{background:var(--line-soft);color:var(--ink-3)}
-  .course h3{margin:0;font-size:15.5px;font-weight:600;letter-spacing:-.01em;flex:1;min-width:0}
+  .course:disabled{cursor:not-allowed;background:var(--surface-2);color:var(--ink-3);opacity:.62}
+  .course .num{flex:none;align-self:center;font-size:13px;font-weight:800;color:var(--cc);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.02em}
+  .course .cico{flex:none;width:46px;height:46px;border-radius:12px;background:var(--ccs);display:grid;place-items:center}
+  .course .cico svg{display:block}
+  .course .ctx{flex:1;min-width:0;display:grid;gap:5px}
+  .course .row{display:flex;align-items:flex-start;gap:8px}
+  .course h3{margin:0;font-size:15.5px;font-weight:700;letter-spacing:-.01em;flex:1;min-width:0;line-height:1.35}
   .course p{margin:0;font-size:12.5px;line-height:1.55;color:var(--ink-2)}
   .course:disabled p{color:var(--ink-3)}
   .badge{flex:none;font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:3px 9px;border-radius:999px;
@@ -747,7 +752,7 @@
   #trainBox:has(.cblensw){overflow:visible !important}
   .cblens{position:absolute;width:166px;background:#fff;border:2.5px solid var(--accent);
     border-radius:12px;box-shadow:0 10px 26px rgba(40,10,24,.35);padding:7px 7px 5px;
-    pointer-events:none;z-index:6;transform:translate(-50%,0)}
+    z-index:6;transform:translate(-50%,0);cursor:pointer}
   .cblens::after{content:"";position:absolute;left:var(--ax,50%);margin-left:-7px;border:7px solid transparent}
   .cblens.up::after{bottom:-14px;border-top-color:var(--accent)}
   .cblens.dn::after{top:-14px;border-bottom-color:var(--accent)}
@@ -830,6 +835,7 @@
   .lampunit .lamp.on.g{background:#12c517;box-shadow:0 0 14px rgba(18,197,23,.8), inset 0 2px 5px rgba(0,0,0,.25)}
   .lampunit .lamp.on.a{background:#f2c024;box-shadow:0 0 14px rgba(242,192,36,.85), inset 0 2px 5px rgba(0,0,0,.25)}
   .boardnote{font-size:11px;color:var(--ink-3);padding:0 14px 13px;line-height:1.5}
+  .boardnote .cbrcnt{display:block;margin-top:3px}
   .boardnote .bigtip{display:block;font-size:14.5px;font-weight:800;color:var(--accent);line-height:1.55;margin-bottom:3px}
   .boardnote .bigtip em{font-style:normal;color:var(--ink-2);font-weight:700}
 
@@ -1121,7 +1127,7 @@
       <div class="menu-mascot"><img id="menuMascot" alt="또타" src=""></div>
     </div>
     <div class="menu-grid" id="menuGrid"></div>
-    <p class="vertag mono">ver 8.2 · 2026-10-15</p>
+    <p class="vertag mono">ver 8.7 · 2026-10-15</p>
   </section>
 
   <!-- ================= BRIEF ================= -->
@@ -4989,7 +4995,7 @@
         $("trainTag").textContent = "DRN · DCRN · DCLN";
         $("trainBox").innerHTML = cbBoardHtml(true, false);
         cbBind();
-        $("trainNote").textContent = cbrNote();
+        $("trainNote").innerHTML = cbrNote();
         if (!ans.cbr1) return;
       }
       if (st.cbTask){
@@ -5122,7 +5128,7 @@
       $("trainTag").textContent = "DRN · DCRN · DCLN";
       $("trainBox").innerHTML = cbBoardHtml(true, false);
       cbBind();
-      $("trainNote").textContent = cbrNote();
+      $("trainNote").innerHTML = cbrNote();
       if (!(S.answers[S.i] && S.answers[S.i].cbr1)) return;
     }
     if (st.cbTask){
@@ -5713,8 +5719,8 @@
   }
   function cbrNote(){
     var n = CB_HL.filter(function(k){ return CB1S.done[k]; }).length;
-    return "점선 표시된 차단기를 눌러 OFF → ON 으로 리셋하세요. (" + n + " / " + CB_HL.length + ") " +
-           CB_HL.map(function(k){ return (CB1S.done[k] ? "✓ " : "· ") + k; }).join("  ");
+    return CB_TIP + '<span class="cbrcnt">점선 표시된 차단기를 눌러 OFF → ON 으로 리셋하세요. (' + n + ' / ' + CB_HL.length + ') ' +
+           CB_HL.map(function(k){ return (CB1S.done[k] ? "\u2713 " : "\u00b7 ") + k; }).join("  ") + '</span>';
   }
   function cbrDone(){
     var a = S.answers[S.i]; if (a) a.cbr1 = true;
@@ -5801,6 +5807,9 @@
     lens.innerHTML = (alt ? cb2MiniSvg(id, marked) : cbMiniSvg(id)) +
       '<b style="color:' + (COL || "var(--accent)") + '">' + (nm || id) + '<i>눌러서 크게 보기</i></b>';
     lens.hidden = false;
+    lens.onclick = function(){ cbLensHide(); el.dispatchEvent(new MouseEvent('click', { bubbles:true })); };
+    lens.onmouseenter = function(){ clearTimeout(LENS_T); };
+    lens.onmouseleave = function(){ cbLensHide(); };
     var wr = wrap.getBoundingClientRect(), hr = el.getBoundingClientRect();
     var cx = hr.left + hr.width/2 - wr.left;
     var L = Math.max(80, Math.min(wr.width - 80, cx));
@@ -5813,6 +5822,7 @@
   }
   function cbLensHide(){ var l = $("cbLens"); if (l){ l.hidden = true; l.innerHTML = ""; } LENS_EL = null; }
   var LENS_EL = null, LENS_T = null;
+  function cbLensSoftHide(){ clearTimeout(LENS_T); LENS_T = setTimeout(cbLensHide, 260); }
   /* 모바일: 첫 탭 = 확대(돋보기), 두 번째 탭 = 크게 보기 */
   function lensTouch(el, show){
     el.addEventListener("touchstart", function(ev){
@@ -5850,7 +5860,7 @@
     var box = $("trainBox");
     box.querySelectorAll(".cbhot").forEach(function(el){
       el.addEventListener("mouseenter", function(){ cbLensShow(el); });
-      el.addEventListener("mouseleave", cbLensHide);
+      el.addEventListener("mouseleave", cbLensSoftHide);
       lensTouch(el, function(){ cbLensShow(el); });
       el.addEventListener("click", function(){
         cbLensHide();
@@ -5868,10 +5878,10 @@
         else if (CB1S.pos === 1){
           CB1S.pos = 2; CB1S.done[id] = true;
           box.innerHTML = cbBoardHtml(true, { reset:id }); cbBind();
-          $("trainNote").textContent = cbrNote();
+          $("trainNote").innerHTML = cbrNote();
           setTimeout(function(){
             if (CB_HL.every(function(k){ return CB1S.done[k]; })) cbrDone();
-            else { box.innerHTML = cbBoardHtml(true, false); cbBind(); $("trainNote").textContent = cbrNote(); }
+            else { box.innerHTML = cbBoardHtml(true, false); cbBind(); $("trainNote").innerHTML = cbrNote(); }
           }, 900);
         }
       });
@@ -6216,7 +6226,7 @@
     box.querySelectorAll(".cb2hot").forEach(function(el){
       var id = el.getAttribute("data-cb") || "";
       el.addEventListener("mouseenter", function(){ cbLensShow(el, CB2_NAME, CB2_HL, CB2_RED, marked); });
-      el.addEventListener("mouseleave", cbLensHide);
+      el.addEventListener("mouseleave", cbLensSoftHide);
       lensTouch(el, function(){ cbLensShow(el, CB2_NAME, CB2_HL, CB2_RED, marked); });
       el.addEventListener("click", function(){
         cbLensHide();
@@ -6882,7 +6892,7 @@
       msg:["4호차 R1 출입문 열림 현시","alert"],
       cabNames:["주간제어기 B7","운전모드 수동 · 출입문모드 수 / 수","측면 출입문 스위치 2회 재취급"],
       sideSeq:["SOPEN","SCLOSE","SOPEN","SCLOSE"],
-      coach:"전체 출입문 재취급 해보자. <b>적어도 두 번은 해봐야 해.</b><br>운전실에서 직접 취급해 봐!",
+      coach:"전체 출입문 다시 재취급 해보자.<br><b>적어도 두 번은 해봐야 해!</b><br>운전실에서 직접 취급해 봐!",
       prompt:"운전실 그림에서 순서대로 직접 취급해 보세요.",
       hint:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치에서 열림 → 닫힘 → 열림 → 닫힘 (2회 재취급).",
       okFb:"정확해.<br>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치 <b>열림 → 닫힘 → 열림 → 닫힘</b>으로 2회 재취급.<br>그런데 <b>4호차 R1 출입문이 계속 열림</b>으로 현시돼. 닫히지 않았어.",
@@ -6995,6 +7005,11 @@
   var SCN_D6 = {
     w_fault: { t:"TCMS 확인",
                q:"출입문 닫힘을 취급했으나<br>TCMS에 <b>전 차량 출입문이 열림</b>으로 현시됩니다.",
+               say:"\u201c전 차량 출입문 열림, 확인!\u201d",
+               svg: function(){ return cab({ point:true, screen:"tcms3", openOne:"all",
+                                             call:"전 차량 출입문 열림, 확인!" }); } },
+    w_still: { t:"차단기 리셋 후에도 그대로",
+               q:"차단기 리셋하였으나<br><b>출입문 전체가 닫히지 않았습니다.</b>",
                svg: tcmsSceneAllOpen },
     w_state: { t:"지적확인 환호",
                q:"TCMS 화면을 손가락으로 가리키며<br>지적확인 환호합니다.",
@@ -7004,40 +7019,44 @@
     w_mode:  { t:"운전모드 변경 · 닫힘 취급",
                q:"<b>주간제어기 B7</b> → <b>운전모드 수동 · 출입문모드 수/수</b>로 바꾸고<br>중앙 제어대와 측면 제어대에서 <b>닫힘</b>을 취급합니다.",
                svg: function(){ return centerDoorScene("운전모드 변경 · 닫힘 취급", "측면 제어대 닫힘 취급"); } },
-    w_cb:    { t:"회로차단기 확인 / 리셋",
+    w_cb:    { t:"회로차단기 리셋",
                q:"객실 배전반에서 <b>DRN · DCRN · DCLN</b>을<br><b>OFF → ON</b>으로 리셋합니다.",
                svg: function(){ return cbZoomSvg("DRN · DCRN · DCLN 차단 → 복귀 (RESET)"); } },
     w_cut:   { t:"회로차단기 차단",
-               q:"All-Door BY-PASS 취급 전에<br><b>DRN · DCRN · DCLN</b>을 모두 <b>차단(OFF)</b>합니다.",
+               q:"<b>DRN · DCRN · DCLN</b>을 모두 <b>차단(OFF)</b>합니다.",
                svg: function(){ var sv = CUTS; CUTS = { off:{ DRN:true, DCRN:true, DCLN:true } };
                                 var o = cutRowSvg(); CUTS = sv; return o; } },
     w_bypass:{ t:"All-Door BY-PASS 취급",
-               q:"<b>관제 승인</b> 후 <b>All-Door BY-PASS S/W</b>를 취급합니다.<br>우진차(3차분)는 <b>DBS</b>입니다. 개별 바이패스는 금지입니다.",
+               q:"<b>관제 승인</b> 후 <b>All-Door BY-PASS S/W</b>를 취급합니다. (우진차 <b>DBS</b>)<br>개별 바이패스는 금지입니다.",
                svg: dbsScene },
-    w_order: { t:"관제와 회송 협의", tone:"blue",
-               q:"관제와 협의하여 회송 조치합니다.",
-               say:"\u201c8000열차, 전체 출입문 닫힘 불능 확인했습니다. All-Door BY-PASS 취급 후 회송 조치하시기 바랍니다.\u201d",
+    w_report:{ t:"관제 상황보고",
+               q:"확인한 현상과 시행한 조치를<br>운전 관제에 보고합니다.",
+               say:"\u201c관제 관제, 8000열차 800편성 출입문 닫힘 취급하였으나 TCMS에 전 차량 출입문 열림 현시 상태입니다. 운전모드 변경 후 중앙·측면 닫힘 취급, 회로차단기 리셋하였으나 조치되지 않았습니다.\u201d",
+               svg: function(){ return radio("out", (CUR.trainNo||"8000") + "열차 " + (CUR.trainSet||"800") + "편성"); } },
+    w_order: { t:"관제 지시 확인", tone:"blue",
+               q:"운전 관제로부터 지시를 받습니다.",
+               say:"\u201c8000열차, 전체 출입문 닫힘 불능 확인했습니다. 차단기 차단, All-Door BY-PASS 취급, 승객 모두 하차하고 회송 조치하시기 바랍니다.\u201d",
                svg: function(){ return radio("in", (CUR.trainNo||"8000") + "열차 " + (CUR.trainSet||"800") + "편성"); } },
     w_done:  { t:"회송",
-               q:"회송 출발합니다.<br>승객은 승강장에서 다음 열차를 기다립니다.",
+               q:"회송 출발합니다.",
                svg: departScene }
   };
   var MID_D6_END = ["w_bypass","w_order","w_done"];
-  var SUM_D6     = ["w_fault","w_state","w_mode","w_cb","w_cut","w_bypass","w_order","w_done"];
+  var SUM_D6     = ["w_fault","w_mode","w_cb","w_still","w_report","w_order","w_cut","w_bypass","w_done"];
 
   var STEPS_D6 = [
     {
       pts:25,
       msg:["전 차량 출입문 열림 현시","alert"],
-      coach:"출입문 닫힘 취급을 했는데 닫히지 않았어.<br>무엇을 해야 할까?",
+      coach:"출입문 닫힘을 취급했는데 출입문이 닫히지 않은 거 같아.<br>TCMS 확인해봤어?<br>무엇을 해야 할까?",
       prompt:"전체 출입문 닫힘 불능 시 첫 번째 조치는?",
-      hint:"자동 상태로는 닫히지 않아. 운전실에서 모드를 바꿔서 직접 취급해 봐.",
+      hint:"다른 운전모드에선 닫히지 않을까? 운전모드를 바꿔서 직접 취급해봐.",
       opts:[
         { t:"운전모드를 변경하여 닫힘버튼을 취급한다", ok:true,
-          fb:"맞아. <b>운전모드를 변경</b>(수동)하고 <b>출입문모드 수/수</b>로 바꾼 뒤<br>중앙·측면 제어대에서 <b>닫힘</b>을 취급해 봐야 해.<br>다음 단계에서 운전실에서 직접 해 보자." },
+          fb:"맞아. <b>운전모드를 변경</b>하고 <b>출입문모드 수/수</b>로 바꾼 뒤<br>중앙·측면 제어대에서 <b>닫힘</b>을 취급해 봐야 해.<br>다음 단계에서 운전실에서 직접 해 보자." },
         { t:"곧바로 관제에 회송을 요청한다", ok:false,
-          fb:"아직 일러. 운전실에서 <b>운전모드를 바꿔 닫힘을 취급</b>하는 것부터 해 봐야 해." },
-        { t:"그대로 출발해 다음 역에서 조치한다", ok:false,
+          fb:"아직 해봐야 할 조치가 남았어. <b>운전모드를 바꿔 닫힘을 취급</b>해봐." },
+        { t:"바이패스 취급해 다음 역으로 출발한다", ok:false,
           fb:"출입문이 열린 채로 출발하면 안 돼. <b>운전모드 변경 후 닫힘 취급</b>부터 해." }
       ],
       src:"전체 출입문 ① 운전모드 변경하며 출입문 닫힘버튼 취급",
@@ -7065,18 +7084,18 @@
     {
       pts:25,
       notch:"B7", mode:"M",
-      boardAfter:"cbp", cbrTask:true,
+      board:"cbp", cbrTask:true,
       msg:["회로차단기 확인","warn"],
-      coach:"중앙 / 측면에서 닫힘 버튼을 취급했는데도 그대로야.<br>배전반에서 차단기를 확인, 리셋해보자.",
+      coach:"중앙 / 측면에서 닫힘 버튼을 취급했는데도 그대로야.<br>배전반에서 차단기를 리셋해보자.",
       prompt:"우진차에서 확인해야 할 회로차단기는?",
-      hint:"출입문 제어와 좌·우측 출입문 차단기 세 개야.",
+      hint:"우진차 전체 출입문 고장 시 관련 차단기는 3개야.",
       opts:[
         { t:"DRN, DCRN, DCLN", ok:true,
           fb:"맞아. 우진차(3차분)는 <b>DRN · DCRN · DCLN</b>을 확인해.<br>아래 배전반에서 <b>점선 표시된 차단기를 눌러 OFF → ON</b>으로 리셋해 보자." },
-        { t:"R(L)DEN", ok:false,
+        { t:"RDEN, LDEN", ok:false,
           fb:"2차분 차단기야. 우진차는 <b>DRN · DCRN · DCLN</b>이야." },
-        { t:"TCMSN, TCMSPN", ok:false,
-          fb:"TCMS 관련 차단기야. 출입문은 <b>DRN · DCRN · DCLN</b>을 확인해." }
+        { t:"DCULN, DCURN", ok:false,
+          fb:"1량 출입문 고장 시 관련 차단기야.<br>전체 출입문은 <b>DRN · DCRN · DCLN</b>을 확인해봐야 해." }
       ],
       src:"전체 출입문 ③ 회로차단기 차단 — 3차분 : DRN, DCR(L)N",
       done:"회로차단기 DRN · DCRN · DCLN 리셋"
@@ -7085,16 +7104,15 @@
       notch:"B7", mode:"M",
       pts:25,
       msg:["회로차단기 차단 · All-Door BY-PASS","alert"],
-      bpsTask:true, cutTask:true,
-      cine: MID_D6_END,
+      bpsTask:true, cutTask:true, bpsNoBot:true,
       bpsPrompt:"관제 승인을 받았어. 직접 BY-PASS를 취급해 보자.",
-      bpsFb:"<b>DBS(출입문 바이패스)</b>를 BYPASS로 취급했어.<br>이제 관제와 협의해 회송해. 영상으로 확인해 보자.",
+      bpsFb:"<b>DBS(출입문 바이패스)</b>를 BYPASS로 취급했어.<br>이제 관제와 협의해 회송해.",
       coach:"리셋했는데도 여전히 조치되지 않았어.<br>다음 조치는 무엇일까?",
       prompt:"회로차단기 리셋에도 닫히지 않습니다. 다음 조치는?",
       hint:"기관사 혼자 결정할 일이 아니야. 바이패스는 관제 승인이 필요해.",
       opts:[
         { t:"회로차단기 차단 후 관제 승인을 받아 All-Door BY-PASS 취급 후 회송한다", ok:true,
-          fb:"맞아. <b>회로차단기 차단</b> 후 <b>관제 승인</b>을 받아 <b>All-Door BY-PASS S/W</b>를 취급하고<br><b>관제와 협의해 회송</b>해야 해. (우진차 3차분은 <b>DBS</b>)<br>개별 바이패스는 취급하면 안 돼.<br>아래에서 먼저 <b>차단기 3개를 모두 차단(OFF)</b>해 보자." },
+          fb:"맞아. 회로차단기 차단 후 관제 승인을 받아<br><b>All-Door BY-PASS S/W</b>를 취급 (3차분은 <b>DBS</b>),<br>관제와 협의해 회송해야 해.<br>개별 바이패스는 취급하면 안 돼.<br>아래에서 먼저 <b>차단기 3개를 모두 차단(OFF)</b>해 보자." },
         { t:"회로차단기는 그대로 두고 고장 출입문만 개별 바이패스한 뒤 계속 운행한다", ok:false,
           fb:"개별 바이패스는 금지야. <b>회로차단기 차단</b> 후 <b>All-Door BY-PASS</b>를 관제 승인을 받아 취급하고 회송해." },
         { t:"관제 보고 없이 All-Door BY-PASS를 취급하고 다음 역까지 영업운전한다", ok:false,
@@ -7216,28 +7234,110 @@
              "복구되지 않으면 <b>안내방송 후 관제 보고</b>",
              "관제 승인 후 <b>By-Pass 스위치 취급</b>",
              "<b>역무원의 출발지시전호</b>에 의하여 출발"] },
-    { n:"07", title:"차량 화재", ready:false,
-      desc:"터널 내 화재 발생 시 초기 조치와 대피 유도" },
-    { n:"08", title:"급전 중단", ready:false,
-      desc:"가선 정전 시 조치 절차와 승객 안내" },
-    { n:"09", title:"추진·제동 불능", ready:false,
-      desc:"차종별 고장조치 및 구원 요청 절차" },
-    { n:"10", title:"사상사고 대응", ready:false,
-      desc:"보고 절차, 현장 보존, 승객 안내" }
+    { n:"07", title:"인버터 고장 시", ready:false,
+      desc:"상황을 단계별로 조치해 보세요." },
+    { n:"08", title:"ATO 고장 시", ready:false,
+      desc:"상황을 단계별로 조치해 보세요." },
+    { n:"09", title:"ATC 고장 시", ready:false,
+      desc:"상황을 단계별로 조치해 보세요." },
+    { n:"10", title:"SIV 고장 시", ready:false,
+      desc:"상황을 단계별로 조치해 보세요." }
   ];
 
+  /* ---------- 메뉴 아이콘 (픽토그램) ---------- */
+  function mRing(col){ return '<circle cx="24" cy="24" r="21" fill="' + col + '" opacity=".13"/>'; }
+  function mBadge(all, col){
+    return '<rect x="' + (all?24:30) + '" y="31" width="' + (all?19:13) + '" height="14" rx="7" fill="' + col +
+           '" stroke="#fff" stroke-width="1.6"/>' +
+           '<text x="' + (all?33.5:36.5) + '" y="41.3" text-anchor="middle" font-size="' + (all?8.5:9.5) +
+           '" font-weight="800" fill="#fff">' + (all?'ALL':'1') + '</text>';
+  }
+  function mDoors(shut, all, col){
+    var s = '<svg width="34" height="34" viewBox="0 0 48 48">' + mRing(col);
+    if (shut){   /* 닫혀 있는 상태 — 열림 불능 */
+      s += '<rect x="12" y="10" width="11" height="28" rx="2" fill="' + col + '"/>';
+      s += '<rect x="25" y="10" width="11" height="28" rx="2" fill="' + col + '"/>';
+      s += '<path d="M19 24 h-5 M29 24 h5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>';
+    } else {     /* 벌어져 있는 상태 — 닫힘 불능 */
+      s += '<rect x="8" y="10" width="10" height="28" rx="2" fill="' + col + '"/>';
+      s += '<rect x="30" y="10" width="10" height="28" rx="2" fill="' + col + '"/>';
+      s += '<rect x="19" y="10" width="10" height="28" fill="#2b3440" opacity=".18"/>';
+    }
+    return s + mBadge(all, col) + '</svg>';
+  }
+  function mScreen(col){ return '<svg width="34" height="34" viewBox="0 0 48 48">' + mRing(col) +
+    '<rect x="10" y="12" width="28" height="20" rx="3" fill="' + col + '"/>' +
+    '<path d="M19 18 L29 26 M29 18 L19 26" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>' +
+    '<rect x="19" y="34" width="10" height="3.4" rx="1.7" fill="' + col + '"/></svg>'; }
+  function mPsd(col){ return '<svg width="34" height="34" viewBox="0 0 48 48">' + mRing(col) +
+    '<rect x="9" y="12" width="12" height="24" rx="2" fill="' + col + '"/>' +
+    '<rect x="27" y="12" width="12" height="24" rx="2" fill="' + col + '"/>' +
+    '<path d="M24 14 v20" stroke="' + col + '" stroke-width="2.4" stroke-dasharray="3.5 3.5"/></svg>'; }
+  /* 인버터 — DC(직선) → AC(사인파) */
+  function mInv(col){ return '<svg width="34" height="34" viewBox="0 0 48 48">' + mRing(col) +
+    '<rect x="10" y="14" width="28" height="20" rx="4" fill="none" stroke="' + col + '" stroke-width="2.6"/>' +
+    '<path d="M24 14 L24 34" stroke="' + col + '" stroke-width="2.2"/>' +
+    '<path d="M13 21 h7 M13 27 h7" stroke="' + col + '" stroke-width="2.2" stroke-linecap="round"/>' +
+    '<path d="M28 27 q2.5 -8 5 0 t5 0" fill="none" stroke="' + col + '" stroke-width="2.2" stroke-linecap="round"/></svg>'; }
+  /* ATO — 자동 운전 */
+  function mAto(col){ return '<svg width="34" height="34" viewBox="0 0 48 48">' + mRing(col) +
+    '<path d="M35 24 a11 11 0 1 1 -4 -8.5" fill="none" stroke="' + col + '" stroke-width="2.8" stroke-linecap="round"/>' +
+    '<path d="M31.5 10 L33 17 L26.5 16.5 Z" fill="' + col + '"/>' +
+    '<text x="24" y="29" text-anchor="middle" font-size="11.5" font-weight="800" fill="' + col + '">A</text></svg>'; }
+  /* ATC — 속도 신호 */
+  function mAtc(col){ return '<svg width="34" height="34" viewBox="0 0 48 48">' + mRing(col) +
+    '<circle cx="24" cy="25" r="12" fill="none" stroke="' + col + '" stroke-width="2.8"/>' +
+    '<path d="M24 25 L31 18" stroke="' + col + '" stroke-width="2.8" stroke-linecap="round"/>' +
+    '<circle cx="24" cy="25" r="3" fill="' + col + '"/>' +
+    '<path d="M24 9 v4 M13 14 l2.5 2.5 M35 14 l-2.5 2.5" stroke="' + col + '" stroke-width="2.2" stroke-linecap="round"/></svg>'; }
+  /* SIV — 보조전원장치 */
+  function mSiv(col){ return '<svg width="34" height="34" viewBox="0 0 48 48">' + mRing(col) +
+    '<rect x="11" y="13" width="26" height="22" rx="4" fill="none" stroke="' + col + '" stroke-width="2.6"/>' +
+    '<path d="M25 16 L18 26 h5 l-2 7 l8 -11 h-5 Z" fill="' + col + '"/>' +
+    '<path d="M16 10 v3 M32 10 v3" stroke="' + col + '" stroke-width="2.2" stroke-linecap="round"/></svg>'; }
+
+  var M_PINK = "#E6186C", M_ORG = "#E07A00", M_BLU = "#2563C9", M_TEA = "#0D8A86", M_GRY = "#9A8D95";
+  var MENU_META = {
+    "01": { g:"출입문 고장", c:M_PINK, i:function(c){ return mDoors(true,  false, c); } },
+    "02": { g:"출입문 고장", c:M_PINK, i:function(c){ return mDoors(true,  true,  c); } },
+    "03": { g:"출입문 고장", c:M_ORG,  i:function(c){ return mDoors(false, false, c); } },
+    "04": { g:"출입문 고장", c:M_ORG,  i:function(c){ return mDoors(false, true,  c); } },
+    "05": { g:"차량 장치",   c:M_BLU,  i:mScreen },
+    "06": { g:"승강장",      c:M_TEA,  i:mPsd },
+    "07": { g:"준비 중",     c:M_GRY,  i:mInv },
+    "08": { g:"준비 중",     c:M_GRY,  i:mAto },
+    "09": { g:"준비 중",     c:M_GRY,  i:mAtc },
+    "10": { g:"준비 중",     c:M_GRY,  i:mSiv }
+  };
+  function hexSoft(h){
+    var r = parseInt(h.slice(1,3),16), g = parseInt(h.slice(3,5),16), b = parseInt(h.slice(5,7),16);
+    return "rgba(" + r + "," + g + "," + b + ",.13)";
+  }
   function buildMenu(){
-    var g = $("menuGrid"); g.innerHTML = "";
+    var g = $("menuGrid"); g.innerHTML = ""; var last = "";
     COURSES.forEach(function(c){
+      var m = MENU_META[c.n] || { g:"", c:M_PINK, i:mScreen };
+      if (m.g && m.g !== last){
+        last = m.g;
+        var hd = document.createElement("div");
+        hd.className = "menu-grp"; hd.textContent = m.g;
+        g.appendChild(hd);
+      }
       var b = document.createElement("button");
       b.type = "button";
       b.className = "course";
       b.disabled = !c.ready;
+      b.style.setProperty("--cc", m.c);
+      b.style.setProperty("--ccs", hexSoft(m.c));
       b.innerHTML =
-        '<div class="row"><span class="num">' + c.n + '</span><h3>' + c.title + '</h3>' +
-        '<span class="badge' + (c.ready ? '' : ' soon') + '">' + (c.ready ? '훈련 가능' : '준비 중') + '</span></div>' +
-        '<p>' + c.desc + '</p>' +
-        (c.meta ? '<span class="meta mono">' + c.meta + '</span>' : '');
+        '<span class="num">' + c.n + '</span>' +
+        '<span class="cico">' + m.i(m.c) + '</span>' +
+        '<span class="ctx">' +
+          '<span class="row"><h3>' + c.title + '</h3>' +
+          (c.ready ? '' : '<span class="badge soon">준비 중</span>') + '</span>' +
+          '<p>' + c.desc + '</p>' +
+          (c.meta ? '<span class="meta mono">' + c.meta + '</span>' : '') +
+        '</span>';
       if (c.ready) b.addEventListener("click", function(){ showBrief(c); });
       g.appendChild(b);
     });
