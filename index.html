@@ -554,14 +554,17 @@
     background:linear-gradient(180deg,#4a4e54 0%,#17191c 42%,#08090a 72%,#26292d 100%);
     box-shadow:0 6px 10px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.3)}
   .mcx-h b{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:10px;color:#ffd84d;font-weight:800}
-  .mcx-rev{position:absolute;left:314px;top:60px;width:70px;height:124px;border:1.5px solid #5d6167;border-radius:3px}
-  .mcx-rslot{position:absolute;left:25px;width:18px;top:12px;bottom:12px;border:2.5px solid #eee;border-radius:9px;
+  .mcx-rev{position:absolute;left:292px;top:16px;width:108px;height:168px;border:1.5px solid #5d6167;border-radius:4px}
+  .mcx-rslot{position:absolute;left:40px;width:28px;top:16px;bottom:16px;border:3px solid #eee;border-radius:14px;
     background:repeating-linear-gradient(90deg,#141619 0 2px,#383b40 2px 3px)}
-  .mcx-rev span{position:absolute;left:7px;transform:translateY(-50%);font-size:10px;font-weight:700}
-  .mcx-rev span.r{left:auto;right:7px}
-  .mcx-shaft{position:absolute;left:30px;top:14px;width:9px;height:24px;border-radius:4px;background:linear-gradient(90deg,#0b0c0e,#3a3e44,#0b0c0e)}
-  .mcx-ball{position:absolute;left:50%;top:-10px;width:34px;height:34px;margin-left:-17px;border-radius:50%;
-    background:radial-gradient(circle at 38% 32%,#777b82,#0c0d0f 62%);box-shadow:0 5px 8px rgba(0,0,0,.75)}
+  .mcx-rev span{position:absolute;left:9px;transform:translateY(-50%);font-size:15px;font-weight:800}
+  .mcx-rev span.r{left:auto;right:9px}
+  .mcx-rev span.mcx-rp{cursor:pointer;padding:0 4px;border-radius:4px;z-index:5}
+  .mcx-rev span.mcx-rp:hover{background:#3a3d42}
+  .mcx-rev span.mcx-rp.cur{background:#ffd84d;color:#111!important}
+  .mcx-shaft{position:absolute;left:48px;top:19px;width:12px;height:33px;border-radius:6px;background:linear-gradient(90deg,#0b0c0e,#3a3e44,#0b0c0e)}
+  .mcx-ball{position:absolute;left:50%;top:-14px;width:44px;height:44px;margin-left:-22px;border-radius:50%;
+    background:radial-gradient(circle at 38% 32%,#777b82,#0c0d0f 62%);box-shadow:0 6px 10px rgba(0,0,0,.75)}
   .mcx-dev{position:absolute;left:404px;top:64px;width:22px;height:114px;border-radius:5px;
     background:linear-gradient(90deg,#141619,#3a3e44,#141619);border:1px solid #4a4e55}
   .mcx-go{position:absolute;left:290px;top:204px;width:152px;height:80px;border:1.5px solid #555a60;border-radius:3px;
@@ -1031,6 +1034,19 @@
   @keyframes pdl{0%,16%,100%{transform:translateX(0)}48%,66%{transform:translateX(13px)}}
   .cine-stage .pr{animation:pdr 2.2s ease-in-out infinite}
   @keyframes pdr{0%,16%,100%{transform:translateX(0)}48%,66%{transform:translateX(-13px)}}
+  #cfBox.cfmk .dmk,#cfBox.cfmk .dsx-b.mkd::after{animation:glow 1.1s ease-in-out infinite alternate}
+  .mcx-rev button{position:absolute;background:none;border:0;padding:0 4px;cursor:pointer;
+    color:#e8e8e8;font:inherit;font-size:10px;font-weight:700;line-height:12px;border-radius:3px;z-index:3}
+  .mcx-ball.live{cursor:pointer}
+  .mcx-ball.live::after{content:"";position:absolute;inset:-8px;border-radius:50%;
+    border:2.5px dashed #e6186c;animation:glow 1.1s ease-in-out infinite alternate}
+  .mcx-ball.live:hover{background:radial-gradient(circle at 38% 32%,#949aa2,#141518 62%)}
+  .mcx-ball,.mcx-shaft{transition:top .38s cubic-bezier(.33,0,.2,1)}
+  @media (prefers-reduced-motion:reduce){.mcx-ball,.mcx-shaft{transition:none}}
+  .cine-stage .cbsw{animation:cbswm 3.6s ease-in-out infinite}
+  @keyframes cbswm{0%,28%{transform:translateY(26px)}42%,74%{transform:translateY(0)}88%,100%{transform:translateY(26px)}}
+  .revlv{animation:revmv 7s ease-in-out infinite}
+  @keyframes revmv{0%,10%{transform:translateY(0)}17%,60%{transform:translateY(48px)}67%,100%{transform:translateY(0)}}
   .cine-stage .hand{animation:press 1.5s ease-in-out infinite}
   @keyframes press{0%,100%{transform:translateY(11px)}42%,62%{transform:translateY(0)}}
   .cine-stage .arm{transform-origin:418px 158px;animation:swing 1s ease-in-out infinite alternate}
@@ -1127,7 +1143,7 @@
       <div class="menu-mascot"><img id="menuMascot" alt="또타" src=""></div>
     </div>
     <div class="menu-grid" id="menuGrid"></div>
-    <p class="vertag mono">ver 8.9 · 2026-10-15</p>
+    <p class="vertag mono">ver 10.8 · 2026-10-17</p>
   </section>
 
   <!-- ================= BRIEF ================= -->
@@ -1786,8 +1802,7 @@
     s += '<rect x="16" y="15" width="252" height="152" fill="#050607" stroke="#2a2d31" stroke-width="1.5"/>';
     for (var i = 0; i < 5; i++)
       s += '<rect x="20" y="' + (28 + i*30) + '" width="244" height="2" fill="#12161b"/>';
-    s += '<text x="142" y="86" text-anchor="middle" font-size="16" font-weight="800" fill="#3a4049" letter-spacing="3">NO SIGNAL</text>';
-    s += '<text x="142" y="106" text-anchor="middle" font-size="10" font-weight="700" fill="#5a636b">TCMS 일반화면 미현시</text>';
+    s += '<text x="142" y="100" text-anchor="middle" font-size="27" font-weight="800" fill="#fff" letter-spacing="2">화면 미현시</text>';
     return s;
   }
   function miniTcms3(carFail, mNotch, mMode, allClosed, openOne){
@@ -2425,6 +2440,10 @@
     setMascot("ok");
     exFb(true, st.bpsFb || "<b>DBS(출입문 바이패스)</b>를 BYPASS로 취급했어.<br>이제 관제 지시대로 회송해. 영상으로 확인해 보자.");
     $("extraNote").innerHTML = st.bpsDone || "DBS(출입문 바이패스) <b>BYPASS</b> 취급 완료.";
+    if (st.sideAfterBps){
+      setTimeout(function(){ cfRender(); }, 120);
+      return;
+    }
     $("btnSkip").hidden = true;
     showNext();
     if (st.cine) $("btnReplay").hidden = false;
@@ -2447,6 +2466,7 @@
     exPlace(!!st.bpsUnderCab);
     $("extraWrap").hidden = false;
     var eb2 = $("extraWrap").querySelector(".extrab"); if (eb2) eb2.hidden = false;
+    var hd2 = $("extraWrap").querySelector(".extrab-h"); if (hd2) hd2.hidden = false;
     $("extraHead").textContent = "바이패스 스위치 패널";
     $("extraTag").textContent = st.bpsTag || "전체 출입문 BY-PASS";
     $("extraBox").innerHTML = bpsHtml();
@@ -2487,16 +2507,25 @@
     var st = CUR.steps[S.i];
     $("cabFullWrap").hidden = false;
     cfReset();
-    CFS.notch = 7; CFS.run = 1; CFS.door = 2; CFS.stage = 0; CFS.view = "all";
+    if (!st.cabKeep){ CFS.notch = 7; CFS.run = 1; CFS.door = 2; }
+    CFS.stage = 0; CFS.view = "all";
     if (S.answers[S.i] && S.answers[S.i].cab) cfSetDone();
     cfRender();
     document.getElementById("scSim").classList.add("full");
     if ($("cfTag")) $("cfTag").textContent = st.cabTag || "출입문 재취급";
   }
   function openModeCab(){
-    var stM = CUR.steps[S.i] || {};
+    var stM = CUR.steps[S.i] || {}, aM = (S && S.answers) ? S.answers[S.i] : null;
     $("cabFullWrap").hidden = false;
     cfReset(); CFS.notch = 7; CFS.run = 1; CFS.door = 2; CFS.stage = 0; CFS.view = "all";
+    if (stM.sideAfterBps && aM && aM.mode){
+      CFS.run = (stM.runTarget != null) ? stM.runTarget : 4;
+      CFS.stage = 1;
+      if (aM.side){
+        CFS.sidePos = cfSideSeq().length; CFS.pressed = "SOPEN";
+        CFS.doorView = "open"; CFS.stage = cfStages().length;
+      }
+    }
     cfRender();
     document.getElementById("scSim").classList.add("full");
     exPlace(!!stM.bpsUnderCab);
@@ -2555,7 +2584,10 @@
   }
   function showSideTask(ans){
     var st = CUR.steps[S.i];
+    exPlace(!!st.bpsUnderCab);
     $("extraWrap").hidden = false;
+    var ebS = $("extraWrap").querySelector(".extrab"); if (ebS) ebS.hidden = false;
+    var hdS = $("extraWrap").querySelector(".extrab-h"); if (hdS) hdS.hidden = false;
     $("extraHead").textContent = "측면 출입문 스위치";
     $("extraTag").textContent = st.sideTag || "닫힘 → 열림 취급";
     $("extraBox").innerHTML = sideTaskHtml(ans);
@@ -2584,6 +2616,9 @@
       setMascot("no"); exFb(false, msg);
     }
     if (id === "SREOPEN"){ miss("재개폐가 아니야. <b>닫힘</b>을 취급한 뒤 <b>열림</b>을 취급해. (감점 없음)"); return; }
+    if (id === "SCLOSE" && st.sideOpenOnly){
+      miss("지금은 <b>열림</b>을 취급할 차례야. (감점 없음)"); return;
+    }
     if (id === "SCLOSE"){
       ans.sClose = true;
       el.classList.add("hit");
@@ -2592,7 +2627,7 @@
       $("extraNote").innerHTML = "닫힘 취급 완료 — 이제 <b>열림</b>을 취급하세요.";
       return;
     }
-    if (!ans.sClose){ miss("먼저 <b>닫힘</b> 버튼을 취급한 뒤 열림을 취급해야 해. (감점 없음)"); return; }
+    if (!ans.sClose && !st.sideOpenOnly){ miss("먼저 <b>닫힘</b> 버튼을 취급한 뒤 열림을 취급해야 해. (감점 없음)"); return; }
     ans.side = true;
     el.classList.add("hit");
     setMascot("ok");
@@ -3713,6 +3748,8 @@
     "재취급 순서를 모두 맞췄습니다."
   ];
   var CFS = { notch:0, run:2, door:0, stage:0, view:"all", drag:false, pressed:null };
+  var CF_REV = ["F","N","R"], CF_REVTOP = [24, 52, 80], CF_REVOFF = [0, 47, 94];
+  var CF_RBALL = -14, CF_RSHAFT = 19;
 
   function lampCell(l, on, mark, cls){
     return '<span class="cf-lv' + (on ? " on" : "") + (mark ? " mark" : "") + (cls ? " " + cls : "") +
@@ -3840,7 +3877,8 @@
   function cfLampsHtml(){
     var top = "", side = "";
     var L = lampCfg();
-    CF_LTOP.forEach(function(l, i){ top += lampCell(l, i === 2 || (i === 1 && L.doorOn), i === 1); });
+    var _dk = !!(((CUR && S && CUR.steps[S.i]) || {}).cabDark), _mk = !_dk;
+    CF_LTOP.forEach(function(l, i){ top += lampCell(l, (i === 2 && !_dk) || (i === 1 && L.doorOn), i === 1 && _mk); });
     CF_LSIDE.forEach(function(l){ side += lampCell(l, false, false); });
     return '<div class="cf-ltop">' + top + '</div>' +
       '<div class="cf-r2"><div class="cf-adu"><div class="cf-lim">제한속도<b>0</b></div>' +
@@ -3918,8 +3956,7 @@
       var mk = ((CUR && S && CUR.steps[S.i]) || {}).cabMark ? ' class="tcmark"' : '';
       w.innerHTML = '<div' + mk + ' style="background:#050607;border:2px solid #2a2d31;border-radius:4px;' +
         'min-height:118px;display:grid;place-content:center;gap:5px;text-align:center;padding:14px 8px">' +
-        '<b style="color:#3a4049;font-size:19px;letter-spacing:4px;font-weight:800">NO SIGNAL</b>' +
-        '<span style="color:#5a636b;font-size:10.5px;font-weight:700">TCMS 일반화면 미현시</span></div>';
+        '<b style="color:#fff;font-size:30px;letter-spacing:3px;font-weight:800">화면 미현시</b></div>';
       w.style.height = "";
       return;
     }
@@ -3938,7 +3975,20 @@
   }
 
   /* 주간제어기 (MC) — 사진: 노치판 EB·B7~B1·N·P1~P4, 「주간제어기 B7」 명판, 역전기, 출발 버튼 */
-  function mcStage(live){
+  function revLbl(revLive){
+    var rv = CFS.rev || 0, s = "";
+    CF_REV.forEach(function(nm, i){
+      var cl = (nm === "N" ? "nn " : "") + (i === rv ? "cur" : "");
+      s += revLive
+        ? '<span class="mcx-rp ' + cl + '" data-r="' + i + '" style="top:' + CF_REVTOP[i] + '%">' + nm + '</span>'
+        : '<span class="' + cl + '" style="top:' + CF_REVTOP[i] + '%">' + nm + '</span>';
+      s += revLive
+        ? '<span class="r mcx-rp ' + cl + '" data-r="' + i + '" style="top:' + CF_REVTOP[i] + '%">' + nm + '</span>'
+        : '<span class="r ' + cl + '" style="top:' + CF_REVTOP[i] + '%">' + nm + '</span>';
+    });
+    return s;
+  }
+  function mcStage(live, revLive){
     var lb = "", rb = "", tk = "";
     CF_NOTCH_ORDER.forEach(function(n){
       var py = (10 + CF_NOTCH_Y[n]*252).toFixed(1), nm = CF_NOTCH[n],
@@ -3954,10 +4004,10 @@
         '<ol><li>회차시</li><li>수동운전 정위치 정차후</li><li>출입문 수동취급시</li><li>TCMS → “B7” 확인</li></ol></div>' +
       '<div class="mcx-sc"' + (live ? ' id="cfMcSc"' : '') + '><div class="mcx-slot"></div>' + tk + lb + rb +
         '<div class="mcx-h"' + (live ? ' id="cfMcH"' : '') + ' style="top:' + hy + 'px"></div></div>' +
-      '<div class="mcx-rev"><div class="mcx-rslot"></div>' +
-        '<span style="top:24%">F</span><span class="nn" style="top:52%">N</span><span style="top:80%">R</span>' +
-        '<span class="r" style="top:24%">F</span><span class="r nn" style="top:52%">N</span><span class="r" style="top:80%">R</span>' +
-        '<i class="mcx-shaft"></i><i class="mcx-ball"></i></div>' +
+      '<div class="mcx-rev"><div class="mcx-rslot"></div>' + revLbl(revLive) +
+        '<i class="mcx-shaft" style="top:' + (CF_RSHAFT + CF_REVOFF[CFS.rev || 0]) + 'px"></i>' +
+        '<i class="mcx-ball' + (revLive ? ' live' : '') + '" style="top:' +
+          (CF_RBALL + CF_REVOFF[CFS.rev || 0]) + 'px"></i></div>' +
       '<div class="mcx-dev"></div>' +
       '<div class="mcx-go"><span>출발</span><i></i><i></i></div>' +
     '</div>';
@@ -4054,12 +4104,16 @@
     if (h === "run")  return CFS.run === (cfStep().runTarget != null ? cfStep().runTarget : 1);
     if (h === "dsel"){
       var sq = cfConsSeq();
-      return CFS.door === 2 && (!sq || (CFS.consPos || 0) >= sq.length);
+      return (CFS.door === 2 || !!cfStep().consFree) && (!sq || (CFS.consPos || 0) >= sq.length);
     }
     if (h === "side") return (CFS.sidePos || 0) >= cfSideSeq().length;
+    if (h === "rev")  return (CFS.revPos || 0) >= ((cfStep().revSeq || ["N","F"]).length);
     return false;
   }
-  function stageDone(i){ var s = cfStages()[i]; return !!s && s.every(hotOk); }
+  function stageDone(i){
+    var s = cfStages()[i]; if (!s) return false;
+    return cfStep().cabAny ? s.some(hotOk) : s.every(hotOk);
+  }
   function hotCls(h){
     var i = stageOf(h);
     if (i < 0) return "";
@@ -4172,7 +4226,7 @@
   }
 
   /* 측면 출입문 스위치 — 사진 재현 (RSDCS / RSDROS / RSDOS) */
-  function sdPanelSvg(){
+  function sdPanelSvg(mark){
     var s = '<svg viewBox="0 0 210 142" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
     s += '<rect x="2" y="2" width="206" height="138" rx="9" fill="#17191c" stroke="#44484e" stroke-width="2"/>';
     s += '<rect x="12" y="12" width="186" height="118" rx="5" fill="none" stroke="#e4e7ea" stroke-width="1.6"/>';
@@ -4191,6 +4245,8 @@
       s += '<text x="'+b[0]+'" y="107" text-anchor="middle" font-size="11" font-weight="700" fill="#eef1f4">'+b[3]+'</text>';
       s += '<text x="'+b[0]+'" y="120" text-anchor="middle" font-size="8.5" fill="#cdd2d8">'+b[4]+'</text>';
     });
+    if (mark) s += '<circle class="dmk" cx="56" cy="62" r="31" fill="none" stroke="' + C.pink +
+                   '" stroke-width="3.4" stroke-dasharray="7 5"/>';
     return s + '</svg>';
   }
   function cfCabAll(){
@@ -4203,7 +4259,7 @@
     function wall(side){
       var head = '<div class="cf-cap">' + (side === "r" ? "우측 벽면" : "좌측 벽면") + '</div>';
       var body = (side === "r")
-        ? hotBox("side", "측면 출입문<br>스위치", sdPanelSvg())
+        ? hotBox("side", "측면 출입문<br>스위치", sdPanelSvg(cfCloseMark()))
         : '<div class="cf-box" style="padding:0;border:0;background:none;opacity:.55">' +
           '<span class="cf-hname">측면 출입문<br>스위치</span>' + sdPanelSvg() + '</div>';
       return '<div class="cfwall' + (side === "r" ? " r" : "") + '">' + head + body + '</div>';
@@ -4218,8 +4274,10 @@
       '<div class="cfg-b">' +
         wall("l") +
         box("방송장치", paBoxHtml()) +
-        hot("dsel", "출입문 모드 선택 스위치", fx(460, dsStage(false, false))) +
-        hot("mc",   "주간제어기 (MC)",    fx(460, mcStage(false))) +
+        hot("dsel", "출입문 모드 선택 스위치", fx(460, dsStage(false, false, cfCloseMark() ? "DCS" : null))) +
+        (stageOf("rev") >= 0
+          ? hot("rev", "주간제어기 (MC) · 역전기", fx(460, mcStage(false, revLiveNow())))
+          : hot("mc",  "주간제어기 (MC)",        fx(460, mcStage(false)))) +
         hot("run",  "운전모드 선택",      fx(460, rmStage(false))) +
         wall("r") +
       '</div>';
@@ -4234,17 +4292,22 @@
     mc:   ["주간제어기 (MC)", "제동 취급", '손잡이를 <b>끌어서 옮기거나</b> 왼쪽 노치 이름을 눌러 취급하세요.'],
     run:  ["운전모드 선택 스위치", "모드 전환", '운전모드선택 스위치의 <b>위치 이름</b>을 누르거나 손잡이를 눌러 돌리세요.'],
     dsel: ["출입문 모드 선택 스위치", "출입문 선택", '출입문 선택 스위치의 <b>위치 이름</b>을 누르거나 손잡이를 눌러 돌리세요.'],
-    side: ["측면 출입문 스위치", "출입문 취급", '측면 출입문 스위치로 재취급하세요.']
+    side: ["측면 출입문 스위치", "출입문 취급", '측면 출입문 스위치로 재취급하세요.'],
+    rev:  ["주간제어기 (MC) · 역전기", "역전기 취급",
+           '<b>F · N · R</b> 글자를 누르거나 <b>역전기 손잡이를 직접 눌러</b> 옮길 수 있습니다.<br>' +
+           '손잡이를 <b>N</b>으로 내렸다가 다시 <b>F</b>로 투입하세요.']
   };
   function cfRender(){
     var box = $("cfBox"); if (!box) return;
     var v = CFS.view, vi = stageOf(v);
     var ro = cabLocked() || (v !== "all" && (vi < 0 || vi < CFS.stage));
     box.classList.toggle("det", v !== "all");
+    box.classList.toggle("cfmk", cfCloseMark() && v === "all");
     if (v === "all") box.innerHTML = cfCabAll();
     else {
       var d = CF_DET[v], stage =
         v === "mc"   ? fx(460, mcStage(!ro), 1.5) :
+        v === "rev"  ? fx(460, mcStage(false, !ro), 1.5) :
         v === "run"  ? fx(460, rmStage(!ro), 1.6) :
         v === "dsel" ? fx(460, dsStage(!ro, !cabLocked(), cfConsWant()), 1.4) :
                        '<div class="cf-sdtc"><div class="cf-cap">TCMS · 일반화면</div><div class="cf-tcw"></div></div>' +
@@ -4262,6 +4325,7 @@
         if (cabLocked() && CFS.stage < cfStages().length) el.disabled = true;
         el.addEventListener("click", function(){ cfHot(el.dataset.h, el); });
       });
+      if (revLiveNow()) cfBindRev(box);
     } else {
       $("cfBack").addEventListener("click", function(){ CFS.view = "all"; cfRender(); });
       if (v === "mc" && !ro){
@@ -4270,6 +4334,7 @@
         });
         cfBindDrag($("cfMcSc"));
       }
+      if (v === "rev" && !ro) cfBindRev(box);
       if (v === "run" && !ro){
         box.querySelectorAll(".rmx-pl[data-p]").forEach(function(el){
           el.addEventListener("click", function(){ cfSetRun(+el.dataset.p); });
@@ -4299,9 +4364,9 @@
   }
   function cfChips(){
     var s0 = cfStep();
-    if (s0.cabView){
+    if (s0.cabView && !cabAfterLive()){
       if ($("cfSteps")) $("cfSteps").innerHTML = "";
-      if ($("cfNote"))  $("cfNote").innerHTML  = s0.cabNote || "운전실 전경입니다. 아래 문제를 풀어 보세요.";
+      if ($("cfNote"))  $("cfNote").innerHTML  = (s0.cabNote != null) ? s0.cabNote : "운전실 전경입니다. 아래 문제를 풀어 보세요.";
       return;
     }
     if (s0.modeCab && !(S && S.answers && S.answers[S.i])){
@@ -4356,11 +4421,66 @@
     if (cabLocked() || stageOf("run") !== CFS.stage) return;
     CFS.run = p; cfRender(); cfCheck("run");
   }
+  function cabAfterLive(){
+    var st = cfStep();
+    return !!(st.cabAfter && st.cabView && S && S.answers && S.answers[S.i]);
+  }
+  function revLiveNow(){
+    return !!(cfStep().revSeq && cabAfterLive() && CFS.stage === stageOf("rev") && !cabLocked());
+  }
+  function cfCloseMark(){
+    var st = cfStep();
+    return !!(st.cabMulti && cabAfterLive() && CFS.stage === 0 && !cabLocked());
+  }
+  function cfBindRev(box){
+    box.querySelectorAll(".mcx-rev .mcx-rp[data-r]").forEach(function(el){
+      el.addEventListener("click", function(ev){ ev.preventDefault(); ev.stopPropagation(); cfSetRev(+el.dataset.r); });
+    });
+    var bk = box.querySelector(".mcx-ball.live");
+    if (bk) bk.addEventListener("click", function(ev){
+      ev.preventDefault(); ev.stopPropagation();
+      /* 손잡이 클릭 = F ↔ N 왕복 (R 은 글자를 눌러 이동) */
+      cfSetRev((CFS.rev || 0) === 0 ? 1 : 0);
+    });
+  }
+  function cfRevPaint(){
+    var box = $("cfBox"); if (!box) return;
+    var rv = CFS.rev || 0, off = CF_REVOFF[rv];
+    var b = box.querySelector(".mcx-ball"), sh = box.querySelector(".mcx-shaft");
+    if (b)  b.style.top  = (CF_RBALL + off) + "px";
+    if (sh) sh.style.top = (CF_RSHAFT + off) + "px";
+    box.querySelectorAll(".mcx-rev .mcx-rp").forEach(function(el){
+      el.classList.toggle("cur", (+el.dataset.r) === rv);
+    });
+    box.querySelectorAll(".mcx-rev span.r").forEach(function(el, i){
+      el.classList.toggle("cur", i === rv);
+    });
+  }
+  function cfSetRev(p){
+    if (cabLocked()) return;
+    if (p === (CFS.rev || 0)) return;
+    var seq = cfStep().revSeq || ["N","F"], pos = CFS.revPos || 0;
+    CFS.rev = p;
+    var hit = (pos < seq.length && CF_REV[p] === seq[pos]);
+    if (hit) CFS.revPos = pos + 1;
+    cfRevPaint();
+    if ((CFS.revPos || 0) >= seq.length){ setTimeout(function(){ cfCheck("rev"); }, 420); return; }
+    if (hit){
+      setMascot("ok");
+      feedback(true, "<b>역전기 " + CF_REV[p] + "</b> 위치. <b>3초</b> 정도 둔 뒤 다시 <b>" +
+                     seq[CFS.revPos] + "</b>로 투입해.");
+      return;
+    }
+    setMascot("que");
+    feedback(false, "<b>" + CF_REV[p] + "</b> 위치로 옮겼어. 리셋은 <b>N으로 내렸다가 다시 F로</b> 투입하는 거야. (감점 없음)");
+    setTimeout(function(){ if (!S.locked){ $("fbArea").innerHTML = ""; setMascot("que"); } }, 1800);
+  }
   function cfSetDoor(p){
     if (S.locked || stageOf("dsel") !== CFS.stage) return;
     CFS.door = p; cfRender(); cfCheck("dsel");
   }
   function cfStageMsg(i){
+    var cm = cfStep().cabMsgs; if (cm && cm[i]) return cm[i];
     var s = cfStages()[i] || [];
     if (s.indexOf("mc") >= 0) return "<b>주간제어기 B7</b>. 제동을 확보했어. 운전실로 돌아가자.";
     if (s.indexOf("run") >= 0) return "<b>운전모드 수동 · 출입문모드 수 / 수</b>. 이제 문을 열 차례야.";
@@ -4382,7 +4502,7 @@
   function cfConsSeq(){ return cfStep().consSeq || null; }
   function cfConsWant(){
     var sq = cfConsSeq(); if (!sq) return null;
-    if (CFS.door !== 2) return null;
+    if (CFS.door !== 2 && !cfStep().consFree) return null;
     return sq[CFS.consPos || 0] || null;
   }
   function cfConsole(id, el){
@@ -4391,7 +4511,7 @@
     if (sq){
       var want = sq[CFS.consPos || 0];
       if (!want) return;
-      if (CFS.door !== 2){
+      if (CFS.door !== 2 && !cfStep().consFree){
         setMascot("no");
         feedback(false, "먼저 <b>출입문 모드</b>를 <b>수 / 수</b>로 맞춰야 해. (감점 없음)");
         setTimeout(function(){ if (!S.locked){ $("fbArea").innerHTML = ""; setMascot("que"); } }, 1600);
@@ -4414,16 +4534,18 @@
       feedback(true, "<b>중앙 제어대 닫힘</b> 취급. 그런데 TCMS는 그대로야.<br>이제 <b>측면 출입문 스위치</b>에서 닫힘을 취급해.");
       cfRender();
       setTimeout(function(){ if (!S.locked){ $("fbArea").innerHTML = ""; setMascot("que"); } }, 1800);
-      if (stageDone(CFS.stage)) cfAdvance();
+      if (stageDone(CFS.stage)) cfAdvance(cfStageMsg(CFS.stage));
       return;
     }
     el.classList.add("miss");
     setTimeout(function(){ el.classList.remove("miss"); }, 700);
-    var msg;
-    if (stageOf("side") < 0) msg = "지금은 출입문 버튼을 누를 차례가 아니야. 조건만 맞추면 돼. 처음부터 다시 해 보자.";
-    else if (id === "LDOS" || id === "RDOS") msg = "좌·우측열림 스위치는 <b>취급금지</b>야. 재취급은 <b>측면 출입문 스위치</b>에서 해. 처음부터 다시 취급해 보자.";
-    else msg = "재취급은 <b>열림</b> 취급부터야. <b>측면 출입문 스위치</b>에서 열림을 취급해. 처음부터 다시 해 보자.";
-    cfWrong(msg);
+    if (id === "LDOS" || id === "RDOS"){
+      cfWrong("좌·우측열림 스위치는 <b>취급금지</b>야. 재취급은 <b>측면 출입문 스위치</b>에서 해. 처음부터 다시 취급해 보자.");
+      return;
+    }
+    cfNudge(stageOf("side") < 0
+      ? "지금은 중앙 제어대 버튼을 누를 차례가 아니야. 조건만 맞추면 돼. (감점 없음)"
+      : "재취급은 <b>측면 출입문 스위치</b>에서 해. (감점 없음)");
   }
   function cfSide(id, el){
     if (cabLocked()) return;
@@ -4432,7 +4554,7 @@
     if (id === "SREOPEN"){
       el.classList.add("miss");
       setTimeout(function(){ el.classList.remove("miss"); }, 700);
-      cfWrong("재개폐가 아니라 <b>" + seqTxt + "</b>으로 전체 출입문을 재취급해야 해. 처음부터 다시 해 보자.");
+      cfNudge("재개폐가 아니라 <b>" + seqTxt + "</b>으로 전체 출입문을 재취급해야 해. (감점 없음)");
       return;
     }
     if (id !== want){
@@ -4453,6 +4575,8 @@
     if (id === "SOPEN") CFS.doorOpened = true;
     cfRender();
     if (CFS.sidePos >= seq.length){
+      if (cfStep().cabMulti){ cfCheck("side"); return; }
+      if (cfStep().sideAfterBps){ cfSideBpsDone(); return; }
       CFS.pressed = "SOPEN";
       CFS.stage = cfStages().length;
       if ((CUR.steps[S.i] || {}).cabAfter){ cfChips(); cfAfterDone(); return; }
@@ -4466,9 +4590,26 @@
       "이제 <b>" + SIDE_LBL[seq[CFS.sidePos]] + "</b>을 취급해.");
   }
 
+  function cfSideBpsDone(){
+    var st = CUR.steps[S.i], ans = S.answers[S.i];
+    if (ans) ans.side = true;
+    CFS.pressed = "SOPEN";
+    CFS.stage = cfStages().length;
+    cfRender();                       /* 확대 화면 잠시 유지 */
+    setTimeout(function(){ CFS.view = "all"; cfRender(); }, 2600);
+    setMascot("ok");
+    feedback(true, st.sideFb || "<b>열림</b> 취급 완료.");
+    if ($("extraNote")) $("extraNote").innerHTML = st.sideDone || st.bpsDone || "";
+    $("btnSkip").hidden = true;
+    showNext();
+    if (st.cine) $("btnReplay").hidden = false;
+  }
   function modeCabLive(){
     var st = (CUR && S && CUR.steps[S.i]) || {}, a = (S && S.answers) ? S.answers[S.i] : null;
-    return !!(st.modeCab && a && !a.mode);
+    if (!st.modeCab || !a) return false;
+    if (!a.mode) return true;
+    if (st.sideAfterBps) return !!a.bps && !a.side;   /* ZVBPS 후 측면 열림 단계 */
+    return false;
   }
   function cabLocked(){
     var st = (CUR && S && CUR.steps[S.i]) || {};
@@ -4483,13 +4624,18 @@
     setMascot("ok");
     feedback(true, "운전모드를 <b>비상</b>으로 바꿨어. 이제 배전반에서 ZVBPS를 취급할 수 있어.");
     setTimeout(function(){
-      cfSetDone(); cfRender();
+      var stM = CUR.steps[S.i] || {};
+      if (stM.sideAfterBps){ CFS.stage = 1; CFS.view = "all"; }
+      else cfSetDone();
+      cfRender();
       $("fbArea").innerHTML = ""; setMascot("que");
       showBpsTask(S.answers[S.i]);
     }, 1400);
   }
   function cfAdvance(msg){
     CFS.stage++;
+    var stA = CUR.steps[S.i] || {}, aA = (S.answers || [])[S.i] || {};
+    if (stA.modeCab && stA.sideAfterBps && !aA.mode){ cfModeDone(); return; }
     if (CFS.stage >= cfStages().length){
       cfChips();
       if ((CUR.steps[S.i] || {}).modeCab){ cfModeDone(); return; }
@@ -4511,9 +4657,10 @@
     if (i < 0 || i > CFS.stage){
       el.classList.add("miss");
       setTimeout(function(){ el.classList.remove("miss"); }, 700);
-      cfWrong(i < 0 ? "지금은 그 기기를 취급할 차례가 아니야. 필요한 조건부터 순서대로 맞춰 봐."
-            : CFS.stage === 0 ? "아직 일러. <b>제동을 먼저 확보</b>한 다음 순서야. 처음부터 다시 취급해 보자."
-            : "모드 전환이 아직 안 끝났어. <b>운전모드</b>와 <b>출입문 선택</b> 스위치를 먼저 맞춰야 해.");
+      cfNudge(cfStep().cabMulti ? "순서가 달라. 먼저 <b>출입문 닫힘</b>부터 취급해 보자. (감점 없음)"
+            : i < 0 ? "지금은 그 기기를 취급할 차례가 아니야. 안내에 나온 순서대로 해 보자. (감점 없음)"
+            : CFS.stage === 0 ? "아직 일러. <b>제동(B7)을 먼저 확보</b>한 다음 순서야. (감점 없음)"
+            : "모드 전환이 아직 안 끝났어. <b>운전모드</b>와 <b>출입문 선택</b> 스위치를 먼저 맞춰 보자. (감점 없음)");
       return;
     }
     CFS.view = h; cfRender();
@@ -4521,14 +4668,32 @@
   function cfReset(){
     CFS.notch = 0; CFS.run = 2; CFS.door = 1; CFS.stage = 0; CFS.view = "all"; CFS.drag = false; CFS.pressed = null;
     CFS.sidePos = 0; CFS.doorView = "base"; CFS.doorOpened = false; CFS.consPos = 0;
+    CFS.rev = 0; CFS.revPos = 0;
   }
   function cfSetDone(){
+    if (cfStep().cabKeep){
+      CFS.consPos = (cfConsSeq() || []).length;
+      CFS.sidePos = cfSideSeq().length;
+      CFS.revPos  = (cfStep().revSeq || []).length; CFS.rev = 0;
+      CFS.doorView = "closed";
+      CFS.stage = cfStages().length; CFS.view = "all";
+      return;
+    }
     if (CUR && CUR.doorCloseFail) CFS.doorOpened = true;
     CFS.consPos = (cfConsSeq() || []).length;
     CFS.notch = 7; CFS.run = (stageOf("run") >= 0) ? 1 : 2; CFS.door = 2;
     CFS.stage = cfStages().length; CFS.view = "all"; CFS.pressed = (stageOf("side") >= 0) ? "SOPEN" : null;
     CFS.sidePos = (stageOf("side") >= 0) ? cfSideSeq().length : 0;
     CFS.doorView = (stageOf("side") >= 0) ? "open" : "base";
+  }
+  /* 잘못 눌러도 처음으로 되돌리지 않고 안내만 */
+  function cfNudge(msg){
+    setMascot("no");
+    feedback(false, msg);
+    setTimeout(function(){
+      if (S.locked) return;
+      $("fbArea").innerHTML = ""; setMascot("que");
+    }, 1900);
   }
   function cfWrong(msg){
     S.tries++;
@@ -4818,8 +4983,7 @@
                  "역전기를 재투입합니다."],
       manual:   ["수동운전 · 다음 정거장", "재설정", manualRunScene,
                  "수동운전으로 다음 정거장까지 운행합니다."],
-      cb2:      ["객실 배전반 · 회로차단기", "2차분 (도시바)", function(){ return cb2BoardHtml(!!ans, false); },
-                 '<span class="bigtip">👉 차단기를 <b>한 번 누르면</b>(PC는 마우스를 올리면) 확대되고, <b>한 번 더 누르면</b> 크게 볼 수 있습니다.</span><em>※ 점선 표시 = 출입문 관련 차단기</em>']
+      cb2:      ["객실 배전반 · 회로차단기", "2차분 (도시바)", function(){ return cb2BoardHtml(!!ans, false); }, ""]
     };
     if (!window.__TRAIN_ANCHOR) window.__TRAIN_ANCHOR = $("trainWrap").nextSibling;
     var tw = $("trainWrap"), par = tw.parentNode;
@@ -4829,6 +4993,7 @@
     $("trainWrap").hidden = !sb;
     if (sb){ $("trainHead").textContent = sb[0]; $("trainTag").textContent = sb[1];
              $("trainBox").innerHTML = sb[2](); $("trainNote").textContent = sb[3];
+             if (st.board === "cb2") $("trainNote").innerHTML = CB2_TIP;
              if (st.board === "bps") bpsBind();
              if (st.board === "cbp") cbBind();
              if (st.board === "cb2") cb2Bind(); }
@@ -5001,7 +5166,8 @@
       if (st.cbTask){
         $("trainWrap").hidden = false;
         $("trainBox").innerHTML = cb2BoardHtml(true, false);
-        $("trainNote").textContent = "빨간 점선으로 표시된 DSPN 차단기를 눌러 OFF → ON 으로 리셋하세요.";
+        $("trainNote").innerHTML = CB2_TIP +
+          '<span class="cbrcnt">빨간 점선으로 표시된 DSPN 차단기를 눌러 OFF → ON 으로 리셋하세요.</span>';
         cb2Bind();
         if (!ans.cbr2) return;
       }
@@ -5018,6 +5184,8 @@
     var eb = $("extraWrap").querySelector(".extrab"); if (eb) eb.hidden = false;
     $("extraHead").textContent = ap[0] || "";
     $("extraTag").textContent  = ap[1] || "";
+    var apH = $("extraWrap").querySelector(".extrab-h");
+    if (apH) apH.hidden = !(ap[0] || ap[1]);
     $("extraBox").innerHTML    = ap[2]();
     $("extraNote").innerHTML   = ap[3] || "";
     $("extraPrompt").innerHTML = "";
@@ -5134,7 +5302,8 @@
     if (st.cbTask){
       $("trainWrap").hidden = false;
       $("trainBox").innerHTML = cb2BoardHtml(true, false);
-      $("trainNote").textContent = "빨간 점선으로 표시된 DSPN 차단기를 눌러 OFF → ON 으로 리셋하세요.";
+      $("trainNote").innerHTML = CB2_TIP +
+        '<span class="cbrcnt">빨간 점선으로 표시된 DSPN 차단기를 눌러 OFF → ON 으로 리셋하세요.</span>';
       cb2Bind();
       if (!(S.answers[S.i] && S.answers[S.i].cbr2)) return;
     }
@@ -5158,7 +5327,7 @@
       if (st.cutTask && !(a0 && a0.cut)){ showCutTask(a0); return; }
       if (st.modeCab && !(a0 && a0.mode)) openModeCab();
       else if (st.modeTask && !(a0 && a0.mode)) showModeTask(a0);
-      else showBpsTask(a0);
+      else { if (st.modeCab && st.sideAfterBps) openModeCab(); showBpsTask(a0); }
       return;
     }
     showNext();
@@ -5728,6 +5897,7 @@
     feedback(true, "<b>DRN · DCRN · DCLN</b>을 모두 <b>OFF → ON</b>으로 리셋했어.<br>그래도 출입문이 닫히지 않았어. 다음 조치로 넘어가자.");
     showNext();
   }
+  var CB2_TIP = '<span class="bigtip">👉 차단기를 <b>한 번 누르면</b>(PC는 마우스를 올리면) 확대되고, <b>한 번 더 누르면</b> 크게 볼 수 있습니다.</span>';
   var CB_TIP = '<span class="bigtip">👉 차단기를 <b>한 번 누르면</b>(PC는 마우스를 올리면) 확대되고, <b>한 번 더 누르면</b> 크게 볼 수 있습니다.</span><em>※ 점선 표시 = 출입문 관련 차단기</em>';
   var CUTS = { off:{} };
   function cbShortName(id){ return (id === "DRN") ? "출입문 제어" : (CB_NAME[id] || ""); }
@@ -5764,6 +5934,7 @@
     exPlace(!!(CUR.steps[S.i] || {}).bpsUnderCab);
     $("extraWrap").hidden = false;
     var ebc = $("extraWrap").querySelector(".extrab"); if (ebc) ebc.hidden = false;
+    var hdc = $("extraWrap").querySelector(".extrab-h"); if (hdc) hdc.hidden = false;
     $("extraHead").textContent = "객실 배전반 · 회로차단기 차단";
     $("extraTag").textContent = "DRN · DCRN · DCLN";
     $("extraBox").innerHTML = cutRowSvg();
@@ -6112,15 +6283,10 @@
          (off ? "#ff8a8a" : "#eef1f4") + '">' + (off ? "OFF" : "ON") + '</text>';
     s += '<rect x="' + (x+3) + '" y="' + (y+66) + '" width="' + (bw-6) + '" height="15" rx="1.5" fill="#20262b" stroke="#3a4248" stroke-width=".7"/>';
     s += '<text x="' + (x+bw/2) + '" y="' + (y+77.5) + '" text-anchor="middle" font-size="7.4" font-weight="700" fill="#d7dade">10A</text>';
-    if (hot){
-      s += '<rect x="' + (x-6) + '" y="' + (y-40) + '" width="' + (bw+12) + '" height="130" rx="6" fill="' + CB2_RED + '" opacity=".16" pointer-events="none"/>';
-      s += '<rect x="' + (x-6) + '" y="' + (y-40) + '" width="' + (bw+12) + '" height="130" rx="6" fill="none" stroke="#fff" stroke-width="6"/>';
-      s += '<rect class="glow" x="' + (x-6) + '" y="' + (y-40) + '" width="' + (bw+12) + '" height="130" rx="6" ' +
-           'fill="none" stroke="' + CB2_RED + '" stroke-width="3.8" stroke-dasharray="9 6"/>';
-    }
     return s;
   }
   function cb2PanelSvg(marked){
+    var hl = "";
     var s = '<svg viewBox="0 0 980 432" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
     s += '<rect width="980" height="432" rx="6" fill="#f2c200"/>';
     s += '<rect x="12" y="10" width="956" height="412" rx="4" fill="#0d0f11"/>';
@@ -6145,7 +6311,15 @@
       });
       /* 차단기 */
       ids.forEach(function(id, i){
-        s += cb2Module(bx0 + i*w, by, bw, id, marked && CB2_HL.indexOf(id) >= 0, false);
+        s += cb2Module(bx0 + i*w, by, bw, id, false, false);
+      });
+      /* 강조 표시 — 맨 위에 그려 잘리지 않게 */
+      if (marked) ids.forEach(function(id, i){
+        if (CB2_HL.indexOf(id) < 0) return;
+        var hx = bx0 + i*w - 7, hy = ry + 24, hw = bw + 14, hh = 136;
+        hl += '<rect x="' + hx + '" y="' + hy + '" width="' + hw + '" height="' + hh + '" rx="7" fill="' + CB2_RED + '" opacity=".18" pointer-events="none"/>';
+        hl += '<rect x="' + hx + '" y="' + hy + '" width="' + hw + '" height="' + hh + '" rx="7" fill="none" stroke="#0d0f11" stroke-width="7" pointer-events="none"/>';
+        hl += '<rect class="glow" x="' + hx + '" y="' + hy + '" width="' + hw + '" height="' + hh + '" rx="7" fill="none" stroke="' + CB2_RED + '" stroke-width="4" stroke-dasharray="10 7" pointer-events="none"/>';
       });
       /* 클릭 영역 */
       ids.forEach(function(id, i){
@@ -6154,6 +6328,7 @@
              '" height="92" fill="transparent" style="cursor:zoom-in"/>';
       });
     });
+    s += hl;
     if (marked){
       s += '<rect x="296" y="378" width="388" height="34" rx="17" fill="' + CB2_RED + '"/>';
       s += '<text x="490" y="402" text-anchor="middle" font-size="19" font-weight="800" fill="#fff">DSPN을 눌러 리셋 (OFF → ON)</text>';
@@ -6251,12 +6426,201 @@
     });
   }
   /* 조치 불능 시 — 관제보고 · 운전모드 수동 · 수동운전 후 재설정 */
+  /* 역전기 재투입 — 출입문 닫힘 확인 후 F → N → F */
+  function revResetScene(){
+    var P = C.pink, G = "#3ee87a", GL = ' style="filter:drop-shadow(0 0 5px ' + G + ')"';
+    var s = '<svg viewBox="0 0 420 292" xmlns="http://www.w3.org/2000/svg">';
+    s += '<defs>' +
+         '<linearGradient id="rvcon" x1="0" y1="0" x2="0" y2="1">' +
+           '<stop offset="0" stop-color="#2d3238"/><stop offset=".16" stop-color="#1a1d21"/>' +
+           '<stop offset="1" stop-color="#0b0d0f"/></linearGradient>' +
+         '<linearGradient id="rvslot" x1="0" y1="0" x2="1" y2="0">' +
+           '<stop offset="0" stop-color="#101216"/><stop offset=".5" stop-color="#32363c"/>' +
+           '<stop offset="1" stop-color="#101216"/></linearGradient>' +
+         '<radialGradient id="rvball" cx="36%" cy="30%" r="72%">' +
+           '<stop offset="0" stop-color="#8b9098"/><stop offset=".55" stop-color="#23262a"/>' +
+           '<stop offset="1" stop-color="#08090a"/></radialGradient>' +
+         '</defs>';
+    s += '<rect width="420" height="292" fill="#fbf6f8"/>';
+    /* 상단 안내 */
+    s += '<rect x="74" y="4" width="272" height="24" rx="12" fill="' + P + '"/>';
+    s += '<text x="210" y="21" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">출입문 닫힘 확인 후 역전기 재투입</text>';
+    /* 제어대 */
+    s += '<rect x="46" y="38" width="328" height="216" rx="10" fill="url(#rvcon)" stroke="#4a4e55" stroke-width="2"/>';
+    s += '<rect x="56" y="44" width="308" height="5" rx="2.5" fill="#5a6068" opacity=".45"/>';
+    /* 역전기 명판 */
+    s += '<rect x="86" y="58" width="160" height="176" rx="5" fill="#101317" stroke="#5d6167" stroke-width="1.8"/>';
+    s += '<rect x="152" y="74" width="28" height="144" rx="14" fill="url(#rvslot)" stroke="#eee" stroke-width="3"/>';
+    [["F", 98], ["N", 146], ["R", 194]].forEach(function(k){
+      s += '<text x="136" y="' + (k[1] + 6) + '" text-anchor="end" font-size="17" font-weight="800" fill="' + G + '"' + GL + '>' + k[0] + '</text>';
+      s += '<text x="196" y="' + (k[1] + 6) + '" font-size="17" font-weight="800" fill="' + G + '"' + GL + '>' + k[0] + '</text>';
+      s += '<rect x="141" y="' + (k[1] - 1.2) + '" width="9" height="2.4" fill="#e8e8e8"/>';
+      s += '<rect x="182" y="' + (k[1] - 1.2) + '" width="9" height="2.4" fill="#e8e8e8"/>';
+    });
+    /* 레버 — F ↔ N 왕복 (N에서 3초 정지) */
+    s += '<g class="revlv">';
+    s += '<rect x="161" y="96" width="10" height="36" rx="5" fill="#22262b" stroke="#4a5058" stroke-width="1.1"/>';
+    s += '<ellipse cx="166" cy="118" rx="18" ry="5" fill="#000" opacity=".45"/>';
+    s += '<circle cx="166" cy="98" r="20" fill="url(#rvball)"/>';
+    s += '<ellipse cx="160" cy="91" rx="6" ry="4" fill="#b9bec6" opacity=".5"/>';
+    s += '</g>';
+    s += '<text x="166" y="248" text-anchor="middle" font-size="11" font-weight="800" fill="#9aa4ae">역전기 (REVERSER)</text>';
+    /* ① F → N */
+    s += '<line x1="278" y1="104" x2="278" y2="136" stroke="' + P + '" stroke-width="3.6" stroke-dasharray="6 5" stroke-linecap="round"/>';
+    s += '<path d="M 270 134 L 286 134 L 278 150 Z" fill="' + P + '"/>';
+    s += '<text x="278" y="172" text-anchor="middle" font-size="12" font-weight="800" fill="#ffd84d">3초</text>';
+    /* ② N → F */
+    s += '<line x1="334" y1="140" x2="334" y2="108" stroke="' + P + '" stroke-width="3.6" stroke-dasharray="6 5" stroke-linecap="round"/>';
+    s += '<path d="M 326 110 L 342 110 L 334 94 Z" fill="' + P + '"/>';
+
+    /* 하단 안내 */
+    s += '<text x="210" y="280" text-anchor="middle" font-size="12" font-weight="800" fill="#6b5c62">① F에서 N으로 중립   ② 3초 후 다시 F로 투입</text>';
+    return s + '</svg>';
+  }
+  /* DSPN 차단기 리셋 — OFF → ON */
+  function dspnResetScene(){
+    var P = C.pink, R = CB2_RED;
+    var s = '<svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg"><rect width="480" height="210" fill="#fbf6f8"/>';
+    s += '<rect x="126" y="4" width="228" height="24" rx="12" fill="' + R + '"/>';
+    s += '<text x="240" y="21" text-anchor="middle" font-size="12" font-weight="800" fill="#fff">DSPN 리셋 (OFF → ON)</text>';
+    function unit(cx, off, label){
+      var t = '';
+      t += '<rect x="' + (cx-54) + '" y="46" width="108" height="124" rx="7" fill="#0d0f11" stroke="#f2c200" stroke-width="3"/>';
+      t += '<rect x="' + (cx-42) + '" y="56" width="84" height="26" rx="3" fill="#f2f2ee"/>';
+      t += '<text x="' + cx + '" y="74" text-anchor="middle" font-size="14" font-weight="800" fill="#1d2228">DSPN</text>';
+      t += '<rect x="' + (cx-24) + '" y="90" width="48" height="56" rx="3" fill="#1a1e22" stroke="#343a40" stroke-width="1.2"/>';
+      t += '<rect x="' + (cx-9) + '" y="' + (off ? 118 : 96) + '" width="18" height="26" rx="3" fill="#f2f2ee" stroke="#b9b9b2"/>';
+      t += '<text x="' + cx + '" y="162" text-anchor="middle" font-size="14" font-weight="800" fill="' + (off ? "#ff8a8a" : "#5ce07a") + '">' + label + '</text>';
+      return t;
+    }
+    s += unit(126, true, "OFF") + unit(354, false, "ON");
+    s += '<path d="M 196 108 L 274 108" stroke="' + P + '" stroke-width="5" stroke-dasharray="10 7" stroke-linecap="round"/>';
+    s += '<path d="M 268 98 L 288 108 L 268 118 Z" fill="' + P + '"/>';
+    s += '<text x="240" y="192" text-anchor="middle" font-size="11.5" font-weight="800" fill="#6b5c62">차단(OFF) 후 다시 투입(ON)</text>';
+    return s + '</svg>';
+  }
   function tcFinalScene(){
-    return '<div class="ccab"><div class="ccab-g">' +
-      ccbCell(1, "관제 보고", fx(480, radio("out", (CUR && CUR.trainNo || "8000") + "열차 " + (CUR && CUR.trainSet || "800") + "편성"))) +
-      ccbCell(2, "운전모드 <b>수동</b>", fx(200, '<div class="ccb-two" style="width:200px">' + dialRun() + '</div>')) +
-      ccbCell(3, "다음 역까지 수동운전 후 재설정", fx(480, manualRunScene())) +
-    '</div></div>';
+    var P = C.pink, AM = "#e0a800", BL = "#2563c9";
+    var s = '<svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg">';
+    s += '<rect width="560" height="300" fill="#fbf6f8"/>';
+    function panel(x, no, name, col){
+      var t = '<rect x="' + x + '" y="14" width="176" height="272" rx="10" fill="#efe9ec" stroke="' + C.line + '" stroke-width="2"/>';
+      t += '<path d="M ' + x + ' 42 L ' + x + ' 24 Q ' + x + ' 14 ' + (x+10) + ' 14 L ' + (x+166) + ' 14 Q ' + (x+176) + ' 14 ' + (x+176) + ' 24 L ' + (x+176) + ' 42 Z" fill="' + col + '"/>';
+      t += '<circle cx="' + (x+20) + '" cy="28" r="9.5" fill="#fff"/>';
+      t += '<text x="' + (x+20) + '" y="32" text-anchor="middle" font-size="11" font-weight="800" fill="' + col + '">' + no + '</text>';
+      t += '<text x="' + (x+98) + '" y="33" text-anchor="middle" font-size="12.5" font-weight="800" fill="#fff">' + name + '</text>';
+      return t;
+    }
+    function pill(x, col, txt){
+      return '<rect x="' + (x+14) + '" y="252" width="148" height="24" rx="12" fill="' + col + '"/>' +
+             '<text x="' + (x+88) + '" y="268.5" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">' + txt + '</text>';
+    }
+
+    /* ① 관제 보고 */
+    s += panel(10, "1", "관제 보고", P);
+    s += '<line x1="116" y1="56" x2="128" y2="44" stroke="' + C.ink + '" stroke-width="2.6"/><circle cx="129" cy="43" r="3.6" fill="' + C.ink + '"/>';
+    s += '<rect x="74" y="52" width="48" height="58" rx="7" fill="#2b3440" stroke="#4a5560" stroke-width="1.6"/>';
+    s += '<rect x="80" y="58" width="36" height="15" rx="2" fill="#0d2a1a" stroke="#2c9a5a" stroke-width="1"/>';
+    s += '<text x="98" y="69.5" text-anchor="middle" font-size="7.5" font-weight="800" fill="#5ce07a">CH 1</text>';
+    for (var r = 0; r < 3; r++) for (var c0 = 0; c0 < 3; c0++)
+      s += '<circle cx="' + (86 + c0*12) + '" cy="' + (84 + r*10) + '" r="3" fill="#44505e"/>';
+    s += '<g fill="none" stroke="' + P + '" stroke-width="3" stroke-linecap="round">' +
+         '<path class="wv" d="M 130 72 Q 139 82 130 92"/>' +
+         '<path class="wv wv2" d="M 140 64 Q 154 82 140 100"/></g>';
+    s += '<rect x="18" y="118" width="160" height="124" rx="9" fill="#fff" stroke="#d8ccd2" stroke-width="1.6"/>';
+    s += '<path d="M 92 118 L 106 118 L 99 108 Z" fill="#fff" stroke="#d8ccd2" stroke-width="1.6"/>';
+    ["“관제 관제, 8000열차", "800편성 TCMS 차단기", "리셋하였으나 복구되지", "않습니다. 수동운전으로", "다음 정거장까지 운행 후", "재설정하겠습니다.”"].forEach(function(t, k){
+      s += '<text x="28" y="' + (140 + k*18) + '" font-size="10.5" font-weight="700" fill="#2c2226">' + t + '</text>';
+    });
+    s += pill(10, P, "열차무선 보고 ▶");
+
+    /* ② 운전모드 수동 */
+    s += panel(192, "2", "운전모드 수동", AM);
+    s += '<circle cx="280" cy="170" r="46" fill="#fff" stroke="#9aa0a8" stroke-width="2"/>';
+    s += '<circle cx="280" cy="170" r="36" fill="#f3f0f1" stroke="#c3c7cd" stroke-width="1.2"/>';
+    [["기지", -90], ["수동", -45], ["자동", 0], ["무인", 45], ["비상", 90]].forEach(function(k){
+      var a = k[1] * Math.PI / 180, lx = 280 + 62*Math.sin(a), ly = 170 - 62*Math.cos(a);
+      var on = (k[1] === -45);
+      s += '<text x="' + lx.toFixed(1) + '" y="' + (ly + 3.4).toFixed(1) + '" text-anchor="middle" font-size="10" font-weight="800" fill="' +
+           (on ? AM : "#7a7076") + '">' + k[0] + '</text>';
+      s += '<line x1="' + (280 + 40*Math.sin(a)).toFixed(1) + '" y1="' + (170 - 40*Math.cos(a)).toFixed(1) +
+           '" x2="' + (280 + 46*Math.sin(a)).toFixed(1) + '" y2="' + (170 - 46*Math.cos(a)).toFixed(1) +
+           '" stroke="#9aa0a8" stroke-width="1.8"/>';
+    });
+    var ka = -45 * Math.PI / 180;
+    s += '<line x1="280" y1="170" x2="' + (280 + 30*Math.sin(ka)).toFixed(1) + '" y2="' + (170 - 30*Math.cos(ka)).toFixed(1) +
+         '" stroke="#e02f3c" stroke-width="5" stroke-linecap="round"/>';
+    s += '<circle cx="280" cy="170" r="13" fill="#2b3440" stroke="#596270" stroke-width="2"/>';
+    s += '<path d="M 290 90 Q 254 90 244 102" fill="none" stroke="' + P + '" stroke-width="3" stroke-dasharray="6 5" stroke-linecap="round"/>';
+    s += '<path d="M 250 94 L 238 108 L 253 109 Z" fill="' + P + '"/>';
+    s += '<text x="280" y="236" text-anchor="middle" font-size="10.5" font-weight="800" fill="#6b5c62">자동 → 수동으로 전환</text>';
+    s += pill(192, AM, "운전모드선택 · 수동");
+
+    /* ③ 수동운전 후 재설정 */
+    s += panel(374, "3", "수동운전 · 재설정", BL);
+    s += '<rect x="400" y="52" width="124" height="24" rx="12" fill="' + AM + '"/>';
+    s += '<text x="462" y="68.5" text-anchor="middle" font-size="11" font-weight="800" fill="#fff">수동운전 (ATC 수동)</text>';
+    s += '<g class="roll"><path d="M 412 128 Q 412 86 440 86 L 484 86 Q 512 86 512 128 L 512 148 L 412 148 Z" fill="' + C.body + '" stroke="' + C.bodyLine + '" stroke-width="2"/>';
+    s += '<rect x="413" y="88" width="98" height="8" fill="' + P + '"/>';
+    s += '<rect x="432" y="104" width="60" height="24" rx="4" fill="' + C.glass + '" stroke="#9fb4d4"/>';
+    s += '<circle cx="428" cy="146" r="6" fill="#ffe9a8" stroke="#c9a33a"/>';
+    s += '<circle cx="496" cy="146" r="6" fill="#ffe9a8" stroke="#c9a33a"/></g>';
+    s += '<line x1="390" y1="152" x2="534" y2="152" stroke="#9aa0a8" stroke-width="2.6"/>';
+    for (var t2 = 0; t2 < 8; t2++) s += '<rect x="' + (392 + t2*18) + '" y="156" width="12" height="4" rx="2" fill="#cfc7bf"/>';
+    s += '<path d="M 462 166 L 462 182" stroke="' + P + '" stroke-width="3.4" stroke-dasharray="6 5" stroke-linecap="round"/>';
+    s += '<path d="M 455 180 L 469 180 L 462 192 Z" fill="' + P + '"/>';
+    s += '<rect x="394" y="194" width="136" height="48" rx="8" fill="#e8eef6" stroke="#9fb4d4" stroke-width="2"/>';
+    s += '<rect x="394" y="194" width="136" height="19" rx="8" fill="#9fb4d4"/>';
+    s += '<text x="462" y="208" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">다 음 정 거 장</text>';
+    s += '<text x="462" y="231" text-anchor="middle" font-size="13" font-weight="800" fill="#2c3e6b">TCMS 재설정</text>';
+    s += pill(374, BL, "정차 후 재설정 시행");
+    return s + '</svg>';
+  }
+
+  /* 운전실 전체 모습 — 메뉴1 STEP2 와 같은 운전실(실물) · TCMS 미현시 */
+  function cabFullScene(pa){
+    var sv = { notch:CFS.notch, run:CFS.run, door:CFS.door, sidePos:CFS.sidePos,
+               stage:CFS.stage, view:CFS.view, pressed:CFS.pressed };
+    CFS.notch = 0; CFS.run = 2; CFS.door = 0; CFS.sidePos = 0; CFS.stage = -1; CFS.view = "all"; CFS.pressed = null;
+    var inner;
+    try { inner = cfCabAll(); } catch (e) { inner = ""; }
+    CFS.notch = sv.notch; CFS.run = sv.run; CFS.door = sv.door; CFS.sidePos = sv.sidePos;
+    CFS.stage = sv.stage; CFS.view = sv.view; CFS.pressed = sv.pressed;
+    setTimeout(function(){
+      [].forEach.call(document.querySelectorAll(".cfstatic .cf-tcw"), function(w){
+        w.innerHTML = '<div class="tcmark" style="background:#050607;border:2px solid #2a2d31;' +
+          'border-radius:4px;min-height:118px;display:grid;place-content:center;text-align:center;padding:14px 4px;white-space:nowrap">' +
+          '<b style="color:#fff;font-size:25px;letter-spacing:2px;font-weight:800">화면 미현시</b></div>';
+        w.style.height = "";
+      });
+      [].forEach.call(document.querySelectorAll(".cfstatic .cf-hot"), function(b){ b.disabled = true; });
+      fitFix(document);
+    }, 0);
+    var ov = "";
+    if (pa){
+      ov = '<div style="position:absolute;right:5%;bottom:0;width:29%">' +
+        '<svg viewBox="0 0 300 330" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">' +
+        '<g fill="#3b3135" stroke="#f1ecee" stroke-width="5" stroke-linejoin="round">' +
+        '<path d="M 112 330 L 112 206 Q 112 150 190 150 Q 268 150 268 206 L 268 330 Z"/>' +
+        '<circle cx="190" cy="96" r="46"/></g>' +
+        '<line x1="142" y1="214" x2="96" y2="166" stroke="#f1ecee" stroke-width="32" stroke-linecap="round"/>' +
+        '<line x1="142" y1="214" x2="96" y2="166" stroke="#3b3135" stroke-width="24" stroke-linecap="round"/>' +
+        (pa === true
+          ? '<rect x="72" y="120" width="30" height="54" rx="14" fill="#2e2a2c" stroke="#f1ecee" stroke-width="4" transform="rotate(-22 87 147)"/>' +
+            '<g fill="none" stroke="' + C.pink + '" stroke-width="8" stroke-linecap="round">' +
+            '<path class="wv" d="M 54 104 Q 40 130 54 156"/>' +
+            '<path class="wv wv2" d="M 32 88 Q 10 130 32 172"/></g>'
+          : '<circle cx="92" cy="162" r="15" fill="#3b3135" stroke="#f1ecee" stroke-width="4"/>') +
+        '</svg></div>' +
+        (pa === true
+          ? '<div style="position:absolute;left:50%;top:3%;transform:translateX(-50%);background:' + C.pink +
+            ';color:#fff;font-weight:800;font-size:14px;letter-spacing:.02em;padding:7px 16px;border-radius:999px;' +
+            'white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.25)">\u25B6 차내방송 송출 중</div>'
+          : '');
+    }
+    return '<div class="cfstatic" style="position:relative;pointer-events:none">' +
+           '<div style="width:' + (pa ? "80%" : "100%") + ';margin:0 auto">' +
+           fx(800, '<div class="cf">' + inner + '</div>', 1) + '</div>' + ov + '</div>';
   }
 
   /* 자동운전 설정 불능 · FSB 체결 */
@@ -6363,8 +6727,7 @@
     /* 꺼진 화면 */
     for (var i = 0; i < 5; i++)
       s += '<rect x="32" y="' + (36 + i*30) + '" width="272" height="2" fill="#12161b"/>';
-    s += '<text x="168" y="96" text-anchor="middle" font-size="18" font-weight="800" fill="#3a4049" letter-spacing="3">NO SIGNAL</text>';
-    s += '<text x="168" y="118" text-anchor="middle" font-size="11" font-weight="700" fill="#5a636b">TCMS 일반화면 미현시</text>';
+    s += '<text x="168" y="112" text-anchor="middle" font-size="32" font-weight="800" fill="#fff" letter-spacing="2">화면 미현시</text>';
     s += '<rect class="glow" x="24" y="20" width="288" height="164" rx="6" fill="none" stroke="' + P + '" stroke-width="3" stroke-dasharray="9 6"/>';
     /* 우측 상태 */
     var chips = [["ATO 취소", "#e0a800", "#fff7e0"], ["FSB 체결", "#b3202a", "#ffe9ec"],
@@ -6625,18 +6988,24 @@
       board:"cabfull",
       bpsTask:true,
       modeCab:true,
-      cabSeq:["run"],
+      cabSeq:["run","side"],
       runTarget:4,
-      cabNames:["운전모드 비상"],
+      sideSeq:["SOPEN"],
+      cabNames:["운전모드 비상","측면 출입문 스위치 열림"],
       cabNotes:["운전실 전경에서 <b>운전모드 선택</b>을 눌러 <b>비상</b>으로 바꾸세요.",
-                "운전모드 <b>비상</b> 전환 완료. 아래 배전반에서 <b>ZVBPS</b>를 취급하세요."],
+                "운전모드 <b>비상</b> 전환 완료. 아래에서 <b>ZVBPS</b>를 취급한 뒤,<br>운전실의 <b>측면 출입문 스위치</b>를 눌러 <b>열림</b>을 취급하세요.",
+                "취급 완료 — <b>TCMS에는 전 차량 닫힘</b> 현시 그대로입니다."],
+      cfTips:{ side:"<b>열림</b>을 취급해 보세요." },
       bpsNoBot:true,
       bpsUnderCab:true,
       bpsId:"ZVBPS",
       bpsTag:"ZVBPS 취급",
       bpsAsk:"<b>ZVBPS(ZVR 바이패스)</b> 스위치를 찾아 BY-PASS로 돌리세요.",
-      bpsFb:"<b>ZVBPS</b>를 취급했어. 이 상태에서 열림을 취급해 봐.<br><b>취급 후에는 반드시 복귀</b>해야 해!",
+      bpsFb:"<b>ZVBPS</b>를 취급했어.<br>이제 <b>위 운전실</b>의 <b>측면 출입문 스위치</b>에서 <b>열림</b>을 취급해 봐.",
       bpsDone:"ZVBPS <b>BY-PASS</b> 취급 완료 · <b>취급 후 반드시 복귀</b>",
+      sideAfterBps:true,
+      sideFb:"<b>열림</b>을 취급했어. 그런데도 <b>TCMS에는 출입문이 열리지 않은</b> 상태야.<br><b>ZVBPS는 취급 후 반드시 복귀</b>하는 거 잊지 마!",
+      sideDone:"ZVBPS 취급 후 <b>열림</b> 취급 완료 — TCMS 전 차량 닫힘 현시 그대로",
       msg:["ZVBPS 취급 · 비상모드","warn"],
       coach:"닫힘 버튼 경타 후 재취급해도 안 열려.<br>다음에는 어떤 조치를 해야 할까?",
       prompt:"닫힘 경타 후 재취급해도 열리지 않습니다. 다음 조치는?",
@@ -6651,7 +7020,7 @@
           fb:"임의로 안내하면 안 돼. <b>ZVS / ZVBPS</b> 취급 후 출입문 취급이 먼저야." }
       ],
       src:"응급조치 3 · ZVBPS 취급 후 열림취급 (비상모드에서만 가능, FSB 체결) — 취급 후 반드시 복귀",
-      done:"ZVBPS 취급 (비상모드 · FSB 체결) → 복귀"
+      done:"ZVBPS 취급 후 측면 열림 취급 (비상모드) → 복귀"
     },
     {
       pts:15,
@@ -6695,61 +7064,79 @@
 
   /* ===================== 06. TCMS 고장 ===================== */
   var SCN_TC = {
-    t_fault:  { t:"① TCMS 현시 불능",
+    t_fault:  { t:"TCMS 현시 불능",
                 q:"운행 중 <b>TCMS 일반화면이 현시되지 않습니다.</b>",
                 say:"\u201cTCMS 현시 불능, 확인!\u201d",
-                svg: tcOffScene },
-    t_ato:    { t:"② 자동운전 설정 불능 · FSB 체결",
+                svg: cabFullScene },
+    t_ato:    { t:"자동운전 설정 불능 · FSB 체결",
                 q:"<b>자동운전(ATO) 설정이 불능</b>이 되고<br><b>상용제동(FSB)이 체결</b>됩니다.",
                 svg: atoFsbScene },
-    t_find:   { t:"⑥ 배전반에서 차단기 확인",
-                q:"객실 배전반에서 <b>DSPN(TCMS 표시기 차단기)</b>을 찾습니다.<br>2차분 TCMS 고장 시 확인하는 차단기입니다.",
-                svg: cbFindScene },
-    t_pa:     { t:"③ 고객안내방송",
+    t_find:   { t:"차단기 리셋",
+                q:"객실 배전반에서 <b>DSPN(TCMS 표시기 차단기)</b>을<br><b>OFF → ON</b>으로 리셋합니다.",
+                svg: dspnResetScene },
+    t_pa:     { t:"고객안내방송",
                 q:"객실 안내방송으로<br>지연 사유를 안내합니다.",
                 say:"\u201c안내말씀 드리겠습니다. 차량 고장으로 정차중입니다. 조치 후 출발할 예정이니 잠시만 기다려 주시기 바랍니다. 열차 이용에 불편을 드려 대단히 죄송합니다.\u201d",
-                svg: function(){ return cab({ waves:true, look:true, screen:"tcoff" }); } },
-    t_report: { t:"④ 관제에 상황보고",
+                svg: function(){ return cabFullScene(true); } },
+    t_report: { t:"관제에 상황보고",
                 q:"확인한 현상을<br>운전 관제에 보고합니다.",
                 say:"\u201c관제 관제, 8000열차 800편성 TCMS 고장입니다. TCMS 현시 불능, 자동운전 설정 불능 및 FSB 체결 상태입니다.\u201d",
                 svg: function(){ return radio("out", (CUR.trainNo||"8000") + "열차 " + (CUR.trainSet||"800") + "편성"); } },
-    t_rev:    { t:"⑤ 역전기 재투입",
-                q:"역전기를 <b>재투입</b>합니다.<br><b>꼭! 출입문을 닫고 취급</b>합니다.",
+    t_dir:    { t:"관제 지시", tone:"blue",
+                q:"운전 관제로부터 지시를 받습니다.",
+                say:"\u201c8000열차, TCMS 고장 확인했습니다. 출입문 닫고 역전기 리셋해 보세요.\u201d",
+                svg: function(){ return radio("in", (CUR.trainNo||"8000") + "열차 " + (CUR.trainSet||"800") + "편성"); } },
+    t_still:  { t:"역전기 리셋 후에도 그대로",
+                q:"역전기를 재투입하였으나<br><b>TCMS 일반화면이 현시되지 않습니다.</b>",
+                svg: function(){ return cabFullScene("look"); } },
+    t_rev:    { t:"역전기 재투입",
+                q:"<b>출입문 닫고, 역전기를 재투입합니다.</b>",
                 say:"\u201c출입문 닫힘 확인, 역전기 재투입!\u201d",
-                svg: function(){ return revKeyScene(true); } },
-    t_cb2:    { t:"⑦ 차단기 리셋 (OFF → ON)",
+                svg: revResetScene },
+    t_cb2:    { t:"차단기 리셋 (OFF → ON)",
                 q:"TCMS 현시 불능 시 관련 차단기를 리셋합니다.<br>1차분 <b>TCMSN · TCMSPN</b> / 2차분 <b>DSPN</b> / 3차분 <b>DUN</b>",
                 svg: cbResetScene },
-    t_final:  { t:"⑧ 조치 불능 시",
+    t_final:  { t:"조치 불능 시",
                 q:"<b>관제에 보고</b>한 뒤 <b>운전모드를 수동</b>으로 바꾸고,<br><b>다음 정거장까지 수동운전</b> 후 <b>자동 재설정</b>합니다.",
                 svg: tcFinalScene },
-    t_done:   { t:"⑨ 재설정 후 정상 운행",
+    t_done:   { t:"재설정 후 정상 운행",
                 q:"다음 정거장에서 재설정 후<br>정상 운행합니다.",
-                svg: departScene }
+                svg: manualRunScene }
   };
-  var MID_TC_A = ["t_pa","t_report"];
-  var SUM_TC   = ["t_fault","t_ato","t_pa","t_report","t_rev","t_find","t_cb2","t_final","t_done"];
+  var MID_TC_A = ["t_pa","t_report","t_dir","t_rev"];
+  var SUM_TC   = ["t_fault","t_pa","t_report","t_dir","t_rev","t_still","t_find","t_final"];
 
   var STEPS_TC = [
     {
       pts:34,
-      board:"cabfull", cabView:true, cabDark:true, cabTag:"TCMS 고장",
-      cabNote:"<b>TCMS 화면이 꺼져 있습니다.</b> 운전실 전경을 확인한 뒤 아래 문제를 풀어 보세요.",
+      board:"cabfull", cabView:true, cabDark:true, cabMark:true, cabTag:"TCMS 고장",
+      cabAfter:true, cabMulti:true, cabAny:true, consFree:true, cabKeep:true,
+      cabSeq:[["dsel","side"], "rev"],
+      consSeq:["DCS"], sideSeq:["SCLOSE"], revSeq:["N","F"],
+      cabNames:["출입문 닫힘 취급","역전기 N → F 재투입"],
+      cabNotes:["<b>중앙 제어대 닫힘(DCS)</b> 또는 <b>측면 출입문 스위치 닫힘(RSDCS)</b> 중 하나를 눌러 출입문을 닫으세요.",
+                "",
+                "취급 완료. <b>TCMS는 여전히 미현시</b>입니다."],
+      cabMsgs:["<b>출입문 닫힘</b> 취급 완료. 그래도 <b>TCMS는 여전히 미현시</b>야.<br>이제 <b>주간제어기(MC)의 역전기</b>를 재투입해 보자.",
+               "<b>역전기 재투입</b> 완료."],
+      cabFb:"출입문 닫고 <b>역전기 재투입</b>까지 취급했어.<br>그런데도 <b>TCMS는 복구되지 않았어.</b>",
+      cabNote:"",
       cine: MID_TC_A,
       msg:["TCMS 고장","alert"],
-      coach:"운행 중에 <b>TCMS 일반화면이 현시되지 않아.</b><br>그리고 ATO도 취소되고 상용제동(FSB)이 체결됐어. 먼저 무엇을 해야 할까?",
-      prompt:"TCMS 일반화면이 현시되지 않고 ATO 취소·FSB 체결 상태입니다. 먼저 무엇을 해야 할까요?",
+      coach:"출입문 개방했는데, <b>TCMS 일반화면이 현시되지 않아.</b><br>그리고 ATO도 취소되고 <b>상용제동(FSB)이 체결</b>됐어.<br>무엇을 해야 할까?",
+      prompt:"TCMS 고장 시 첫 번째 조치는?",
       hint:"차단기를 만지기 전에, 운전실에서 바로 해 볼 수 있는 조치가 하나 있어.",
       opts:[
         { t:"관련 회로차단기부터 모두 리셋한다", ok:false,
-          fb:"순서가 달라. 차단기 확인 전에 <b>역전기 리셋</b>부터 해 봐야 해." },
+          fb:"차단기 확인 전에 <b>역전기 리셋</b>부터 해 봐야 해." },
         { t:"역전기를 리셋한다", ok:true,
           fb:"맞아. TCMS 고장 시 가장 먼저 <b>역전기를 리셋(재투입)</b>해 봐야 해.<br>" +
              "리셋하기 전에 <b>고객안내방송과 관제 상황보고는 필수</b>야.<br>" +
              "<span class=\"warnline\">※ 역전기를 리셋할 때는 <b>반드시 출입문을 닫은 상태</b>에서 취급합니다.</span><br>" +
-             "자세한 순서는 아래 <b>시뮬레이션 영상</b>으로 확인해 봐!" },
+             "<b>위 운전실</b>에서 <b>중앙 / 측면 출입문 닫힘</b>을 취급하고 <b>역전기를 리셋</b>해 본 뒤,<br>" +
+             "<b>시뮬레이션 영상</b>도 확인해 보자!" },
         { t:"그대로 다음 역까지 운행한다", ok:false,
-          fb:"ATO 취소·FSB 체결 상태라 그대로 운행할 수 없어. <b>역전기 리셋</b>부터 해 봐." }
+          fb:"TCMS가 확인되지 않는 상태에서 열차를 그대로 운행할 수 없어.<br><b>역전기 리셋</b>부터 해 보자." }
       ],
       src:"현상확인 : TCMS 일반화면 미현시 / 응급조치 1 : 역전기 재투입 (출입문 닫고 취급)",
       done:"역전기 리셋 (출입문 닫고 취급)"
@@ -6758,18 +7145,18 @@
       pts:33,
       board:"cb2", noTcms:true, cbTask:true,
       msg:["회로차단기 확인","warn"],
-      coach:"역전기를 재투입했는데도 TCMS가 살아나지 않아.<br>차단기를 확인해볼까? <b>2차분 TCMS 고장</b> 시 어떤 차단기를 확인해야 할까?",
+      coach:"조치했는데 TCMS가 여전히 고장이야.<br>차단기를 확인해보자.<br><b>2차분 TCMS 고장</b> 시 어떤 차단기를 확인해야 할까?",
       prompt:"2차분 TCMS 고장 시 확인해야 할 회로차단기는?",
       hint:"배전반 아래쪽 줄에 있어. TCMS 표시기와 관련된 차단기야.",
       opts:[
         { t:"TCMSN, TCMSPN", ok:false,
-          fb:"그건 <b>1차분</b> 차단기야. 2차분은 <b>DSPN</b>이야." },
+          fb:"그건 <b>1차분</b> TCMS 관련 차단기야. 2차분은 <b>DSPN</b>이야." },
         { t:"DSPN", ok:true,
-          fb:"맞아. <b>2차분은 DSPN(TCMS 표시기 차단기)</b>이야.<br>" +
+          fb:"맞아. <b>2차분은 DSPN</b>이야.<br>" +
              "참고로 <b>1차분은 TCMSN · TCMSPN</b>, <b>3차분은 DUN</b>이야." +
-             "<span class=\"redline\">👉 아래 배전반에서 <u>빨간 점선으로 표시된 DSPN</u>을 눌러<br><b>OFF → ON</b> 으로 리셋해 보세요!</span>" },
-        { t:"DRN, DCRN", ok:false,
-          fb:"그건 출입문 관련 차단기야. 2차분 TCMS는 <b>DSPN</b>이야." }
+             "<span class=\"redline\">👉 위 배전반에서 <u>빨간 점선으로 표시된 DSPN</u>을 눌러<br><b>OFF → ON</b> 으로 리셋해 보세요!</span>" },
+        { t:"DUN", ok:false,
+          fb:"그건 <b>3차분</b> TCMS 관련 차단기야. 2차분은 <b>DSPN</b>이야." }
       ],
       src:"TCMS 현시 불능 시 차단기 리셋 — 1차분 : TCMSN, TCMSPN / 2차분 : DSPN / 3차분 : DUN",
       done:"회로차단기 DSPN 리셋 (OFF → ON)"
@@ -6779,19 +7166,19 @@
       board:"cabfull", cabView:true, cabDark:true, cabTag:"TCMS 고장",
       cabNote:"<b>TCMS 화면이 여전히 꺼져 있습니다.</b> 마지막 조치를 골라 보세요.",
       cabMark:true,
-      afterPic:["조치 불능 시 · 최종 조치", "관제보고 → 수동운전 → 재설정", tcFinalScene,
-                "<b>관제에 보고</b>한 뒤 <b>운전모드를 수동</b>으로 바꾸고,<br><b>다음 역까지 수동운전</b>으로 운행한 후 <b>TCMS를 재설정</b>합니다."],
+      afterPic:["", "", tcFinalScene,
+                '<span class="bigtip" style="color:var(--ink)">관제에 보고한 뒤 <b>운전모드를 수동</b>으로 바꾸고,<br>다음 역까지 <b>수동운전</b>으로 운행한 후 <b>TCMS를 재설정</b>합니다.</span>'],
       msg:["수동운전 · 다음 정거장 재설정","warn"],
       coach:"차단기를 리셋했는데도 복구되지 않았어.<br>마지막으로 어떤 조치를 해야 할까?",
       prompt:"차단기 리셋에도 복구되지 않습니다. 어떻게 해야 할까요?",
-      hint:"그 자리에 계속 서 있을 수는 없어. 운전 방식을 바꿔서 역까지 가 보자.",
+      hint:"관제 보고하고 운전 방식을 바꿔서 역까지 가 보자.",
       opts:[
         { t:"그 자리에서 차단기 리셋을 계속 반복한다", ok:false,
-          fb:"같은 조치를 반복해도 복구되지 않아. <b>수동운전 후 다음 정거장에서 재설정</b>이야." },
+          fb:"계속 차단기만 리셋할 수는 없어. 운전 방식을 바꿔서 역까지 가 보자." },
         { t:"즉시 승객을 하차시키고 회송한다", ok:false,
-          fb:"아직 일러. <b>수동운전 후 다음 정거장에서 재설정</b>을 먼저 시행해." },
+          fb:"TCMS 고장 시 회송은 하지 않아.<br><b>수동운전</b> 후 <b>다음 정거장에서 재설정</b>을 해보자." },
         { t:"수동운전으로 운행하고 다음 정거장에서 재설정한다", ok:true,
-          fb:"맞아. 조치 불능 시 <b>수동운전</b>으로 운행하고,<br><b>다음 정거장에서 재설정</b>을 시행해." }
+          fb:"맞아. 조치 불능 시 <b>수동운전</b>으로 다음 역까지 운행하고,<br><b>재설정</b>을 해보자." }
       ],
       src:"응급조치 3 · 조치 불능 시 : 수동운전 후 다음 정거장에서 재설정",
       done:"수동운전 후 다음 정거장에서 재설정"
@@ -7302,7 +7689,7 @@
     "02": { g:"출입문 고장", c:M_PINK, i:function(c){ return mDoors(true,  true,  c); } },
     "03": { g:"출입문 고장", c:M_ORG,  i:function(c){ return mDoors(false, false, c); } },
     "04": { g:"출입문 고장", c:M_ORG,  i:function(c){ return mDoors(false, true,  c); } },
-    "05": { g:"차량 장치",   c:M_BLU,  i:mScreen },
+    "05": { g:"차량 고장",   c:M_BLU,  i:mScreen },
     "06": { g:"승강장",      c:M_TEA,  i:mPsd },
     "07": { g:"준비 중",     c:M_GRY,  i:mInv },
     "08": { g:"준비 중",     c:M_GRY,  i:mAto },
