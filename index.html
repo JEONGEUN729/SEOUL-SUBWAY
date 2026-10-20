@@ -116,7 +116,7 @@
   .eyebrow{font-size:11px;letter-spacing:.2em;color:var(--accent);font-weight:700;margin:0 0 12px}
   .brief h1{margin:0 0 18px;font-size:clamp(26px,6vw,38px);line-height:1.25;font-weight:700;
     letter-spacing:-.025em;text-wrap:balance}
-  .brief .sub{color:var(--ink-2);margin:0 auto 32px;max-width:46ch;font-size:16px;line-height:1.75;text-wrap:pretty}
+  .brief .sub{color:var(--ink-2);margin:0 auto 32px;max-width:46ch;font-size:16px;line-height:1.75;text-wrap:balance}
   .brief .sub b{color:var(--ink);font-weight:600}
 
   /* ---------- buttons ---------- */
@@ -138,9 +138,15 @@
   @media (max-width:900px){.sim{grid-template-columns:1fr}}
   .sim.full{grid-template-columns:minmax(0,1fr)}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:12px}
-  .card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;
+  .card-h{display:flex;align-items:center;justify-content:space-between;gap:4px 10px;padding:10px 14px;flex-wrap:wrap;
     border-bottom:1px solid var(--line-soft);font-size:10.5px;letter-spacing:.14em;color:var(--ink-3);font-weight:600}
   .card-h .tag{color:var(--accent)}
+  .card-h > span{white-space:nowrap}
+  @media (max-width:520px){
+    .card-h{letter-spacing:.02em}
+    .card-h > span{flex:1 1 100%}
+    .card-h .tag{text-align:left}
+  }
 
   /* ---------- HMI ---------- */
   .hmi{margin:12px;background:var(--dev-face);border:2px solid var(--dev-edge);border-radius:4px;padding:10px;color:#101418}
@@ -324,7 +330,22 @@
   .dbtn .sub{font-size:9px;color:#9aa0a8;margin-top:-4px}
 
   /* ---------- 운전실 전경 (STEP3) / 표시등 ---------- */
-  .cf-fit{margin:12px;overflow:hidden}
+  .cf-fit{margin:12px;overflow:hidden;overflow-anchor:none;touch-action:pan-y}
+  .cf-fit.zoomed{touch-action:none;cursor:grab}
+  .cfzoom{display:flex;gap:6px;align-items:center;justify-content:flex-end;
+    padding:8px 14px 0;font-size:11px;flex-wrap:wrap}
+  .cfzoom .cfz-hint{margin-right:auto;color:var(--ink-3);font-size:10.5px;letter-spacing:.01em}
+  .cfzoom button{font:inherit;font-weight:800;border:1px solid var(--line-soft);background:#fff;
+    color:var(--ink-2);border-radius:999px;padding:4px 11px;cursor:pointer;line-height:1.25;
+    touch-action:manipulation;min-width:34px}
+  .cfzoom button:active{background:#f4f4f5}
+  .cfzoom #cfZpct{min-width:44px;text-align:center;font-weight:800;color:var(--accent)}
+  @media (max-width:560px){
+    .cfzoom{padding:8px 12px 0}
+    .cfzoom .cfz-hint{flex:1 1 100%;margin:0 0 4px;text-align:left}
+    .cfzoom button{padding:4px 9px}
+  }
+  .cf-fit > .cf{overflow-anchor:none}
   .cf{width:800px;transform-origin:top left;background:linear-gradient(180deg,#1b1d20,#0f1113);
     border:1px solid #3a3d42;border-radius:8px;padding:12px;color:#e8e6e3;user-select:none}
   .cf.det{width:auto;transform:none}
@@ -402,6 +423,8 @@
   .cf-cobg i:nth-child(n+6){background:#1f9e46}
   .cf-cobg i:last-child{background:#cf2a21}
   /* 핫스팟 */
+  .cf-hot,.cf-dh button,#cfBox button,#cfBox .mcx-nb,#cfBox .rmx-pl,#cfBox .dsx-pl,
+  #cfBox .mcx-rp,#cfBox .sdx-b,#cfBox .dsx-b{touch-action:manipulation}
   .cf-hot{display:block;width:100%;background:none;border:0;padding:4px;font:inherit;color:inherit;
     cursor:pointer;border-radius:6px;position:relative;text-align:inherit}
   .cf-hot[disabled]{cursor:default}
@@ -645,6 +668,31 @@
   span.rmx-pl{cursor:default}
   button.rmx-pl:hover{background:#dcdcd6}
   .rmx-pl.on{background:#ffd84d}
+  .rmx-sw.dk{top:62px;background:linear-gradient(160deg,#2e3033,#141517);border-color:#5a5c60}
+  .rmx-sw.dk .rmx-pl{color:#1a1a1a;background:#e8e8e2;border:.5px solid #9a9a94;
+    text-shadow:none;font-size:6.5px;padding:0 2px;line-height:1.15}
+  .rmx-sw.dk.lv .rmx-pl{font-size:9.5px;padding:1px 4px}
+  .rmx-sw.dk.lv{top:46px}
+  .rmx-sw.dk button.rmx-pl:hover{background:#2c2e32}
+  .rmx-sw.dk .rmx-pl.on{background:#ffd84d;color:#111;border-color:#ffd84d}
+  .rmx-sw.dk.lv{width:200px;height:200px}
+  .rmx-sw.dk.lv .rmx-knob{left:100px;top:100px;background:none;width:34px;height:96px;margin:-48px 0 0 -17px;border-radius:0}
+  .rmx-sw.dk.lv .rmx-knob i{left:0;top:0;width:34px;height:96px;margin:0;border-radius:0;
+    clip-path:polygon(50% 0,100% 30%,78% 100%,22% 100%,0 30%);
+    background:linear-gradient(100deg,#111315,#5a5f66 42%,#15171a);box-shadow:0 3px 8px rgba(0,0,0,.85)}
+  .rmx-sw.dk.lv .rmx-knob i::before{left:50%;top:40px;width:8px;height:8px;margin-left:-4px;
+    background:#0a0b0c;border-radius:50%}
+  .rmx-plate{position:absolute;left:14px;top:30px;right:14px;bottom:14px;border-radius:5px;
+    background:linear-gradient(170deg,#303337,#17191c);border:1px solid #55585d;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+  .rmx-lamps{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:5}
+  .cf .lpbl{animation:lpblk 1.1s steps(1,end) infinite}
+  @keyframes lpblk{0%,55%{opacity:1}56%,100%{opacity:.25}}
+  .rml{position:absolute;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:2px;white-space:nowrap;z-index:3}
+  .rml i{width:11px;height:11px;border-radius:50%;background:var(--c);border:2px solid #7d8187;opacity:.22}
+  .rml i.on{opacity:1;border-color:#d4d8dd;box-shadow:0 0 9px var(--c)}
+  .rml u{text-decoration:none;font-size:8.5px;font-weight:700;color:#111;background:#e8e8e2;
+    border-radius:2px;padding:0 3px;line-height:1.15;text-align:center}
   .rmx-knob{position:absolute;left:55px;top:68px;width:42px;height:42px;margin:-21px 0 0 -21px;border-radius:50%;border:0;padding:0;
     background:radial-gradient(circle at 40% 35%,#5a5e64,#141618 70%);cursor:pointer;transform:rotate(var(--rot,0deg));transition:transform .3s}
   span.rmx-knob{cursor:default}
@@ -738,9 +786,9 @@
   .lp-lim b{display:block;color:#ff3b3b;font-size:23px;font-weight:800;line-height:1.15}
   .lp-chips{position:absolute;right:8px;top:8px;display:grid;gap:4px;z-index:2}
   .lp-chips i{width:26px;height:15px;border-radius:2px;display:block}
-  .lp-bar{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:3px;margin-top:6px}
-  .lp-bar span{font-size:7.5px;text-align:center;border-radius:2px;padding:4px 2px;font-weight:800;
-    color:#111;background:#fff;line-height:1.2;display:grid;place-content:center;min-height:30px}
+  .lp-bar{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:2px;margin-top:5px}
+  .lp-bar span{font-size:6px;text-align:center;border-radius:2px;padding:2px 1px;font-weight:800;
+    color:#111;background:#fff;line-height:1.15;display:grid;place-content:center;min-height:21px}
   .lp-stalk{width:12px;height:24px;margin:0 auto;
     background:linear-gradient(90deg,#0c0e10,#3a4046 45%,#0c0e10)}
   .lp-nm{display:block;width:fit-content;margin:0 auto;background:#e9ecef;color:#111;font-size:10.5px;
@@ -837,10 +885,14 @@
   .lampunit .lamp.on.r{background:#ec1c24;box-shadow:0 0 14px rgba(236,28,36,.8), inset 0 2px 5px rgba(0,0,0,.25)}
   .lampunit .lamp.on.g{background:#12c517;box-shadow:0 0 14px rgba(18,197,23,.8), inset 0 2px 5px rgba(0,0,0,.25)}
   .lampunit .lamp.on.a{background:#f2c024;box-shadow:0 0 14px rgba(242,192,36,.85), inset 0 2px 5px rgba(0,0,0,.25)}
+  .rulebox .hl8{background:#fff5f9;border-left:3px solid var(--accent);padding:7px 10px;border-radius:0 6px 6px 0}
+  .rulebox ol.hl8{padding:7px 10px 7px 28px;margin-top:-2px}
   .boardnote{font-size:11px;color:var(--ink-3);padding:0 14px 13px;line-height:1.5}
-  .boardnote .cbrcnt{display:block;margin-top:3px}
+  #cfNote{font-size:12.5px;line-height:1.55}
+  .boardnote .cbrcnt{display:block;margin-top:5px;font-size:13px;font-weight:700;color:var(--ink-2);line-height:1.6}
+  .boardnote .cbrcnt.big{font-size:14.5px;font-weight:800;color:var(--accent)}
   .boardnote .bigtip{display:block;font-size:14.5px;font-weight:800;color:var(--accent);line-height:1.55;margin-bottom:3px}
-  .boardnote .bigtip em{font-style:normal;color:var(--ink-2);font-weight:700}
+  .boardnote .bigtip em{display:block;font-style:normal;color:var(--ink-2);font-weight:800;font-size:13px;margin-top:3px}
 
   /* ---------- coach ---------- */
   .coach{padding:16px 14px}
@@ -890,8 +942,16 @@
   #extraWrap.undercab .extrab{margin-top:4px}
   #extraWrap.undercab #extraPrompt{margin:10px 0 0}
   .extrab{margin-top:14px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
-  .extrab-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px;
-    border-bottom:1px solid var(--line-soft);font-size:12px;letter-spacing:.08em;color:var(--ink-2);font-weight:600}
+  .extrab-h{display:flex;align-items:center;justify-content:space-between;gap:4px 10px;padding:10px 13px;
+    border-bottom:1px solid var(--line-soft);font-size:12px;letter-spacing:.08em;color:var(--ink-2);font-weight:600;
+    flex-wrap:wrap}
+  .extrab-h > span{white-space:nowrap}
+  .extrab-h #extraTag{letter-spacing:.06em}
+  @media (max-width:520px){
+    .extrab-h{letter-spacing:.02em;font-size:11.5px}
+    .extrab-h > span{flex:1 1 100%}
+    .extrab-h #extraTag{text-align:left}
+  }
   .extrab #extraBox{padding:10px}
   #extraPrompt{margin-top:12px}
   .coach-foot{display:flex;gap:7px;align-items:center;margin-top:14px;flex-wrap:wrap}
@@ -938,7 +998,7 @@
   .ccb-t{display:flex;align-items:baseline;gap:4px;margin-bottom:5px;flex-wrap:wrap;min-height:30px;align-content:flex-start}
   .ccb-t i{flex:none;width:15px;height:15px;border-radius:50%;background:var(--accent);color:#fff;
     font-style:normal;font-size:9.5px;font-weight:800;display:grid;place-items:center}
-  .ccb-t b{font-size:10.5px;font-weight:700;color:#2c2226}
+  .ccb-t b{font-size:10.5px;font-weight:700;color:#2c2226;flex:1 1 0;min-width:0}
   .ccb-t u{text-decoration:none;font-size:9px;color:#8a6200;background:#fdf3c4;border-radius:5px;padding:1px 5px;font-weight:700}
   .ccb.w{grid-column:1 / -1}
   .ccab-hint{display:none}
@@ -1043,6 +1103,12 @@
   .mcx-ball.live:hover{background:radial-gradient(circle at 38% 32%,#949aa2,#141518 62%)}
   .mcx-ball,.mcx-shaft{transition:top .38s cubic-bezier(.33,0,.2,1)}
   @media (prefers-reduced-motion:reduce){.mcx-ball,.mcx-shaft{transition:none}}
+  .cine-stage .cbdn{animation:cbdnm 3.2s ease-in-out infinite}
+  @keyframes cbdnm{0%,18%{transform:translateY(0)}36%,64%{transform:translateY(19px)}82%,100%{transform:translateY(0)}}
+  .cine-stage .cbon{animation:cbonm 3.2s ease-in-out infinite}
+  .cine-stage .cboff{animation:cboffm 3.2s ease-in-out infinite}
+  @keyframes cbonm{0%,18%{opacity:1}30%,70%{opacity:.18}82%,100%{opacity:1}}
+  @keyframes cboffm{0%,18%{opacity:.18}30%,70%{opacity:1}82%,100%{opacity:.18}}
   .cine-stage .cbsw{animation:cbswm 3.6s ease-in-out infinite}
   @keyframes cbswm{0%,28%{transform:translateY(26px)}42%,74%{transform:translateY(0)}88%,100%{transform:translateY(26px)}}
   .revlv{animation:revmv 7s ease-in-out infinite}
@@ -1063,6 +1129,10 @@
   @keyframes roll{0%{transform:translateX(0)}100%{transform:translateX(190px)}}
   .cine-stage .dash{stroke-dasharray:10 8;animation:dash .7s linear infinite}
   @keyframes dash{to{stroke-dashoffset:-18}}
+  .cine-stage .psl{animation:psdl 3s cubic-bezier(.45,0,.25,1) .3s 1 both}
+  @keyframes psdl{0%{transform:translateX(0)}28%,58%{transform:translateX(-16px)}100%{transform:translateX(0)}}
+  .cine-stage .psr{animation:psdr 3s cubic-bezier(.45,0,.25,1) .3s 1 both}
+  @keyframes psdr{0%{transform:translateX(0)}28%,58%{transform:translateX(16px)}100%{transform:translateX(0)}}
   .cine-stage .ol{animation:opl 3.6s ease-in-out infinite}
   @keyframes opl{0%,12%{transform:translateX(0)}42%,100%{transform:translateX(-17px)}}
   .cine-stage .or{animation:opr 3.6s ease-in-out infinite}
@@ -1071,6 +1141,8 @@
   .cine-stage .bpsturn{transform-origin:216px 80px;animation:bpst 2.8s ease-in-out infinite}
   @keyframes bpst{0%,20%{transform:rotate(0)}55%,100%{transform:rotate(90deg)}}
   @keyframes walk{0%{transform:translateX(0)}80%,100%{transform:translateX(64px)}}
+  .cine-stage .walkl{animation:walkl 3.2s ease-in-out infinite}
+  @keyframes walkl{0%{transform:translateX(0)}80%,100%{transform:translateX(-64px)}}
   .cine-stage .shake{animation:shake .9s ease-in-out infinite}
   @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-2px)}75%{transform:translateX(2px)}}
   @media (prefers-reduced-motion:reduce){
@@ -1143,7 +1215,7 @@
       <div class="menu-mascot"><img id="menuMascot" alt="또타" src=""></div>
     </div>
     <div class="menu-grid" id="menuGrid"></div>
-    <p class="vertag mono">ver 10.8 · 2026-10-17</p>
+    <p class="vertag mono">ver 12.8 · 2026-10-20</p>
   </section>
 
   <!-- ================= BRIEF ================= -->
@@ -1218,6 +1290,13 @@
           <span>운전실</span><span class="mono tag" id="cfTag">출입문 재취급</span>
         </div>
         <div class="cf-steps" id="cfSteps"></div>
+        <div class="cfzoom" id="cfZoom">
+          <span class="cfz-hint">손가락 두 개로 벌려서 확대 · 끌어서 이동</span>
+          <button type="button" data-z="out" aria-label="축소">&#8722;</button>
+          <span id="cfZpct">100%</span>
+          <button type="button" data-z="in" aria-label="확대">&#43;</button>
+          <button type="button" data-z="reset">원래대로</button>
+        </div>
         <div class="cf-fit" id="cfFit"><div class="cf" id="cfBox"></div></div>
         <p class="boardnote" id="cfNote"></p>
       </div>
@@ -1313,7 +1392,7 @@
             <div class="row4" id="grpOp"></div>
           </div>
         </div>
-        <p class="boardnote">버튼을 직접 눌러 취급해 보세요. 아래 보기를 고르는 것과 같습니다.</p>
+        <p class="boardnote" id="boardNote">버튼을 직접 눌러 취급해 보세요. 아래 보기를 고르는 것과 같습니다.</p>
       </div>
 
       <div class="stepline">
@@ -1482,6 +1561,181 @@
 
     '<p class="src">출처 — 「운전취급규정」 제3절 출입문 고장 시 조치 (제81조 ~ 제88조)</p>' +
     '</div>';
+  var PSD_RULES_HTML =
+    '<div class="rulebox">' +
+    '<h3>제89조 (열차 정차 시 정위치 초과 및 미달 시의 조치)</h3>' +
+    '<p>① 열차가 <b>정위치를 초과</b>하여 정차하였을 때에는 규정 제309조에 의한 취급을 하는 외에 <b>되돌이 단속운전취급</b>으로 정위치에 정차하여야 한다.</p>' +
+    '<p>② <b>2인 승무열차</b>가 <b>정위치를 미달</b>하여 정차하였을 때에는 차장과 협의하여 <b>단속운전취급</b>으로 정위치에 정차하여야 한다.</p>' +
+    '<h3>제90조 (“양호정차” 상태에서 전동차 출입문 및 승강장안전문이 열리지 않을 경우의 조치)</h3>' +
+    '<p>① <b>RF 통신방식</b> 승강장안전문 설치역에서 전동차 출입문 및 승강장안전문이 열리지 않을 경우에는 다음 각 호에 의한 조치를 하여야 한다.</p>' +
+    '<ol><li>승강장 <b>HMI 모니터</b>로 승강장안전문 상태를 확인한다.</li>' +
+    '<li><b>운전관제에 보고</b>한다.</li>' +
+    '<li><b>PSD 차상조작반</b>의 수동·자동스위치를 <b>수동위치</b>로 전환하고 전동차 출입문을 개방한 후, 승강장안전문이 열리지 않을 경우에는 <b>승무원조작반 내의 전체열림버튼</b>을 취급하여 승강장안전문을 개방한다.</li>' +
+    '<li>후부에서 열리지 않을 경우에는 <b>전부에서 취급</b>한다.</li>' +
+    '<li>제3호 및 제4호의 조치로도 열리지 않을 경우에는 <b>역무실 종합제어반</b>에서 승강장안전문을 개방토록 요청 후 전동차 출입문을 개방한다.</li>' +
+    '<li>승강장 출발 후 PSD 차상조작반의 수동위치를 <b>자동위치로 복귀</b>한다.</li></ol>' +
+    '<p>② <b>센서방식</b> 승강장안전문 설치역에서 전동차 출입문 및 승강장안전문이 열리지 않을 경우에는 다음 각 호에 의한 조치를 하여야 한다.</p>' +
+    '<ol><li>승강장 <b>HMI 모니터</b>로 승강장안전문 상태를 확인한다.</li>' +
+    '<li><b>운전관제에 보고</b>한다.</li>' +
+    '<li>전동차 출입문이 열리지 않을 경우에 대한 조치로 출입문을 개방한다.</li>' +
+    '<li>제3호의 조치로 전동차 출입문은 열렸으나 승강장안전문이 열리지 않을 경우에는 <b>승무원조작반 내의 전체열림버튼</b>을 취급하여 승강장안전문을 개방한다.</li>' +
+    '<li>후부에서 열리지 않을 경우에는 <b>전부에서 취급</b>한다.</li>' +
+    '<li>제4호 및 제5호의 조치로도 승강장안전문이 열리지 않을 경우에는 <b>역무실 종합제어반</b>에서 개방하도록 요청한다.</li></ol>' +
+    '<h3>제91조 (1개 이상 승강장안전문이 열리지 않을 경우의 조치)</h3>' +
+    '<p>전동차 출입문은 열렸으나 <b>승강장안전문 1개 이상</b>이 열리지 않을 경우에는 다음 각 호에 의한 조치를 하여야 한다.</p>' +
+    '<ol><li>승강장 <b>HMI 모니터</b>로 승강장안전문 상태를 확인한다.</li>' +
+    '<li>승강장안전문 <b>승무원(기관사)조작반의 전체열림버튼</b>을 누른다. <span class="amd">&lt;개정 ’17.12.21.&gt;</span></li>' +
+    '<li>후부에서 열리지 않을 경우에는 <b>전부에서 취급</b>한다.</li>' +
+    '<li>수동으로 열리지 않을 경우 열려진 다른 출입문을 이용할 수 있게 하거나, 상황에 따라 승객이 승강장안전문을 개방하고 하차할 수 있도록 <b>신속히 안내방송</b>을 실시한다.</li>' +
+    '<li><b>운전관제에게 보고</b>하고 역장 또는 기술직원의 <b>열차감시를 요청</b>한다.</li></ol>' +
+    '<h3>제92조 (1개 이상 승강장안전문이 닫히지 않을 경우의 조치)</h3>' +
+    '<p>① <b>1~4호선 RF 통신방식</b> 승강장안전문 설치역에서 전동차 출입문은 닫혔으나 1개 이상 또는 전체 승강장안전문이 닫히지 않을 경우에는 다음 각 호에 의한 조치를 하여야 한다.</p>' +
+    '<ol><li>승강장 <b>HMI 모니터</b>로 승강장안전문 상태를 확인한다.</li>' +
+    '<li><b>운전관제에 보고</b>한다.</li>' +
+    '<li><b>PSD 승무원조작반 내의 전체닫힘 버튼</b>을 취급한다.</li>' +
+    '<li>위 제3호의 조치로 닫히지 않을 경우에는 현장확인 및 운전관제에 감시자 요청 후 <b>승강장안전문 매뉴얼</b>에 따라 조치하고, 역장(역장이 지정한 자를 포함한다)의 <b>출발지시전호</b>에 의하여 출발하여야 한다.</li></ol>' +
+    '<p>② <b>1~4호선 센서방식</b> 승강장안전문 설치역에서 전동차 출입문은 닫혔으나 1개 이상 또는 전체 승강장안전문이 닫히지 않을 경우에는 다음 각 호에 의한 조치를 하여야 한다.</p>' +
+    '<ol><li>승강장 <b>HMI 모니터</b>로 승강장안전문 상태를 확인한다.</li>' +
+    '<li><b>운전관제에 보고</b>한다.</li>' +
+    '<li><b>승무원조작반 내의 전체닫힘 버튼</b>을 취급한다.</li>' +
+    '<li>위 제3호의 조치로도 전체가 닫히지 않을 경우에는 현장확인 및 운전관제에 감시자 요청 후, 역장(역장이 지정한 자를 포함한다)의 <b>출발지시전호</b>에 의하여 출발하여야 한다.</li></ol>' +
+    '<p class="hl8">③ <b>5~8호선</b> 승강장안전문이 1개 이상 닫히지 않아 <b>승강장안전문 닫힘 표시등이 점등되지 않을 경우</b>에는 다음 각 호에 의한다.</p>' +
+    '<ol class="hl8"><li>승객취급을 위해 <b>차외부로 안내방송</b>을 실시한다.</li>' +
+    '<li>승강장안전문 <b>기관사조작반의 승강장안전문 닫힘버튼</b>을 누른다.</li>' +
+    '<li>닫히지 않을 경우 <b>운전관제에게 보고</b>하고 역장 또는 기술직원의 <b>열차감시를 요청</b>한다.</li>' +
+    '<li>승강장안전문이 열려있는 상태에서 출발하기 위하여 <b>운전관제의 지시에 따라</b> 기관사조작반의 <b>바이패스(By-Pass) 스위치</b>를 취급한다.</li>' +
+    '<li>열차출발에 대한 승강장 안내방송 후 역장 또는 기술직원의 <b>출발지시전호</b>에 의하여 출발한다.</li></ol>' +
+    '<h3>제93조 (1~4호선 RF 통신방식 승강장안전문 설치역에서 Door등이 점등되지 않을 경우의 조치)</h3>' +
+    '<p>전동차 출입문을 닫았으나 Door등(승무원조작반의 발차지시등 포함)이 점등되지 않을 경우에는 다음 각 호에 의한 조치를 하여야 한다.</p>' +
+    '<ol><li>승강장 <b>HMI 모니터</b>로 승강장안전문 상태를 확인한다.</li>' +
+    '<li>전·후부 운전실 <b>무선장치(RF) 전원스위치 ON 상태</b> 및 <b>PSD 차상조작반의 노선선택 스위치</b>를 확인한다.</li>' +
+    '<li><b>운전관제에 보고</b>한다.</li>' +
+    '<li>일부 닫히지 않는 승강장안전문이 있으면 <b>승무원조작반 내의 전체닫힘 버튼</b>을 취급한다.</li>' +
+    '<li>위 제4호의 조치로 Door등이 점등되지 않을 경우에는 현장확인 및 운전관제에 감시자 요청 후 승강장안전문 매뉴얼에 따라 조치하고, 역장(역장이 지정한 자를 포함한다)의 <b>출발지시전호</b>에 의하여 출발하여야 한다.</li>' +
+    '<li>제2호·제4호 및 제5호의 조치에도 Door등이 점등되지 않을 경우에는 <b>전동차 출입문 닫힘상태를 확인</b>하고 조치한다.</li></ol>' +
+    '<h3>제94조 (1~4호선 차상 PSD 장치가 동작하지 않을 경우의 조치)</h3>' +
+    '<p>차상 PSD 장치가 동작하지 않을 경우에는 다음 각 호에 의한 조치를 하여야 한다.</p>' +
+    '<ol><li><b>운전관제에 보고</b>한다.</li>' +
+    '<li><b>차상 PSD 무선장치 전원을 OFF</b> 한다.</li>' +
+    '<li>전동차 출입문 열림 또는 닫힘취급을 한 후 승강장안전문이 전동차 출입문과 같이 동작하지 않으면, <b>승무원조작반</b>을 이용하여 승강장안전문의 <b>전체열림 또는 전체닫힘</b> 취급을 한다.</li>' +
+    '<li>전동차의 출발은 승무원조작반의 <b>출발반응표지 점등</b>, <b>승강장안전문 전체닫힘등</b> 및 전동차 <b>Door등 점등</b>을 확인 후 출발한다.</li></ol>' +
+    '<h3>제95조 (비상정차 시의 조치)</h3>' +
+    '<p>비상제동 걸림 및 열차화재 등으로 비상정차 시 정차위치 수정 불가능으로 승강장안전문을 정상적으로 이용할 수 없는 경우에는 다음 각 호에 의한 조치를 하여야 한다.</p>' +
+    '<ol><li><b>운전관제에 상황을 보고</b>하고 승객안내와 질서유지를 위한 <b>안내방송</b>을 시행한다.</li>' +
+    '<li>전동차 정차위치가 승강장안전문을 이용하여 승객 승하차가 <b>가능하다고 판단</b>되면, PSD 차상조작반의 수동·자동스위치를 <b>수동위치</b>로 선택한 후 전동차 출입문을 개방하고 승무원조작반에 <b>전체열림 취급</b>으로 승강장안전문을 개방한다.</li>' +
+    '<li>전동차 정차위치가 승강장안전문을 이용하여 승객 승하차가 <b>불가능하다고 판단</b>되면, PSD 차상조작반의 수동·자동스위치를 <b>수동위치</b>로 선택한 후 전동차 출입문을 개방하고, 전동차 1량 기준으로 <b>2조씩 설치된 승강장안전문 비상출입문</b>을 이용하여 승객이 하차할 수 있도록 안내한다.</li></ol>' +
+    '<p class="src">출처 — 「운전취급규정」 승강장안전문 고장 시 조치 (제89조 ~ 제95조)</p>' +
+    '</div>';
+  /* ── 운전실 패널 : 메뉴5(도시바 TCMS)만 실물 사진판, 나머지는 기존판 ── */
+  function isM5(){ return !!(CUR && CUR.id === "tcms"); }
+  function cfKeysOld(){
+    var s = "";
+    CF_KEYS.forEach(function(k){
+      s += '<span class="cf-k ' + k[2] + '"><i></i><b>' + k[0] + '</b><u>(' + k[1] + ')</u></span>';
+    });
+    return '<div class="cf-plate">「정지후진행 취급법」<br>수동 + B7 → “정지후진행” 취급</div>' +
+           '<div class="cf-g9">' + s + '</div>';
+  }
+  function cfLampsOld(){
+    var top = "", side = "";
+    var L = lampCfg();
+    var _dk = !!(((CUR && S && CUR.steps[S.i]) || {}).cabDark), _mk = !_dk;
+    CF_LTOP.forEach(function(l, i){ top += lampCell(l, (i === 2 && !_dk) || (i === 1 && L.doorOn), i === 1 && _mk); });
+    CF_LSIDE.forEach(function(l){ side += lampCell(l, false, false); });
+    return '<div class="cf-ltop">' + top + '</div>' +
+      '<div class="cf-r2"><div class="cf-adu"><div class="cf-lim">제한속도<b>0</b></div>' +
+      cfGauge() + '<u>A D U</u></div>' +
+      '<div class="cf-lside">' + side + '</div></div>';
+  }
+  function paBoxOld(){
+    var s = '<svg viewBox="0 0 300 236" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
+    s += '<rect width="300" height="236" rx="6" fill="#121417"/>';
+    s += '<rect x="26" y="6" width="248" height="224" rx="3" fill="none" stroke="#c9ccd0" stroke-width="1"/>';
+    // 손잡이
+    ['14','280'].forEach(function(x){
+      s += '<rect x="'+x+'" y="52" width="7" height="120" rx="3.5" fill="none" stroke="#b9bec6" stroke-width="2.5"/>';
+    });
+    s += '<text x="150" y="24" text-anchor="middle" font-size="11" letter-spacing="1.6" fill="#dfe3e8">— CENTER OPERATION BOX —</text>';
+    s += '<rect x="76" y="30" width="118" height="15" fill="#f2f3f5"/>' +
+         '<text x="135" y="41" text-anchor="middle" font-size="9" font-weight="700" fill="#17304f">자동방송 차내음량 5</text>';
+    // LCD
+    s += '<rect x="76" y="50" width="118" height="78" rx="2" fill="#cfd8f2" stroke="#8fa0c6"/>';
+    [['현재역',66],['다음역',88],['종착역',110]].forEach(function(r){
+      s += '<text x="84" y="'+r[1]+'" font-size="8" fill="#17304f">'+r[0]+':</text>' +
+           '<text x="116" y="'+r[1]+'" font-size="9.5" font-weight="800" fill="#13418f">별내</text>';
+    });
+    s += '<text x="135" y="122" text-anchor="middle" font-size="6" fill="#4a5f86">차내 음량(Up/Down) ▶ 4</text>';
+    ['안내1','안내2','안내3','화재'].forEach(function(t,i){
+      s += '<rect x="'+(78+i*29)+'" y="113" width="27" height="12" rx="1.5" fill="#e4eaf7" stroke="#8fa0c6"/>' +
+           '<text x="'+(91.5+i*29)+'" y="122" text-anchor="middle" font-size="6.5" fill="#17304f">'+t+'</text>';
+    });
+    // 상단 라벨 + 호박색 버튼 4
+    var lb = [['무질서','계도'],['출입문','폐문'],['열차','지연'],['열차','화재']];
+    lb.forEach(function(t,i){
+      var x = 76 + i*30;
+      s += '<rect x="'+x+'" y="132" width="27" height="15" fill="#e4eaf7" stroke="#8fa0c6" stroke-width=".6"/>';
+      s += '<text x="'+(x+13.5)+'" y="139" text-anchor="middle" font-size="5.5" fill="'+(i===3?"#c0392b":"#17304f")+'">'+t[0]+'</text>';
+      s += '<text x="'+(x+13.5)+'" y="145.5" text-anchor="middle" font-size="5.5" fill="'+(i===3?"#c0392b":"#17304f")+'">'+t[1]+'</text>';
+      s += '<rect x="'+(x+4)+'" y="152" width="19" height="16" rx="2" fill="#c9872f" stroke="#2a2d31" stroke-width="1.5"/>';
+    });
+    // MIC + 노브
+    s += '<text x="236" y="62" text-anchor="middle" font-size="8.5" fill="#dfe3e8">MIC</text>';
+    [[214,'방송음량'],[262,'스피커음량']].forEach(function(k){
+      s += '<circle cx="'+k[0]+'" cy="104" r="13" fill="#15171a" stroke="#4b5057" stroke-width="1.5"/>';
+      s += '<rect x="'+(k[0]-2.5)+'" y="92" width="5" height="14" rx="2" fill="#6b7177" transform="rotate(25 '+k[0]+' 104)"/>';
+      s += '<text x="'+k[0]+'" y="128" text-anchor="middle" font-size="7" fill="#dfe3e8">'+k[1]+'</text>';
+      for (var g=0; g<9; g++){
+        var a = (-130 + g*32.5) * Math.PI/180;
+        s += '<text x="'+(k[0]+19*Math.sin(a)).toFixed(1)+'" y="'+(104-19*Math.cos(a)+2).toFixed(1)+
+             '" text-anchor="middle" font-size="5" fill="#9aa0a8">'+(g+2)+'</text>';
+      }
+    });
+    s += '<circle cx="182" cy="152" r="6" fill="#15171a" stroke="#4b5057"/>' +
+         '<text x="172" y="168" font-size="6" fill="#dfe3e8">DN</text>' +
+         '<text x="188" y="168" font-size="6" fill="#dfe3e8">UP</text>';
+    // 하단 버튼 5
+    var bt = [['좌측방송','#8fd14f'],['운전실통화','#8fd14f'],['차내방송','#8fd14f'],['우측방송','#8fd14f'],['비상통화','#e02f3c']];
+    bt.forEach(function(t,i){
+      var x = 44 + i*46;
+      s += '<rect x="'+x+'" y="180" width="26" height="22" rx="2" fill="'+t[1]+'" stroke="#c9ccd0" stroke-width="2"/>';
+      s += '<text x="'+(x+13)+'" y="216" text-anchor="middle" font-size="7" fill="#dfe3e8">'+t[0]+'</text>';
+    });
+    return s + '</svg>';
+  }
+  function rmStageOld(live){
+    function sw(x, name, pos, ang, cur, lv, ic, brand){
+      var lb = "";
+      pos.forEach(function(p, i){
+        var a = ang[i] * Math.PI / 180, lx = 55 + 41*Math.sin(a), ly = 66 - 41*Math.cos(a);
+        var c = 'rmx-pl' + ((brand && i === cur) ? ' on' : '');
+        var st = ' style="left:' + lx.toFixed(1) + 'px;top:' + ly.toFixed(1) + 'px"';
+        lb += lv ? '<button type="button" class="' + c + '" data-p="' + i + '"' + st + '>' + p + '</button>'
+                 : '<span class="' + c + '"' + st + '>' + p + '</span>';
+      });
+      return '<div class="rmx-sw" style="left:' + x + 'px">' +
+        (brand ? '<span class="phi">\u03A6</span><span class="kn">Kraus &amp; Naimer</span>' : '') + lb +
+        (lv ? '<button type="button" class="rmx-knob" id="cfRun"' : '<span class="rmx-knob"') +
+        ' style="--rot:' + ang[cur] + 'deg;--ic:' + (ic || "#e6e2d6") + '"><i></i>' + (lv ? '</button>' : '</span>') +
+        '<b>' + name + '</b></div>';
+    }
+    return '<div class="rmx">' + scr4() + '<div class="rmx-bv"></div>' +
+      '<div class="rmx-dim"><i class="arc"></i><i class="k"></i><span class="mn">MIN</span><span class="mx">MAX</span>' +
+        '<b>조광기<br>(DIMMER)</b></div>' +
+      '<div class="rmx-led">' +
+        '<i class="' + (CFS.run === 1 ? 'on' : '') + '" style="--c:#e02f3c"></i>' +
+        '<i class="' + (CFS.run === 2 ? 'on' : '') + '" style="--c:#3ee87a"></i>' +
+        '<i style="--c:#e3ad18"></i></div>' +
+      '<div class="rmx-sled l"><i style="--c:#c8a63c"></i></div>' +
+      '<div class="rmx-sled r"><i class="' + (CFS.run === 4 ? 'on' : '') + '" style="--c:#e02f3c"></i></div>' +
+      sw(20,  "운전모드선택", CF_RUNPOS, CF_RUNANG, CFS.run, live, runIC(CFS.run), true) +
+      sw(175, "전조등", ["하향","OFF","상향1단","상향2단","상향3단"], [-90,-45,0,45,90], 0, false) +
+      sw(330, "창닦이스위치", ["살수","정지","1단","2단","3단"], [-90,-45,0,45,90], 1, false) +
+    '</div>';
+  }
+  function cfKeysHtml(){  return isM5() ? cfKeysM5()  : cfKeysOld(); }
+  function cfLampsHtml(){ return isM5() ? cfLampsM5() : cfLampsOld(); }
+  function paBoxHtml(){   return isM5() ? paBoxM5()   : paBoxOld(); }
+  function rmStage(live){ return isM5() ? rmStageM5(live) : rmStageOld(live); }
   function setMascot(k){ var el = $("mascotImg"); if (el) el.src = DDOTA[k] || DDOTA.que; }
 
   /* =========================================================
@@ -1511,30 +1765,33 @@
 
     // ── 열차 (승강장안전문 뒤)
     var tx = '<g'+(o.roll ? ' class="roll"' : '')+'>';
-    tx += '<rect x="16" y="24" width="448" height="126" rx="12" fill="'+C.body+'" stroke="'+C.bodyLine+'" stroke-width="2"/>';
-    tx += '<rect x="16" y="24" width="448" height="15" rx="7" fill="'+C.pink+'"/>';
-    for (var w=0; w<6; w++){
+    tx += '<rect x="-10" y="24" width="500" height="126" fill="'+C.body+'" stroke="'+C.bodyLine+'" stroke-width="2"/>';
+    tx += '<rect x="-10" y="24" width="500" height="15" fill="'+C.pink+'"/>';
+    for (var w=-1; w<7; w++){
       tx += '<rect x="'+(30+w*72)+'" y="48" width="58" height="20" rx="3" fill="#b9d2ea" stroke="#8fa9c6"/>';
-      if (w) tx += '<line x1="'+(24+w*72)+'" y1="39" x2="'+(24+w*72)+'" y2="150" stroke="#dcdce4" stroke-width="2"/>';
+      tx += '<line x1="'+(24+w*72)+'" y1="39" x2="'+(24+w*72)+'" y2="150" stroke="#dcdce4" stroke-width="2"/>';
     }
     tx += '</g>';
     s += tx;
 
     // ── 승강장안전문
-    for (var i=0;i<6;i++){
+    for (var i=-1;i<7;i++){
       var x = 26 + i*72;
       if (o.open === i){
         var aL = o.animOpen ? ' class="pl"' : '', aR = o.animOpen ? ' class="pr"' : '';
         s += '<rect x="'+(x+20)+'" y="76" width="26" height="74" fill="#3c4d61"/>';
         s += '<rect'+aL+' x="'+x+'" y="76" width="20" height="74" rx="2" fill="'+C.glass+'" stroke="'+C.red+'" stroke-width="3"/>';
         s += '<rect'+aR+' x="'+(x+46)+'" y="76" width="20" height="74" rx="2" fill="'+C.glass+'" stroke="'+C.red+'" stroke-width="3"/>';
-        s += '<rect x="'+(x+9)+'" y="55" width="48" height="18" rx="9" fill="#fff" stroke="'+C.red+'" stroke-width="1.5"/>';
-        s += '<text x="'+(x+33)+'" y="68" text-anchor="middle" font-size="11" font-weight="700" fill="#cc2431">개방</text>';
       } else if (o.trying === i){
         s += '<g class="shake">';
         s += '<rect x="'+x+'" y="76" width="31" height="74" rx="2" fill="'+C.glass+'" stroke="#d8a400" stroke-width="3"/>';
         s += '<rect x="'+(x+35)+'" y="76" width="31" height="74" rx="2" fill="'+C.glass+'" stroke="#d8a400" stroke-width="3"/>';
         s += '</g>';
+      } else if (o.retryAll){
+        s += '<rect x="'+(x+14)+'" y="76" width="38" height="74" fill="#3c4d61"/>';
+        s += '<rect x="'+x+'" y="141" width="66" height="6" fill="#e8b93a" opacity=".85"/>';
+        s += '<rect class="psl" x="'+x+'" y="76" width="33" height="74" rx="2" fill="'+C.glass+'" stroke="#7d98bb" stroke-width="1.5"/>';
+        s += '<rect class="psr" x="'+(x+33)+'" y="76" width="33" height="74" rx="2" fill="'+C.glass+'" stroke="#7d98bb" stroke-width="1.5"/>';
       } else {
         s += '<rect x="'+x+'" y="76" width="66" height="74" rx="3" fill="'+C.glass+'" stroke="#7d98bb" stroke-width="1.5"/>';
         s += '<line x1="'+(x+33)+'" y1="76" x2="'+(x+33)+'" y2="150" stroke="#7d98bb" stroke-width="1.5"/>';
@@ -2948,14 +3205,25 @@
       s += '<text x="34" y="16" font-size="11" font-weight="700" fill="#4a3f44">8호선 전동차 · '+(o.carLbl || (o.allBad ? "4호차" : "6호차"))+'</text>';
     }
     if (o.go){
-      s += '<g class="walk"><g transform="translate(60,0)">' +
+      var gr = (o.goFrom === "right"), gx0 = gr ? 500 : 60;
+      s += '<g class="' + (gr ? "walkl" : "walk") + '"><g transform="translate('+gx0+',0)">' +
         '<ellipse cx="0" cy="240" rx="18" ry="4" fill="rgba(60,40,48,.2)"/>' +
         '<path d="M -12 240 L -9 212 L 9 212 L 12 240" fill="'+C.ink+'"/>' +
         '<rect x="-13" y="180" width="26" height="36" rx="9" fill="'+C.ink+'"/>' +
         '<circle cx="0" cy="168" r="11" fill="'+C.ink+'"/>' +
-        '<rect x="14" y="186" width="7" height="17" rx="2" fill="#2c2a2b"/><rect x="16" y="178" width="3" height="9" fill="#2c2a2b"/></g></g>';
-      s += '<path d="M 86 226 L 196 226" stroke="'+P+'" stroke-width="4" stroke-dasharray="9 7" stroke-linecap="round"/>' +
-           '<path d="M 192 218 L 206 226 L 192 234 Z" fill="'+P+'"/>';
+        (gr ? '<rect x="-21" y="186" width="7" height="17" rx="2" fill="#2c2a2b"/><rect x="-19" y="178" width="3" height="9" fill="#2c2a2b"/>'
+            : '<rect x="14" y="186" width="7" height="17" rx="2" fill="#2c2a2b"/><rect x="16" y="178" width="3" height="9" fill="#2c2a2b"/>') +
+        '</g></g>';
+      if (gr){
+        var bi = (o.badIdx == null ? 1 : o.badIdx), axl = [136, 264, 392, 500][bi] + 8;
+        if (axl > 414) axl = 414;
+        s += '<path d="M 474 226 L '+(axl+10)+' 226" stroke="'+P+'" stroke-width="4" stroke-dasharray="9 7" stroke-linecap="round"/>' +
+             '<path d="M '+(axl+14)+' 218 L '+axl+' 226 L '+(axl+14)+' 234 Z" fill="'+P+'"/>';
+      } else {
+        var axe = (o.badIdx === 0) ? 150 : 206;
+        s += '<path d="M 86 226 L '+(axe-10)+' 226" stroke="'+P+'" stroke-width="4" stroke-dasharray="9 7" stroke-linecap="round"/>' +
+             '<path d="M '+(axe-14)+' 218 L '+axe+' 226 L '+(axe-14)+' 234 Z" fill="'+P+'"/>';
+      }
       return s + '</svg>';
     }
     s += '<g transform="translate(150,0)">' +
@@ -3079,7 +3347,7 @@
     s += '<rect x="178" y="21" width="88" height="14" fill="#d9d6c9"/>';
     s += '<text x="222" y="32" text-anchor="middle" font-size="10" font-weight="700" fill="#1f5a33">상 태 표 시</text>';
     var lampLbl = ["열림","전체닫힘","BY-PASS","장애"];
-    var lampOn  = [null, C.green, "#f2c024", "#f2c024"];
+    var lampOn  = [null, null, "#f2c024", "#f2c024"];
     for (var i=0;i<4;i++){
       var lx = 90 + i*76, on = lampOn[i];
       s += '<text x="'+lx+'" y="48" text-anchor="middle" font-size="9" font-weight="700" fill="#24282c">'+lampLbl[i]+'</text>';
@@ -3158,17 +3426,17 @@
 
   var SCN_PSD = {
     fault: { t:"승강장안전문 장애 발생",
-             q:"출입문은 전체 닫힘완료되었으나, 승강장안전문 3-2가 닫혔다 열렸다를 반복하며 복구되지 않습니다.",
+             q:"출입문은 전체 닫힘완료, 승강장안전문 3-2가 닫혔다 열렸다를 반복하며 닫히지 않습니다.",
              svg: platform({ open:2, animOpen:true, badge:"승강장안전문 3-2 장애" }) },
-    retry: { t:"출입문·승강장안전문 재취급",
-             q:"다시 취급하였으나 복구되지 않았습니다.",
-             svg: platform({ trying:2, badge:"출입문·승강장안전문 재취급" }) },
-    pa:    { t:"차내 안내방송",
-             q:"승객에게 지연 사유를 알리는 차내 안내방송을 시행합니다.",
+    retry: { t:"재취급해도 그대로",
+             q:"출입문·승강장안전문을 다시 취급하였으나<br>승강장안전문 3-2는 그대로입니다.",
+             svg: platform({ open:2, animOpen:true, retryAll:true, badge:"재취급해도 그대로" }) },
+    pa:    { t:"안내방송",
+             q:"승객에게 안내방송을 시행합니다.",
              say:"“승객 여러분께 안내 말씀드리겠습니다. 우리 열차는 승강장안전문 고장으로 정차하고 있습니다. 안전하게 조치 후 출발할 예정이니 잠시만 기다려 주시기 바랍니다.”",
              svg: cab({ waves:true }) },
     report:{ t:"관제 보고",
-             q:"열차번호·위치·고장 개소·시행한 조치를 운전 관제에 보고합니다.",
+             q:"운전 관제에 보고합니다.",
              say:"“관제 관제, 8000열차 800편성 잠실역 상선 승강장안전문 3-2 장애로 정차하고 있습니다. 출입문, 승강장안전문 재취급하였으나 조치되지 않았습니다.”",
              svg: radio("out") },
     order: { t:"관제 승인", tone:"blue",
@@ -3179,7 +3447,7 @@
              q:"기관사가 승강장안전문 기관사 조작반의 BY-PASS 버튼을 취급합니다.",
              svg: boardPress() },
     depart:{ t:"역무원 전호 확인 후 출발",
-             q:"역무원이 녹색등을 위아래로 흔들어 전호하는 것을 확인한 뒤 출발합니다.",
+             q:"역무원이 전호하는 것을 확인한 뒤 출발합니다.",
              svg: platform({ open:2, staff:true, staffX:264, roll:true, badge:"역무원 전호 확인 후 출발" }) }
   };
 
@@ -3261,14 +3529,14 @@
       pts:25,
       msg:["PSD 장애발생","alert"],
       coach:"현재 승강장 안전문 장애가 발생해서 출발을 못 해. HMI 문자표출과 표시 봤어? 어떻게 해야 할까?",
-      hint:"자료의 첫 항목은 '기관사조작반 전체 닫힘 S/W 취급'이야. 우선 다시 취급해 보는 거지.",
+      hint:"혹시 모르니 전체를 재취급해보는건 어때?",
       opts:[
         { t:"출입문과 승강장 안전문을 재취급한다", ok:true,
-          fb:"승강장안전문 장애가 발생한 경우 출입문, 안전문을 재취급해야 해. 다시 취급해서 닫히는지부터 확인하는 게 순서야." },
+          fb:"승강장안전문 장애가 발생한 경우 <b>출입문, 안전문을 재취급</b>해야 해. 다시 취급해서 닫히는지부터 확인하는 게 순서야." },
         { t:"곧바로 BY-PASS 취급하고 출발하면서 관제에 보고한다", ok:false,
-          fb:"BY-PASS는 맨 마지막 단계야. 재취급·보고·지시를 건너뛰고 쓰면 열린 승강장안전문 옆에 승객을 둔 채로 열차가 나가게 돼." },
-        { t:"HMI에서 해당 출입문을 수동/단락으로 설정하고 출발한다", ok:false,
-          fb:"장애가 난 건 승강장안전문이야. 열차 출입문을 수동/단락으로 설정해도 PSD는 그대로 열려 있어. 엉뚱한 곳을 손대는 셈이야." }
+          fb:"<b>BY-PASS는 맨 마지막 단계</b>야. 바이패스를 취급전 <b>출입문과 승강장 안전문 재취급</b>을 해보자." },
+        { t:"HMI에서 닫힘버튼을 여러번 누른다.", ok:false,
+          fb:"승강장 안전문 장애시 첫번째 조치 사항은 <b>출입문과 승강장 안전문 재취급</b>이야." }
       ],
       src:"교육자료 · 승강장안전문 기관사 조작반 취급 ① 기관사조작반 전체 닫힘 S/W 취급",
       done:"출입문·승강장안전문 재취급"
@@ -3277,15 +3545,15 @@
       pts:25,
       msg:["PSD 장애발생","alert"],
       coach:"재취급을 했는데도 여전히 장애 표시가 있어. 다음에는 어떻게 해야 할까?",
-      hint:"승객에게 먼저 알리고, 혼자 판단하지 말고 보고해야 해.",
+      hint:"승객이 먼저 불안해져. 그리고 혼자 판단할 일이 아니야.",
       cine: MID_PSD,
       opts:[
         { t:"안내방송 후 관제에 보고해야 한다", ok:true,
-          fb:"맞아. 승객에게 지연 사유를 안내하고 관제사에게 보고해야 해. 영상을 통해 방송 문구와 관제 보고를 시뮬레이션해 보자." },
+          fb:"맞아. 승객에게 <b>지연 사유를 안내</b>하고 <b>관제에게 보고</b>해야 해.<br><b>영상을 통해 방송 문구와 관제 보고를 확인해보자.</b>" },
         { t:"여러 번 취급했으니 BY-PASS 취급하고 출발한다", ok:false,
-          fb:"순서가 뒤집혔어. BY-PASS는 관제 승인을 받은 뒤에 쓰는 취급이야. 보고 없이 먼저 쓰면 안 돼." },
+          fb:"BY-PASS는 <b>관제 승인을 받은 뒤</b>에 쓰는 취급이야. <b>보고 없이 먼저 쓰면 안 돼.</b>" },
         { t:"역무원에게 직접 연락해 수동으로 닫게 한 뒤 출발한다", ok:false,
-          fb:"승객 안내와 관제 보고가 빠졌어. 기관사가 현장 조치를 임의로 결정할 수 없고, 역무원 조치도 관제를 거쳐 정해져. 먼저 안내방송을 하고 관제에 보고해야 해." }
+          fb:"기관사가 현장 조치를 <b>임의로 결정할 수 없고</b>, 역무원 조치도 관제를 거쳐 정해져. 먼저 <b>안내방송</b>을 하고 <b>관제에 보고</b>해야 해." }
       ],
       src:"교육자료 · 닫히지 않을 경우 관제사에게 보고하고 역장의 열차감시 요청",
       done:"안내방송 후 관제 보고"
@@ -3295,16 +3563,20 @@
       msg:["PSD 장애발생","alert"],
       msgOk:["By-Pass 취급","warn"],
       board:"psd",
-      coach:"관제한테 지시가 왔어. 장애가 발생한 상태에서 출발해야 해. 조작반에서 무엇을 취급해야 하지? 조작반에서 직접 취급해 봐!",
+      psdAfter:true,
+      psdAsk:"\uD83D\uDC49 위 조작반에서 <b>BY-PASS</b> 버튼을 직접 눌러 취급해 보세요.",
+      psdFb:"<b>BY-PASS</b> 취급 완료. 이제 출발 조건을 확인해 보자.",
+      coach:"관제한테 지시가 왔어. 장애가 발생한 상태에서 출발해야 해. 조작반에서 무엇을 취급해야 하지?",
       prompt:"PSD 장애 상태에서 출발하기 위한 취급은?",
-      hint:"열린 채로 열차를 내보내려면 연동을 우회해야 해.",
+      hint:"승강장 안전문 장애상태로 열차를 출발하려면 By-pass를 취급해야해.",
       opts:[
         { t:"조작반의 By-Pass 스위치를 취급한다", ok:true, btn:"bypass",
-          fb:"맞아. 장애가 발생한 상태에서 출발하려면 관제 승인 후 By-Pass 스위치를 취급해야 해." },
+          fb:"맞아. 장애가 발생한 상태에서 출발하려면 관제 승인 후 By-Pass 스위치를 취급해야 해." +
+             "<span class=\"goline\">\uD83D\uDC49 위 그림에서 <b>By-Pass</b>를 직접 취급해보자!</span>" },
         { t:"조작반의 비상모드 버튼을 취급한다", ok:false, btn:"emg",
-          fb:"비상모드는 개방상태 출발을 위한 취급이 아니야. 자료가 지정한 건 By-Pass야." },
-        { t:"조작반 RESET으로 장치를 재기동한 뒤 출발한다", ok:false, btn:"reset",
-          fb:"RESET으로 장애가 풀린다는 보장이 없고, 개방상태 출발 조건도 아니야. 지정된 취급은 By-Pass야." }
+          fb:"비상모드는 개방상태 출발을 위한 취급이 아니야. <b>By-pass</b>를 해보자." },
+        { t:"쇄정버튼을 누르고 출발한다.", ok:false, btn:"lock",
+          fb:"쇄정버튼은 현재 안전문 상태를 <b>고정하는 장치</b>로 맞지 않아. 지금은 <b>By-pass</b>를 해보자." }
       ],
       src:"교육자료 · PSD 개방상태에서 출발 ⇨ 조작반의 By-Pass 스위치 취급",
       done:"조작반 By-Pass 스위치 취급"
@@ -3314,14 +3586,14 @@
       msg:["By-Pass 취급","warn"],
       coach:"마지막이야. By-Pass 스위치를 취급했다고 바로 출발하면 안 돼. 출발 조건이 하나 더 남았어.",
       prompt:"이 상태에서의 출발 조건으로 맞는 것은?",
-      hint:"기관사가 혼자 출발을 판단하지 않아. 승강장에서 신호를 주는 사람이 있어.",
+      hint:"고장난 승강장안전문에 승객이 있을 수 있어. 현장에서 확인해주는 사람이 필요해.",
       opts:[
         { t:"역무원의 출발지시전호에 의하여 출발한다", ok:true,
-          fb:"맞아. 역무원의 출발지시전호 → 출발. 승강장안전문이 열린 상태이므로 현장을 직접 확인하는 역무원의 전호가 출발 조건이야." },
-        { t:"By-Pass가 취급되어 연동이 풀렸으므로 바로 출발한다", ok:false,
-          fb:"By-Pass는 연동을 풀어줄 뿐 안전을 보장하지 않아. 열린 승강장안전문 옆에 승객이 있을 수 있어." },
+          fb:"맞아. <b>역무원의 출발지시전호</b> 확인 후 출발해야 해.<br>승강장안전문이 열린 상태이므로 현장을 직접 확인하는 역무원의 전호가 꼭 필요해." },
+        { t:"By-Pass를 취급했으니 바로 출발한다", ok:false,
+          fb:"By-Pass는 <b>안전을 보장하지 않아.</b> 고장난 승강장안전문에 승객이 있을 수 있어. <b>현장에서 확인해주는 사람</b>이 필요해." },
         { t:"관제사의 무선 지시만 받고 출발한다", ok:false,
-          fb:"관제 지시는 필요하지만 충분하지 않아. 현장에서 승강장을 보고 신호를 주는 건 역무원이야." }
+          fb:"관제 지시는 필요하지만, <b>현장에서 확인해주는 사람</b>이 필요해." }
       ],
       src:"교육자료 · 승강장 안내방송 후 출발지시전호에 의하여 출발",
       done:"역무원의 출발지시전호에 의하여 출발"
@@ -3386,11 +3658,11 @@
       hint:"자료가 현상확인으로 꼽은 건 대표등·역행, TCMS 화면, 그리고 차측등이야.",
       opts:[
         { t:"TCMS 일반화면과 차측등으로 출입문 열림 개소를 확인한다", ok:true,
-          fb:"맞아. TCMS 일반화면에 4호차 R3 출입문 열림이 현시되고 해당 차량 차측등이 점등돼 있어. 어느 문인지부터 특정해야 해." },
+          fb:"맞아. TCMS 일반화면에 <b>4호차 R3 출입문 열림</b>이 현시되고 해당 차량 차측등이 점등돼 있어. <b>어느 문인지부터 특정</b>해야 해." },
         { t:"출입문등 전구 불량으로 판단하고 그대로 출발한다", ok:false,
-          fb:"역행이 안 되는 건 실제로 출입문이 열려 있다는 뜻이야. 전구 문제로 넘길 상황이 아니야." },
+          fb:"역행이 안 되는 건 <b>실제로 출입문이 열려 있다</b>는 뜻이야. 전구 문제로 넘길 상황이 아니야." },
         { t:"바로 객실로 이동해 육안으로 모든 출입문을 확인한다", ok:false,
-          fb:"운전실을 비우기 전에 TCMS로 개소를 특정할 수 있어. 확인 없이 내려가면 시간만 버려." }
+          fb:"운전실을 비우기 전에 <b>TCMS로 개소를 특정</b>할 수 있어. 확인 없이 내려가면 시간만 버려." }
       ],
       src:"교육자료 · 현상확인 및 관제보고 ① 출입문 대표등 소등 및 역행 불능 ② TCMS 일반화면 출입문 열림 현시 ③ 차측등 점등",
       done:"TCMS·차측등으로 출입문 열림 개소 확인"
@@ -3403,11 +3675,11 @@
       hint:"닫히지 않은 문은 우선 다시 여닫아 봐야 해.",
       opts:[
         { t:"출입문 전체를 재취급 해야한다", ok:true,
-          fb:"맞아. 우선 출입문 전체를 재취급해 봐야 해. 다음 문제에서 그 순서를 확인해 보자." },
+          fb:"맞아. 우선 <b>출입문 전체를 재취급</b>해 봐야 해. 다음 문제에서 그 순서를 확인해 보자." },
         { t:"재개폐(DROS)를 취급한다", ok:false,
-          fb:"재개폐 한 번으로는 부족해. 정해진 순서대로 전체를 재취급해야 해." },
+          fb:"재개폐 한 번으로는 부족해. <b>정해진 순서대로 전체를 재취급</b>해야 해." },
         { t:"곧바로 관제 보고하고 지시를 기다린다", ok:false,
-          fb:"보고는 필요하지만 아직 일러. 기관사가 할 수 있는 재취급을 먼저 해 보고 그 결과까지 담아 보고해야 해." }
+          fb:"보고는 필요하지만 아직 일러. 기관사가 할 수 있는 <b>재취급</b>을 먼저 해 보고 그 결과까지 담아 보고해야 해." }
       ],
       src:"교육자료 · 출입문 재취급",
       done:"출입문 전체 재취급 판단"
@@ -3433,11 +3705,11 @@
       hint:"승객이 먼저 불안해져. 그리고 혼자 판단할 일이 아니야.",
       opts:[
         { t:"고객안내방송을 실시하고 관제에 보고한다", ok:true,
-          fb:"맞아. 승객에게 지연 사유를 알리고 관제에 현상을 보고해야 해. 영상으로 방송 문안과 관제 보고를 확인해 보자." },
+          fb:"맞아. 승객에게 <b>지연 사유를 알리고</b> <b>관제에 현상을 보고</b>해야 해. 영상으로 방송 문안과 관제 보고를 확인해 보자." },
         { t:"조치가 급하므로 방송은 생략하고 바로 회로차단기를 차단한다", ok:false,
-          fb:"정차가 길어지는데 안내가 없으면 승객이 먼저 불안해져. 안내방송과 관제 보고가 응급조치보다 앞서." },
+          fb:"정차가 길어지는데 안내가 없으면 승객이 먼저 불안해져. <b>안내방송과 관제 보고</b>가 응급조치보다 앞서." },
         { t:"승객이 내리도록 전체 출입문을 다시 열고 기다린다", ok:false,
-          fb:"이미 재취급으로 확인한 상태야. 다시 여는 취급은 의미가 없고 혼잡만 키워." }
+          fb:"이미 재취급으로 확인한 상태야. <b>다시 여는 취급은 의미가 없고</b> 혼잡만 키워." }
       ],
       src:"교육자료 · 고객안내방송 (현장 조치 시 INF 3번 취급)",
       done:"고객안내방송 실시 및 관제 보고"
@@ -3452,11 +3724,11 @@
       hint:"출입문 선택 스위치를 수/수로 돌린 다음, 닫힘(DCS)을 취급해.",
       opts:[
         { t:"출입문 선택 스위치를 수/수로 놓고 닫힘(DCS)을 취급한다", ok:true, btns:["DCS"],
-          fb:"맞아. 운전모드 수동(비상), 출입문 모드 수/수로 놓고 닫힘을 취급하는 게 첫 번째 응급조치야." },
+          fb:"맞아. <b>운전모드 수동(비상), 출입문 모드 수/수</b>로 놓고 <b>닫힘을 취급</b>하는 게 첫 번째 응급조치야." },
         { t:"재개폐(DROS)를 반복 취급한다", ok:false, btns:["DROS"],
-          fb:"재개폐를 반복해도 전 차량 닫힘 불능은 풀리지 않아. 자료가 지정한 건 수/수 모드에서의 닫힘 취급이야." },
+          fb:"재개폐를 반복해도 전 차량 닫힘 불능은 풀리지 않아. 자료가 지정한 건 <b>수/수 모드에서의 닫힘 취급</b>이야." },
         { t:"좌측열림(LDOS)·우측열림(RDOS)으로 다시 연 뒤 닫는다", ok:false, btns:["LDOS","RDOS"],
-          fb:"이미 전 차량이 열린 상태라 다시 여는 취급은 의미가 없어. 모드를 수/수로 놓고 닫아야 해." }
+          fb:"이미 전 차량이 열린 상태라 다시 여는 취급은 의미가 없어. <b>모드를 수/수로 놓고 닫아야</b> 해." }
       ],
       src:"교육자료 · 응급조치 ① 운전모드 수동(비상)모드, 출입문 모드 수/수, 닫힘 취급",
       done:"출입문 모드 수/수 · 닫힘(DCS) 취급"
@@ -3469,11 +3741,11 @@
       hint:"운전실 말고 차측에서 취급하는 제어대가 있어.",
       opts:[
         { t:"측면 제어대의 닫힘 스위치를 취급한다", ok:true,
-          fb:"맞아. 운전실에서 안 되면 측면 제어대의 닫힘 스위치를 취급해." },
+          fb:"맞아. 운전실에서 안 되면 <b>측면 제어대의 닫힘 스위치</b>를 취급해." },
         { t:"차장변(비상변)을 취급한다", ok:false,
-          fb:"차장변은 제동 계통 취급이야. 출입문 닫힘 불능의 조치가 아니야." },
+          fb:"<b>차장변은 제동 계통 취급</b>이야. 출입문 닫힘 불능의 조치가 아니야." },
         { t:"출입문 개별 차단 스위치로 하나씩 차단한다", ok:false,
-          fb:"전 차량이 열린 상태라 하나씩 차단하는 건 현실적이지 않아. 자료가 지정한 건 측면 제어대 닫힘 스위치야." }
+          fb:"전 차량이 열린 상태라 하나씩 차단하는 건 현실적이지 않아. 자료가 지정한 건 <b>측면 제어대 닫힘 스위치</b>야." }
       ],
       src:"교육자료 · 응급조치 ② 측면 제어대 닫힘 스위치 취급",
       done:"측면 제어대 닫힘 스위치 취급"
@@ -3487,11 +3759,11 @@
       hint:"1차분은 DRN, 2차분은 다른 차단기야.",
       opts:[
         { t:"R(L)DEN을 차단시켜 닫힘", ok:true, btns:["RDEN","LDEN"],
-          fb:"맞아. 2차분은 R(L)DEN을 차단시켜 출입문을 닫아. 1차분이면 DRN이야." },
+          fb:"맞아. <b>2차분은 R(L)DEN</b>을 차단시켜 출입문을 닫아. <b>1차분이면 DRN</b>이야." },
         { t:"DRN을 차단시켜 닫힘", ok:false, btns:["DRN"],
-          fb:"DRN은 1차분 차량의 취급이야. 2차분에서는 R(L)DEN을 차단해야 해." },
+          fb:"DRN은 <b>1차분</b> 차량의 취급이야. 2차분에서는 <b>R(L)DEN</b>을 차단해야 해." },
         { t:"ADSBS를 차단시켜 닫힘", ok:false, btns:["ADSBS"],
-          fb:"ADSBS는 조치 불능일 때 DBS와 함께 취급하는 거야. 차단해서 문을 닫는 용도가 아니야." }
+          fb:"ADSBS는 조치 불능일 때 <b>DBS와 함께 취급</b>하는 거야. 차단해서 문을 닫는 용도가 아니야." }
       ],
       src:"교육자료 · 응급조치 ③ 관련 회로차단기 차단 — 1차분 DRN 차단시켜 닫힘 / 2차분 R(L)DEN 차단시켜 닫힘",
       done:"2차분 R(L)DEN 차단시켜 닫힘"
@@ -3504,11 +3776,11 @@
       hint:"혼자 결정할 수 없는 취급이고, 그 뒤에 해야 할 요청이 하나 더 있어.",
       opts:[
         { t:"DBS(ADSBS)를 취급하고 관제 승인을 받은 뒤, 관제에 회송을 요청한다", ok:true,
-          fb:"맞아. DBS(ADSBS) 취급은 관제 승인이 필요하고, 그 뒤 관제에 회송을 요청해야 해." },
+          fb:"맞아. DBS(ADSBS) 취급은 <b>관제 승인</b>이 필요하고, 그 뒤 <b>관제에 회송을 요청</b>해야 해." },
         { t:"DBS를 취급하고 그대로 영업운전을 계속한다", ok:false,
-          fb:"DBS를 취급한 상태로 승객을 태우고 계속 운행할 수는 없어. 회송 조치가 따라야 해." },
+          fb:"DBS를 취급한 상태로 승객을 태우고 계속 운행할 수는 없어. <b>회송 조치</b>가 따라야 해." },
         { t:"승객을 하차시키고 기관사 판단으로 회송한다", ok:false,
-          fb:"회송은 기관사가 단독으로 결정할 수 없어. 관제 승인과 회송 요청이 필요해." }
+          fb:"회송은 기관사가 단독으로 결정할 수 없어. <b>관제 승인과 회송 요청</b>이 필요해." }
       ],
       src:"교육자료 · 응급조치 ④ 조치 불능시 DBS(ADSBS) 취급 - 관제 승인 ⑤ 관제 회송 요청",
       done:"DBS(ADSBS) 취급 · 관제 승인 후 회송 요청"
@@ -3850,13 +4122,66 @@
       '<rect y="66" width="696" height="8" fill="#3e3a34"/>' +
       '</svg><span>전 면 유 리</span></div>';
   }
-  function cfKeysHtml(){
-    var s = "";
-    CF_KEYS.forEach(function(k){
-      s += '<span class="cf-k ' + k[2] + '"><i></i><b>' + k[0] + '</b><u>(' + k[1] + ')</u></span>';
-    });
-    return '<div class="cf-plate">「정지후진행 취급법」<br>수동 + B7 → “정지후진행” 취급</div>' +
-           '<div class="cf-g9">' + s + '</div>';
+  function cfKeysM5(){
+    /* 실물 좌측 버튼 패널 (8호선 8017) */
+    var RB = 10;                       /* 공통 버튼 반지름 */
+    function plate(cx, y, w, t1, t2){
+      var x = cx - w/2, h = t2 ? 15 : 10;
+      var o = '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="1.5" fill="#15161a" stroke="#e6e6e2" stroke-width=".8"/>';
+      if (t2){
+        o += '<text x="'+cx+'" y="'+(y+6.4)+'" text-anchor="middle" font-size="4.6" font-weight="700" fill="#f2f2ee">'+t1+'</text>';
+        o += '<text x="'+cx+'" y="'+(y+12.4)+'" text-anchor="middle" font-size="4.2" font-weight="700" fill="#f2f2ee">'+t2+'</text>';
+      } else {
+        o += '<text x="'+cx+'" y="'+(y+7.3)+'" text-anchor="middle" font-size="5" font-weight="700" fill="#f2f2ee">'+t1+'</text>';
+      }
+      return o;
+    }
+    function btn(cx, cy, r, fill, bez){
+      var b = (bez == null) ? 2.6 : bez;
+      var o = '<circle cx="'+cx+'" cy="'+cy+'" r="'+(r+b)+'" fill="#c6c9ce"/>';
+      o += '<circle cx="'+cx+'" cy="'+cy+'" r="'+(r+b-1)+'" fill="#8d9298"/>';
+      o += '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+fill+'"/>';
+      o += '<circle cx="'+(cx-r*.3)+'" cy="'+(cy-r*.35)+'" r="'+(r*.55)+'" fill="#fff" opacity=".22"/>';
+      return o;
+    }
+    var s = '<svg viewBox="0 0 172 196" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
+    s += '<rect width="172" height="196" rx="5" fill="#1a1b1e"/>';
+
+    /* ── 그룹 1 : 비상제동차단 · 판토상승 · 판토하강 ── */
+    s += '<rect x="8" y="6" width="156" height="62" rx="2" fill="none" stroke="#6e7177" stroke-width=".8"/>';
+    s += btn(36, 31, 15, '#e0231a', 3.4);
+    s += '<circle cx="36" cy="31" r="9" fill="none" stroke="#a81a12" stroke-width="1.2"/>';
+    s += '<path d="M25 27 a13 13 0 0 1 10 -8" fill="none" stroke="#a81a12" stroke-width="1.2"/>';
+    s += '<path d="M47 35 a13 13 0 0 1 -10 8" fill="none" stroke="#a81a12" stroke-width="1.2"/>';
+    s += plate(36, 51, 44, '비상제동차단');
+    s += btn(92, 31, RB, '#1aa33f');
+    s += plate(92, 51, 36, '판토상승');
+    s += btn(136, 31, RB, '#ead41a');
+    s += plate(136, 51, 36, '판토하강');
+
+    /* ── 그룹 2 ── */
+    s += '<rect x="8" y="73" width="156" height="118" rx="2" fill="none" stroke="#6e7177" stroke-width=".8"/>';
+    s += '<rect x="12" y="77" width="48" height="110" rx="2" fill="none" stroke="#6e7177" stroke-width=".8"/>';
+    s += '<rect x="64" y="77" width="96" height="110" rx="2" fill="none" stroke="#6e7177" stroke-width=".8"/>';
+    /* 1행 */
+    s += btn(36, 103, RB, '#2e8d84');
+    s += plate(36, 119, 42, '주차제동');
+    s += '<circle cx="92" cy="103" r="14.5" fill="#b9bdc3"/><circle cx="92" cy="103" r="12.8" fill="#55585d"/>';
+    s += btn(92, 103, RB, '#f0b31a', 1.2);
+    s += plate(92, 119, 44, '강제제동완해');
+    s += btn(136, 103, RB, '#d8392c');
+    s += plate(136, 119, 44, '승객경보인식');
+    /* 2행 */
+    s += btn(36, 151, RB, '#e8e01a');
+    s += plate(36, 167, 46, '주차제동완해');
+    s += btn(92, 151, RB, '#d8392c');
+    s += plate(92, 167, 44, '15Km/h 운행');
+    s += '<rect x="70" y="178" width="44" height="12" rx="1" fill="#f7efbe" stroke="#cfc48c" stroke-width=".6"/>';
+    s += '<text x="92" y="183" text-anchor="middle" font-size="3.8" fill="#1a1a1a">취급 시</text>';
+    s += '<text x="92" y="188" text-anchor="middle" font-size="3.8" fill="#1a1a1a">관제(기지)보고!</text>';
+    s += btn(136, 151, RB, '#d8392c');
+    s += plate(136, 167, 30, '예 비');
+    return s + '</svg>';
   }
   function cfGauge(){
     var t = "";
@@ -3874,21 +4199,96 @@
       '<text x="75" y="72" fill="#7f858e" font-size="7" text-anchor="middle" letter-spacing="1">KPH</text>' +
       '<line x1="75" y1="66" x2="20" y2="66" stroke="#e02f3c" stroke-width="2.5"/></svg>';
   }
-  function cfLampsHtml(){
-    var top = "", side = "";
+  function cfLampsM5(){
+    /* 실물 속도계 패널 (8호선) */
     var L = lampCfg();
     var _dk = !!(((CUR && S && CUR.steps[S.i]) || {}).cabDark), _mk = !_dk;
-    CF_LTOP.forEach(function(l, i){ top += lampCell(l, (i === 2 && !_dk) || (i === 1 && L.doorOn), i === 1 && _mk); });
-    CF_LSIDE.forEach(function(l){ side += lampCell(l, false, false); });
-    return '<div class="cf-ltop">' + top + '</div>' +
-      '<div class="cf-r2"><div class="cf-adu"><div class="cf-lim">제한속도<b>0</b></div>' +
-      cfGauge() + '<u>A D U</u></div>' +
-      '<div class="cf-lside">' + side + '</div></div>';
+    var doorOn = !!L.doorOn, autoOn = true;
+    function sq(x, y, w, h, on, c, t1, t2, mark, blink){
+      var o = '<rect x="'+(x-2.5)+'" y="'+(y-2)+'" width="'+(w+5)+'" height="'+(h+4)+'" rx="1.5" fill="#0d0e10"/>';
+      o += '<rect x="'+(x-2.5)+'" y="'+(y-2)+'" width="3" height="'+(h+4)+'" rx="1" fill="#34373c"/>';
+      o += '<rect x="'+(x+w-.5)+'" y="'+(y-2)+'" width="3" height="'+(h+4)+'" rx="1" fill="#34373c"/>';
+      var bc = blink ? ' class="lpbl"' : '';
+      o += '<g'+bc+'>';
+      o += '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="1" fill="'+(on ? c : "#8e8b83")+'" stroke="#d8dade" stroke-width=".8"/>';
+      if (on) o += '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+(h*.42)+'" rx="1" fill="#fff" opacity=".3"/>';
+      var fc = on ? "#15160e" : "#56544e";
+      if (t2){
+        o += '<text x="'+(x+w/2)+'" y="'+(y+h/2-.4)+'" text-anchor="middle" font-size="4.6" font-weight="700" fill="'+fc+'">'+t1+'</text>';
+        o += '<text x="'+(x+w/2)+'" y="'+(y+h/2+5)+'" text-anchor="middle" font-size="4.6" font-weight="700" fill="'+fc+'">'+t2+'</text>';
+      } else if (t1){
+        o += '<text x="'+(x+w/2)+'" y="'+(y+h/2+2)+'" text-anchor="middle" font-size="5.2" font-weight="700" fill="'+fc+'">'+t1+'</text>';
+      }
+      o += '</g>';
+      if (mark) o += '<rect x="'+(x-5)+'" y="'+(y-4.5)+'" width="'+(w+10)+'" height="'+(h+9)+'" rx="3" fill="none" stroke="#e6186c" stroke-width="1.5" stroke-dasharray="3.5 2.5"/>';
+      return o;
+    }
+    var s = '<svg viewBox="0 0 298 184" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
+    s += '<rect width="298" height="184" rx="5" fill="#1a1b1e"/>';
+    /* 상단 표시등 4 : 고장 · 출입문 · 자동운전 · 승객경보 (나란히) */
+    s += sq(12, 5, 27, 16, false, "#c8c4b8", "고장");
+    s += sq(44, 5, 27, 16, doorOn, "#5ce06a", "출입문", null, _mk);
+    s += sq(76, 5, 27, 16, autoOn, "#ff9a1a", "자동운전", null, false, autoOn);
+    s += sq(108, 5, 27, 16, false, "#c8c4b8", "승객경보");
+    s += '<rect x="150" y="10" width="38" height="4" rx="2" fill="#b7bcc2"/>';
+    /* ── 속도계(ADU) ── */
+    s += '<rect x="6" y="26" width="166" height="150" rx="2" fill="#141518" stroke="#55585e" stroke-width=".8"/>';
+    var CX = 66, CY = 116;
+    var NR = 38, TO = 49, AR = 51, DR = 56;     /* 숫자 / 눈금 / 흰호 / 바깥등 반지름 */
+    /* 눈금 — 소등 상태(0~50 구간은 어두운 적색) */
+    for (var v = 0; v <= 100; v += 2){
+      var a = Math.PI * (1 - v/100), maj = (v % 10 === 0);
+      var r1 = TO, r2 = TO - (maj ? 8 : 5);
+      s += '<line x1="'+(CX+r1*Math.cos(a)).toFixed(1)+'" y1="'+(CY-r1*Math.sin(a)).toFixed(1)+
+           '" x2="'+(CX+r2*Math.cos(a)).toFixed(1)+'" y2="'+(CY-r2*Math.sin(a)).toFixed(1)+
+           '" stroke="'+(v <= 50 ? "#6b5056" : "#d7d9dc")+'" stroke-width="'+(maj ? 1.5 : .8)+'"/>';
+    }
+    /* 바깥 흰 호 */
+    s += '<path d="M'+(CX-AR)+' '+CY+' A'+AR+' '+AR+' 0 0 1 '+(CX+AR)+' '+CY+'" fill="none" stroke="#e8e8e4" stroke-width="1.8"/>';
+    /* 숫자 + 바깥 표시등 */
+    for (var v2 = 0; v2 <= 100; v2 += 10){
+      var a2 = Math.PI * (1 - v2/100);
+      s += '<text x="'+(CX+NR*Math.cos(a2)).toFixed(1)+'" y="'+(CY-NR*Math.sin(a2)+2.6).toFixed(1)+
+           '" text-anchor="middle" font-size="7.4" font-weight="700" fill="#f2f2ee">'+v2+'</text>';
+      s += '<circle cx="'+(CX+DR*Math.cos(a2)).toFixed(1)+'" cy="'+(CY-DR*Math.sin(a2)).toFixed(1)+
+           '" r="3.5" fill="#8d9197" stroke="#5c6066" stroke-width=".6"/>';
+    }
+    /* 디지털 속도 */
+    s += '<rect x="'+(CX-20)+'" y="92" width="40" height="24" rx="1.5" fill="#2a1114" stroke="#4a2024" stroke-width=".8"/>';
+    s += '<text x="'+CX+'" y="111" text-anchor="middle" font-size="20" font-weight="800" fill="#ff2a2a" font-family="monospace">0</text>';
+    s += '<text x="'+CX+'" y="127" text-anchor="middle" font-size="9" fill="#f2f2ee">Km/h</text>';
+    /* 정지후진행 */
+    s += '<rect x="9" y="126" width="8" height="8" rx="1" fill="#9a9a94" stroke="#5c6066" stroke-width=".6"/>';
+    s += '<text x="13" y="140" text-anchor="middle" font-size="4" fill="#d6d8db">정지후</text>';
+    s += '<text x="13" y="145" text-anchor="middle" font-size="4" fill="#d6d8db">진행</text>';
+    /* 하단 표찰 4 */
+    [["주ATC고장",0,0],["예비ATC고장",1,0],["출발전 시험",0,1],["정지코드",1,1]].forEach(function(k){
+      var x = 30 + k[1]*34, y = 140 + k[2]*13;
+      s += '<rect x="'+x+'" y="'+y+'" width="32" height="11.5" rx="1" fill="#cfd0cb" stroke="#8c8d88" stroke-width=".6"/>';
+      s += '<text x="'+(x+16)+'" y="'+(y+7.8)+'" text-anchor="middle" font-size="4.6" font-weight="700" fill="#222">'+k[0]+'</text>';
+    });
+    /* 시험 버튼 3 */
+    [["출발진 시험",74],["점등 시험",92],["점등 휘도 조정",110]].forEach(function(k){
+      s += '<rect x="133" y="'+k[1]+'" width="6.5" height="6.5" rx="1" fill="#0c0c0e" stroke="#777" stroke-width=".8"/>';
+      s += '<text x="142" y="'+(k[1] + 5)+'" font-size="3.7" fill="#e4e4e0">'+k[0]+'</text>';
+    });
+    /* 우측 — 표시등 8 + 차호 */
+    var RW = [[["비상전원","차단",0],["비상제동",null,0],["연장급전",null,0],["보안제동",null,0]],
+              [["비상제동","차단",0],["강제제동","완해",0],["주차제동",null,0],[null,null,0]]];
+    RW.forEach(function(row, r){
+      row.forEach(function(k, i){
+        s += sq(185 + i*27, 32 + r*25, 23, 19, !!k[2], "#e8dc62", k[0], k[1]);
+      });
+    });
+    s += '<rect x="203" y="104" width="72" height="28" rx="3" fill="#15161a" stroke="#e8e8e4" stroke-width="2"/>';
+    s += '<text x="239" y="124.5" text-anchor="middle" font-size="20" font-weight="800" fill="#f2f2ee" font-family="monospace" letter-spacing="2">8000</text>';
+    return s + '</svg>';
   }
   /* ----- 실물 사진 기반 운전실 기기 ----- */
   var CF_NOTCH_Y = {8:.03, 7:.13, 6:.18, 5:.23, 4:.28, 3:.33, 2:.38, 1:.43, 0:.52, 9:.63, 10:.74, 11:.85, 12:.96};
   var CF_NOTCH_ORDER = [8,7,6,5,4,3,2,1,0,9,10,11,12];
   var CF_RUNPOS  = ["기지","수동","자동","무인","비상"];
+  var CF_RUNPOS5 = ["기지","수동","자동","전자동","비상"];
   var CF_RUNANG  = [-90,-45,0,45,90];
   var CF_DOORANG = [-45,0,45];
   var CF_DOORLBL = ["자/자","자/수","수/수"];
@@ -4000,8 +4400,9 @@
     });
     var hy = (10 + CF_NOTCH_Y[CFS.notch]*252).toFixed(1);
     return '<div class="mcx">' + scr4() +
-      '<div class="mcx-plac"><span>주간제어기</span><b>“B7”</b>' +
-        '<ol><li>회차시</li><li>수동운전 정위치 정차후</li><li>출입문 수동취급시</li><li>TCMS → “B7” 확인</li></ol></div>' +
+      (isM5() ? "" :
+        '<div class="mcx-plac"><span>주간제어기</span><b>\u201CB7\u201D</b>' +
+        '<ol><li>회차시</li><li>수동운전 정위치 정차후</li><li>출입문 수동취급시</li><li>TCMS \u2192 \u201CB7\u201D 확인</li></ol></div>') +
       '<div class="mcx-sc"' + (live ? ' id="cfMcSc"' : '') + '><div class="mcx-slot"></div>' + tk + lb + rb +
         '<div class="mcx-h"' + (live ? ' id="cfMcH"' : '') + ' style="top:' + hy + 'px"></div></div>' +
       '<div class="mcx-rev"><div class="mcx-rslot"></div>' + revLbl(revLive) +
@@ -4043,34 +4444,33 @@
 
   /* 우측 끝 스위치 — 사진: 조광기 · 운전모드선택 · 전조등 · 창닦이스위치 */
   function runIC(cur){ return (cur === 1) ? "#e02f3c" : (cur === 2) ? "#35c759" : "#e6e2d6"; }
-  function rmStage(live){
+  function rmStageM5(live){
     function sw(x, name, pos, ang, cur, lv, ic, brand){
-      var lb = "";
+      var lb = "", CX = brand ? 100 : 55, CY = brand ? 100 : 66, LR = brand ? 76 : 46;
       pos.forEach(function(p, i){
-        var a = ang[i] * Math.PI / 180, lx = 55 + 41*Math.sin(a), ly = 66 - 41*Math.cos(a);
+        var a = ang[i] * Math.PI / 180, lx = CX + LR*Math.sin(a), ly = CY - LR*Math.cos(a);
+        if (brand){
+          var mx = CX + 50*Math.sin(a), my = CY - 50*Math.cos(a);
+          var lc = (i === 0) ? "#f0a81a" : (i === 4) ? "#e02f3c" : "#3ee87a";
+          lb += '<span class="rml" style="left:' + mx.toFixed(1) + 'px;top:' + my.toFixed(1) +
+                'px;--c:' + lc + '"><i class="' + (i === cur ? 'on' : '') + '"></i></span>';
+        }
         var c = 'rmx-pl' + ((brand && i === cur) ? ' on' : '');
         var st = ' style="left:' + lx.toFixed(1) + 'px;top:' + ly.toFixed(1) + 'px"';
         lb += lv ? '<button type="button" class="' + c + '" data-p="' + i + '"' + st + '>' + p + '</button>'
                  : '<span class="' + c + '"' + st + '>' + p + '</span>';
       });
-      return '<div class="rmx-sw" style="left:' + x + 'px">' +
-        (brand ? '<span class="phi">\u03A6</span><span class="kn">Kraus &amp; Naimer</span>' : '') + lb +
+      return '<div class="rmx-sw dk' + (brand ? ' lv' : '') + '" style="left:' + x + 'px">' + lb +
         (lv ? '<button type="button" class="rmx-knob" id="cfRun"' : '<span class="rmx-knob"') +
         ' style="--rot:' + ang[cur] + 'deg;--ic:' + (ic || "#e6e2d6") + '"><i></i>' + (lv ? '</button>' : '</span>') +
         '<b>' + name + '</b></div>';
     }
-    return '<div class="rmx">' + scr4() + '<div class="rmx-bv"></div>' +
-      '<div class="rmx-dim"><i class="arc"></i><i class="k"></i><span class="mn">MIN</span><span class="mx">MAX</span>' +
-        '<b>조광기<br>(DIMMER)</b></div>' +
-      '<div class="rmx-led">' +
-        '<i class="' + (CFS.run === 1 ? 'on' : '') + '" style="--c:#e02f3c"></i>' +
-        '<i class="' + (CFS.run === 2 ? 'on' : '') + '" style="--c:#3ee87a"></i>' +
-        '<i style="--c:#e3ad18"></i></div>' +
-      '<div class="rmx-sled l"><i style="--c:#c8a63c"></i></div>' +
-      '<div class="rmx-sled r"><i class="' + (CFS.run === 4 ? 'on' : '') + '" style="--c:#e02f3c"></i></div>' +
-      sw(20,  "운전모드선택", CF_RUNPOS, CF_RUNANG, CFS.run, live, runIC(CFS.run), true) +
-      sw(175, "전조등", ["하향","OFF","상향1단","상향2단","상향3단"], [-90,-45,0,45,90], 0, false) +
-      sw(330, "창닦이스위치", ["살수","정지","1단","2단","3단"], [-90,-45,0,45,90], 1, false) +
+    var HV = ["냉방","2/3난방","OFF","자동","저난방","고난방"];
+    var HVA = [-145,-100,-45,10,70,125];
+    return '<div class="rmx">' + scr4() +
+      '<div class="rmx-plate"></div>' +
+      sw(24,  "운전모드선택", CF_RUNPOS5, CF_RUNANG, CFS.run, live, runIC(CFS.run), true) +
+      sw(310, "냉난방선택", HV, HVA, 3, false) +
     '</div>';
   }
 
@@ -4126,59 +4526,58 @@
       '<span class="cf-hname">' + name + '</span>' + inner + '</button></div>';
   }
   /* 방송장치 — CENTER OPERATION BOX (사진 재현) */
-  function paBoxHtml(){
-    var s = '<svg viewBox="0 0 300 236" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
-    s += '<rect width="300" height="236" rx="6" fill="#121417"/>';
-    s += '<rect x="26" y="6" width="248" height="224" rx="3" fill="none" stroke="#c9ccd0" stroke-width="1"/>';
-    // 손잡이
-    ['14','280'].forEach(function(x){
-      s += '<rect x="'+x+'" y="52" width="7" height="120" rx="3.5" fill="none" stroke="#b9bec6" stroke-width="2.5"/>';
-    });
-    s += '<text x="150" y="24" text-anchor="middle" font-size="11" letter-spacing="1.6" fill="#dfe3e8">— CENTER OPERATION BOX —</text>';
-    s += '<rect x="76" y="30" width="118" height="15" fill="#f2f3f5"/>' +
-         '<text x="135" y="41" text-anchor="middle" font-size="9" font-weight="700" fill="#17304f">자동방송 차내음량 5</text>';
-    // LCD
-    s += '<rect x="76" y="50" width="118" height="78" rx="2" fill="#cfd8f2" stroke="#8fa0c6"/>';
-    [['현재역',66],['다음역',88],['종착역',110]].forEach(function(r){
-      s += '<text x="84" y="'+r[1]+'" font-size="8" fill="#17304f">'+r[0]+':</text>' +
-           '<text x="116" y="'+r[1]+'" font-size="9.5" font-weight="800" fill="#13418f">별내</text>';
-    });
-    s += '<text x="135" y="122" text-anchor="middle" font-size="6" fill="#4a5f86">차내 음량(Up/Down) ▶ 4</text>';
-    ['안내1','안내2','안내3','화재'].forEach(function(t,i){
-      s += '<rect x="'+(78+i*29)+'" y="113" width="27" height="12" rx="1.5" fill="#e4eaf7" stroke="#8fa0c6"/>' +
-           '<text x="'+(91.5+i*29)+'" y="122" text-anchor="middle" font-size="6.5" fill="#17304f">'+t+'</text>';
-    });
-    // 상단 라벨 + 호박색 버튼 4
-    var lb = [['무질서','계도'],['출입문','폐문'],['열차','지연'],['열차','화재']];
-    lb.forEach(function(t,i){
-      var x = 76 + i*30;
-      s += '<rect x="'+x+'" y="132" width="27" height="15" fill="#e4eaf7" stroke="#8fa0c6" stroke-width=".6"/>';
-      s += '<text x="'+(x+13.5)+'" y="139" text-anchor="middle" font-size="5.5" fill="'+(i===3?"#c0392b":"#17304f")+'">'+t[0]+'</text>';
-      s += '<text x="'+(x+13.5)+'" y="145.5" text-anchor="middle" font-size="5.5" fill="'+(i===3?"#c0392b":"#17304f")+'">'+t[1]+'</text>';
-      s += '<rect x="'+(x+4)+'" y="152" width="19" height="16" rx="2" fill="#c9872f" stroke="#2a2d31" stroke-width="1.5"/>';
-    });
-    // MIC + 노브
-    s += '<text x="236" y="62" text-anchor="middle" font-size="8.5" fill="#dfe3e8">MIC</text>';
-    [[214,'방송음량'],[262,'스피커음량']].forEach(function(k){
-      s += '<circle cx="'+k[0]+'" cy="104" r="13" fill="#15171a" stroke="#4b5057" stroke-width="1.5"/>';
-      s += '<rect x="'+(k[0]-2.5)+'" y="92" width="5" height="14" rx="2" fill="#6b7177" transform="rotate(25 '+k[0]+' 104)"/>';
-      s += '<text x="'+k[0]+'" y="128" text-anchor="middle" font-size="7" fill="#dfe3e8">'+k[1]+'</text>';
-      for (var g=0; g<9; g++){
-        var a = (-130 + g*32.5) * Math.PI/180;
-        s += '<text x="'+(k[0]+19*Math.sin(a)).toFixed(1)+'" y="'+(104-19*Math.cos(a)+2).toFixed(1)+
-             '" text-anchor="middle" font-size="5" fill="#9aa0a8">'+(g+2)+'</text>';
+  function paBoxM5(){
+    /* 실물 방송패널 (8호선 8017) */
+    function knob(cx, cy, label){
+      var o = "";
+      for (var g = 0; g < 11; g++){
+        var a = (-135 + g*27) * Math.PI/180;
+        o += '<line x1="'+(cx+16*Math.sin(a)).toFixed(1)+'" y1="'+(cy-16*Math.cos(a)).toFixed(1)+
+             '" x2="'+(cx+21*Math.sin(a)).toFixed(1)+'" y2="'+(cy-21*Math.cos(a)).toFixed(1)+
+             '" stroke="#cfd3d8" stroke-width="1"/>';
       }
-    });
-    s += '<circle cx="182" cy="152" r="6" fill="#15171a" stroke="#4b5057"/>' +
-         '<text x="172" y="168" font-size="6" fill="#dfe3e8">DN</text>' +
-         '<text x="188" y="168" font-size="6" fill="#dfe3e8">UP</text>';
-    // 하단 버튼 5
-    var bt = [['좌측방송','#8fd14f'],['운전실통화','#8fd14f'],['차내방송','#8fd14f'],['우측방송','#8fd14f'],['비상통화','#e02f3c']];
-    bt.forEach(function(t,i){
-      var x = 44 + i*46;
-      s += '<rect x="'+x+'" y="180" width="26" height="22" rx="2" fill="'+t[1]+'" stroke="#c9ccd0" stroke-width="2"/>';
-      s += '<text x="'+(x+13)+'" y="216" text-anchor="middle" font-size="7" fill="#dfe3e8">'+t[0]+'</text>';
-    });
+      o += '<circle cx="'+cx+'" cy="'+cy+'" r="12" fill="#cfd3d8" stroke="#8b8f95" stroke-width="1.2"/>';
+      o += '<circle cx="'+cx+'" cy="'+cy+'" r="4.5" fill="#9aa0a6"/>';
+      o += '<rect x="'+(cx-2)+'" y="'+(cy-13)+'" width="4" height="13" rx="2" fill="#f2f4f6" transform="rotate(-28 '+cx+' '+cy+')"/>';
+      o += '<text x="'+cx+'" y="'+(cy+33)+'" text-anchor="middle" font-size="9" font-weight="700" fill="#f0f2f4">'+label+'</text>';
+      return o;
+    }
+    function pb(x, y, c, label){
+      var o = '<rect x="'+(x-4)+'" y="'+(y-2)+'" width="30" height="26" rx="2" fill="#0d0e10"/>';
+      o += '<rect x="'+(x-4)+'" y="'+(y-2)+'" width="5" height="26" rx="1.5" fill="#2e3136"/>';
+      o += '<rect x="'+(x+21)+'" y="'+(y-2)+'" width="5" height="26" rx="1.5" fill="#2e3136"/>';
+      o += '<rect x="'+x+'" y="'+y+'" width="22" height="22" rx="1.5" fill="'+c+'" stroke="#d4d7db" stroke-width="1.4"/>';
+      o += '<rect x="'+x+'" y="'+y+'" width="22" height="9" rx="1.5" fill="#fff" opacity=".22"/>';
+      o += '<text x="'+(x+11)+'" y="'+(y+37)+'" text-anchor="middle" font-size="'+(label.length > 6 ? 7 : 9)+'" font-weight="700" fill="#f0f2f4">'+label+'</text>';
+      return o;
+    }
+    var s = '<svg viewBox="0 0 300 184" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
+    s += '<rect width="300" height="184" rx="5" fill="#0e0f11"/>';
+    s += '<rect x="10" y="8" width="280" height="168" rx="3" fill="none" stroke="#b9bec4" stroke-width="1"/>';
+    /* 마이크 (구스넥) */
+    s += '<path d="M40 44 C40 24 50 14 60 11" fill="none" stroke="#6e7378" stroke-width="7" stroke-linecap="round"/>';
+    s += '<path d="M40 44 C40 24 50 14 60 11" fill="none" stroke="#a9aeb4" stroke-width="3" stroke-dasharray="2 2.5"/>';
+    s += '<circle cx="68" cy="11" r="9.5" fill="#b4b9bf" stroke="#7e8389" stroke-width="1.6"/>';
+    s += '<circle cx="68" cy="11" r="6.4" fill="#3f4347"/>';
+    for (var mg = 0; mg < 3; mg++)
+      s += '<line x1="'+(62+mg*4)+'" y1="5.6" x2="'+(62+mg*4)+'" y2="16.4" stroke="#7a7f85" stroke-width="1"/>';
+    s += '<circle cx="65" cy="8" r="2.6" fill="#fff" opacity=".28"/>';
+    s += '<ellipse cx="40" cy="47" rx="15" ry="5.5" fill="#b4b9bf" stroke="#7e8389"/>';
+    s += '<ellipse cx="40" cy="45" rx="11" ry="3.6" fill="#5f646a"/>';
+    s += '<text x="40" y="64" text-anchor="middle" font-size="9" font-weight="700" fill="#f0f2f4">\ub9c8\uc774\ud06c</text>';
+    /* 사용중 + 휴즈 */
+    s += '<circle cx="86" cy="20" r="4.2" fill="#ff3b30"/><circle cx="86" cy="20" r="6" fill="none" stroke="#7e8389" stroke-width="1.2"/>';
+    s += '<text x="86" y="33" text-anchor="middle" font-size="7" fill="#e8eaec">\uc0ac\uc6a9\uc911</text>';
+    s += '<rect x="81" y="36" width="10" height="16" rx="5" fill="#1c1e21" stroke="#7e8389" stroke-width="1.2"/>';
+    s += '<rect x="83.5" y="34" width="5" height="10" rx="2.5" fill="#55595e" transform="rotate(-12 86 39)"/>';
+    s += '<text x="86" y="64" text-anchor="middle" font-size="9" font-weight="700" fill="#f0f2f4">\ud734 \uc988</text>';
+    s += knob(148, 30, "\ub9c8\uc774\ud06c\uc74c\ub7c9");
+    s += knob(218, 30, "\uc2a4\ud53c\ucee4\uc74c\ub7c9");
+    /* 하단 버튼 5 */
+    var BT = [["\uc88c\uce21\ucc28\uc678","#8fd14f"], ["\ucc28 \ub0b4","#e8392c"],
+              ["\uc6b4\uc804\uc2e4\ud1b5\ud654","#e8e8e4"], ["\uc6b0\uce21\ucc28\uc678","#8fd14f"],
+              ["\ucd9c\uc785\ubb38\ub2eb\ud798\uc608\uace0","#e8392c"]];
+    BT.forEach(function(t, i){ s += pb(30 + i*54, 108, t[1], t[0]); });
     return s + '</svg>';
   }
 
@@ -4209,7 +4608,7 @@
     s += '<rect width="220" height="250" rx="5" fill="#15171a" stroke="#3a3d42"/>';
     s += '<text x="56" y="18" text-anchor="middle" font-size="6.5" fill="#c3c7cc" letter-spacing=".5">PRESSURE GAUGE/압력게이지</text>';
     s += '<text x="164" y="18" text-anchor="middle" font-size="6.5" fill="#c3c7cc" letter-spacing=".5">HV VOLT METER/전차선 전압</text>';
-    s += dial(56, 72, 40, [['0',8],['2',22],['4',36],['6',50],['8',64],['10',78],['12',92]], 18);
+    s += dial(56, 72, 40, [['0',8],['2',22],['4',36],['6',50],['8',64],['10',78],['12',92]], isM5() ? 36 : 18);
     s += dial(164, 72, 40, [['0',10],['0.5',25],['1',40],['1.5',50],['2',62],['2.5',76],['3',90]], 52);
     s += '<text x="56" y="136" text-anchor="middle" font-size="6.5" fill="#c3c7cc">AMPERE METER/전류계</text>';
     s += '<text x="164" y="136" text-anchor="middle" font-size="6.5" fill="#c3c7cc">VOLT METER/축전지 전압</text>';
@@ -4297,10 +4696,21 @@
            '<b>F · N · R</b> 글자를 누르거나 <b>역전기 손잡이를 직접 눌러</b> 옮길 수 있습니다.<br>' +
            '손잡이를 <b>N</b>으로 내렸다가 다시 <b>F</b>로 투입하세요.']
   };
+  var CF_SW = 0, CF_PV = null, CF_GRD = false;
+  function cfGuardInit(box){
+    if (CF_GRD) return;
+    CF_GRD = true;
+    /* 화면이 막 바뀐 직후 들어오는 클릭(모바일 더블탭 확대의 두 번째 탭)은 무시 */
+    box.addEventListener("click", function(e){
+      if (Date.now() - CF_SW < 420){ e.stopPropagation(); e.preventDefault(); }
+    }, true);
+  }
   function cfRender(){
     var box = $("cfBox"); if (!box) return;
     var v = CFS.view, vi = stageOf(v);
-    var ro = cabLocked() || (v !== "all" && (vi < 0 || vi < CFS.stage));
+    cfGuardInit(box);
+    if (v !== CF_PV){ CF_PV = v; CF_SW = Date.now(); CFZ.z = 1; CFZ.x = 0; CFZ.y = 0; }
+    var ro = cabLocked() || (v !== "all" && (vi < 0 || vi !== CFS.stage));
     box.classList.toggle("det", v !== "all");
     box.classList.toggle("cfmk", cfCloseMark() && v === "all");
     if (v === "all") box.innerHTML = cfCabAll();
@@ -4314,10 +4724,15 @@
                        fx(340, sdStage(!cabLocked()), 1.3);
       var _tp = ((CUR.steps[S.i] || {}).cfTips || {});
       var _tx = (_tp[v] != null) ? _tp[v] : d[2];
+      if (ro && !cabLocked() && vi !== CFS.stage)
+        _tx = "\uD83D\uDC40 지금은 <b>확대해서 보기만</b> 하는 중이야." +
+              (vi > CFS.stage ? " 안내에 나온 순서대로 먼저 취급해 보자." : "") +
+              "<br>「← 운전실 전체」를 눌러 돌아갈 수 있어.";
       box.innerHTML = cfHead(d[0], d[1]) + '<div class="cf-dbody">' + stage + '</div>' +
                       (_tx ? '<p class="cf-dtip">' + _tx + '</p>' : '');
     }
     fitFix(box);
+    box.style.minHeight = "";
     if (v === "side") cfFillTcms(box);
     if (v === "all"){
       cfFillTcms(box);
@@ -4327,7 +4742,10 @@
       });
       if (revLiveNow()) cfBindRev(box);
     } else {
-      $("cfBack").addEventListener("click", function(){ CFS.view = "all"; cfRender(); });
+      $("cfBack").addEventListener("click", function(e){
+        cfCancel(); try { e.currentTarget.blur(); } catch(x){}
+        CFS.view = "all"; cfKeepScroll(cfRender);
+      });
       if (v === "mc" && !ro){
         box.querySelectorAll(".mcx-nb[data-n]").forEach(function(el){
           el.addEventListener("click", function(e){ e.stopPropagation(); cfSetNotch(+el.dataset.n); cfCommitNotch(); });
@@ -4596,7 +5014,8 @@
     CFS.pressed = "SOPEN";
     CFS.stage = cfStages().length;
     cfRender();                       /* 확대 화면 잠시 유지 */
-    setTimeout(function(){ CFS.view = "all"; cfRender(); }, 2600);
+    var vS = CFS.view;
+    cfLater(function(){ if (CFS.view !== vS) return; CFS.view = "all"; cfKeepScroll(cfRender); }, 2600);
     setMascot("ok");
     feedback(true, st.sideFb || "<b>열림</b> 취급 완료.");
     if ($("extraNote")) $("extraNote").innerHTML = st.sideDone || st.bpsDone || "";
@@ -4645,27 +5064,47 @@
     setMascot("ok");
     feedback(true, msg);
     cfChips();
-    setTimeout(function(){
+    var vAt = CFS.view;
+    cfLater(function(){
       if (cabLocked()) return;
-      CFS.view = "all"; cfRender();
       $("fbArea").innerHTML = ""; setMascot("que");
+      if (CFS.view !== vAt) return;      /* 사용자가 다른 기기를 열었으면 그대로 둔다 */
+      CFS.view = "all"; cfKeepScroll(cfRender);
     }, 1500);
   }
+  function cfKeepScroll(fn){
+    var y = window.scrollY || window.pageYOffset || 0;
+    fn();
+    var put = function(){
+      if (Math.abs((window.scrollY || window.pageYOffset || 0) - y) > 2) window.scrollTo(0, y);
+    };
+    put();
+    if (window.requestAnimationFrame) requestAnimationFrame(put);
+    setTimeout(put, 0);
+    setTimeout(put, 60);
+  }
+  var CF_T = null;
+  function cfLater(fn, ms){
+    if (CF_T) clearTimeout(CF_T);
+    CF_T = setTimeout(function(){ CF_T = null; fn(); }, ms);
+  }
+  function cfCancel(){ if (CF_T){ clearTimeout(CF_T); CF_T = null; } }
+
   function cfHot(h, el){
     var i = stageOf(h);
-    if (cabLocked() || (i >= 0 && i < CFS.stage)){ CFS.view = h; cfRender(); return; }
-    if (i < 0 || i > CFS.stage){
-      el.classList.add("miss");
-      setTimeout(function(){ el.classList.remove("miss"); }, 700);
+    cfCancel();                        /* 확대하는 순간 예약된 자동 복귀를 취소 */
+    try { el.blur(); } catch(e){}
+    /* 차례가 아니어도 항상 확대는 열어 준다. 조작만 막고 안내를 띄운다. */
+    var turn = cabLocked() || CFS.stage >= cfStages().length || i === CFS.stage;
+    CFS.view = h;
+    cfKeepScroll(cfRender);
+    if (!turn && i > CFS.stage)
       cfNudge(cfStep().cabMulti ? "순서가 달라. 먼저 <b>출입문 닫힘</b>부터 취급해 보자. (감점 없음)"
-            : i < 0 ? "지금은 그 기기를 취급할 차례가 아니야. 안내에 나온 순서대로 해 보자. (감점 없음)"
             : CFS.stage === 0 ? "아직 일러. <b>제동(B7)을 먼저 확보</b>한 다음 순서야. (감점 없음)"
             : "모드 전환이 아직 안 끝났어. <b>운전모드</b>와 <b>출입문 선택</b> 스위치를 먼저 맞춰 보자. (감점 없음)");
-      return;
-    }
-    CFS.view = h; cfRender();
   }
   function cfReset(){
+    cfCancel();
     CFS.notch = 0; CFS.run = 2; CFS.door = 1; CFS.stage = 0; CFS.view = "all"; CFS.drag = false; CFS.pressed = null;
     CFS.sidePos = 0; CFS.doorView = "base"; CFS.doorOpened = false; CFS.consPos = 0;
     CFS.rev = 0; CFS.revPos = 0;
@@ -4717,18 +5156,115 @@
     $("btnHint").disabled = true;
     renderPips();
     showNext();
-    setTimeout(function(){ CFS.view = "all"; cfRender(); }, stay ? 2600 : 1200);
+    var vD = CFS.view;
+    cfLater(function(){ if (CFS.view !== vD) return; CFS.view = "all"; cfKeepScroll(cfRender); }, stay ? 2600 : 1200);
+  }
+  /* ── 운전실 자체 확대(핀치/버튼) : 브라우저 줌을 쓰지 않아도 되게 ── */
+  var CFZ = { z:1, x:0, y:0, base:1 };
+  function cfWrapH(){
+    var wrap = $("cfFit"); if (!wrap) return 0;
+    return parseFloat(wrap.style.height) || wrap.clientHeight || 0;
+  }
+  function cfZoomClamp(){
+    var wrap = $("cfFit"), box = $("cfBox"); if (!wrap || !box) return;
+    var sc = CFZ.base * CFZ.z;
+    var w = box.offsetWidth * sc, h = box.offsetHeight * sc;
+    var vw = wrap.clientWidth, vh = cfWrapH() || h;
+    CFZ.x = (w <= vw) ? Math.max(0, (vw - w) / 2) : Math.min(0, Math.max(vw - w, CFZ.x));
+    CFZ.y = (h <= vh) ? 0 : Math.min(0, Math.max(vh - h, CFZ.y));
+  }
+  function cfZoomApply(){
+    var wrap = $("cfFit"), box = $("cfBox"); if (!wrap || !box) return;
+    cfZoomClamp();
+    box.style.transform = "translate(" + CFZ.x.toFixed(1) + "px," + CFZ.y.toFixed(1) + "px) scale(" +
+                          (CFZ.base * CFZ.z).toFixed(4) + ")";
+    var on = CFZ.z > 1.01;
+    wrap.classList.toggle("zoomed", on);
+    var pc = $("cfZpct"); if (pc) pc.textContent = Math.round(CFZ.z * 100) + "%";
+  }
+  function cfZoomSet(z, ax, ay){
+    var wrap = $("cfFit"); if (!wrap) return;
+    var nz = Math.max(1, Math.min(3.5, z));
+    if (ax == null){ ax = wrap.clientWidth / 2; ay = cfWrapH() / 2; }
+    var k = nz / CFZ.z;
+    CFZ.x = ax - (ax - CFZ.x) * k;
+    CFZ.y = ay - (ay - CFZ.y) * k;
+    CFZ.z = nz;
+    cfZoomApply();
+  }
+  function cfZoomReset(){ CFZ.z = 1; CFZ.x = 0; CFZ.y = 0; cfZoomApply(); }
+  var PZ = { on:false, pan:false, d0:1, z0:1, cx:0, cy:0, px:0, py:0 };
+  function cfZoomBind(){
+    var wrap = $("cfFit"), bar = $("cfZoom");
+    if (bar && !bar.dataset.zb){
+      bar.dataset.zb = "1";
+      bar.querySelectorAll("button[data-z]").forEach(function(b){
+        b.addEventListener("click", function(e){
+          e.preventDefault(); e.stopPropagation();
+          var a = b.dataset.z;
+          if (a === "in")  cfZoomSet(CFZ.z * 1.4);
+          else if (a === "out") cfZoomSet(CFZ.z / 1.4);
+          else cfZoomReset();
+        });
+      });
+    }
+    if (!wrap || wrap.dataset.zb) return;
+    wrap.dataset.zb = "1";
+    wrap.addEventListener("touchstart", function(e){
+      if (e.touches.length === 2){
+        e.preventDefault();
+        PZ.on = true; PZ.pan = false;
+        var r = wrap.getBoundingClientRect(), a = e.touches[0], b = e.touches[1];
+        PZ.d0 = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) || 1;
+        PZ.z0 = CFZ.z;
+        PZ.cx = (a.clientX + b.clientX) / 2 - r.left;
+        PZ.cy = (a.clientY + b.clientY) / 2 - r.top;
+      } else if (e.touches.length === 1 && CFZ.z > 1.01){
+        PZ.pan = true; PZ.px = e.touches[0].clientX; PZ.py = e.touches[0].clientY;
+      }
+    }, { passive:false });
+    wrap.addEventListener("touchmove", function(e){
+      if (PZ.on && e.touches.length === 2){
+        e.preventDefault();
+        var a = e.touches[0], b = e.touches[1];
+        var d = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) || 1;
+        cfZoomSet(PZ.z0 * (d / PZ.d0), PZ.cx, PZ.cy);
+      } else if (PZ.pan && e.touches.length === 1){
+        e.preventDefault();
+        var t = e.touches[0];
+        CFZ.x += t.clientX - PZ.px; CFZ.y += t.clientY - PZ.py;
+        PZ.px = t.clientX; PZ.py = t.clientY;
+        cfZoomApply();
+      }
+    }, { passive:false });
+    ["touchend","touchcancel"].forEach(function(ev){
+      wrap.addEventListener(ev, function(e){
+        if (!e.touches || e.touches.length === 0){ PZ.on = false; PZ.pan = false; }
+      });
+    });
   }
   function fitCf(){
     var wrap = $("cfFit"), box = $("cfBox"), w = $("cabFullWrap");
     if (!wrap || !box || !w || w.hidden) return;
+    cfZoomBind();
     if (CFS.view !== "all"){
-      box.style.transform = "none"; wrap.style.height = "auto"; fitFix(box); return;
+      CFZ.base = 1;
+      fitFix(box);
+      wrap.style.height = "auto";
+      /* 전경과 같은 높이를 유지해 화면이 위아래로 튀지 않게 한다 */
+      wrap.style.minHeight = CFS.allH ? (CFS.allH + "px") : "";
+      cfZoomApply();
+      return;
     }
+    wrap.style.minHeight = "";
     var avail = wrap.clientWidth; if (!avail) return;
     var sc = Math.min(1, avail / 800);
+    CFZ.base = sc;
     box.style.transform = "scale(" + sc + ")";
-    wrap.style.height = Math.ceil(box.offsetHeight * sc) + "px";
+    var hh = Math.ceil(box.offsetHeight * sc);
+    wrap.style.height = hh + "px";
+    if (hh > 60) CFS.allH = hh;
+    cfZoomApply();
   }
 
   /* ---------- 객실 회로차단기함 ---------- */
@@ -4805,7 +5341,7 @@
     var byp = !!S.bypass;
     // 열차 출입문은 전체 닫힘완료 · 승강장안전문은 장애 상태
     $("lmpOpen").className   = "lamp r" + (all ? " on" : "");
-    $("lmpClosed").className = "lamp g on";
+    $("lmpClosed").className = "lamp g" + (all ? " on" : "");
     $("lmpBypass").className = "lamp a" + (all || byp ? " on" : "");
     $("lmpAux").className    = "lamp a on";
     document.querySelectorAll(".knob").forEach(function(k){
@@ -4817,6 +5353,27 @@
     if (id === "lamp"){                       // 램프시험 — 무감점 자체 점검
       paintBoard(true);
       setTimeout(function(){ paintBoard(false); }, 1000);
+      return;
+    }
+    var stK = (CUR && S) ? CUR.steps[S.i] : null;
+    var aK  = (S && S.answers) ? S.answers[S.i] : null;
+    if (stK && stK.psdAfter){
+      if (!aK){
+        btn.classList.add("miss");
+        setTimeout(function(){ btn.classList.remove("miss"); }, 650);
+        setMascot("no");
+        feedback(false, "먼저 아래 보기에서 답을 고른 뒤, 조작반에서 직접 취급해 보자. (감점 없음)");
+        return;
+      }
+      if (aK.bps) return;
+      if (id !== "bypass"){
+        btn.classList.add("miss");
+        setTimeout(function(){ btn.classList.remove("miss"); }, 650);
+        setMascot("no");
+        feedback(false, "지금은 <b>BY-PASS</b> 버튼을 취급할 차례야. (감점 없음)");
+        return;
+      }
+      psdBypassDone();
       return;
     }
     if (S.locked) return;
@@ -4833,6 +5390,22 @@
     if (el && !el.disabled) onChoice(oi, el);
   }
 
+  function psdBypassDone(){
+    var st = CUR.steps[S.i], ans = S.answers[S.i];
+    if (ans) ans.bps = true;
+    S.bypass = true;
+    if (st.msgOk) setMsg(st.msgOk[0], st.msgOk[1]);
+    paintBoard(false);
+    document.querySelectorAll(".knob").forEach(function(k){
+      if (k.dataset.id !== "lamp") k.disabled = true;
+    });
+    if ($("boardNote")) $("boardNote").innerHTML = "<b>BY-PASS</b> 취급 완료 — 조작반 BY-PASS 표시등 점등.";
+    setMascot("ok");
+    feedback(true, st.psdFb || "<b>BY-PASS</b> 취급 완료.");
+    $("btnSkip").hidden = true;
+    showNext();
+    if (st.cine) $("btnReplay").hidden = false;
+  }
   function fmt(ms){
     var s = Math.floor(ms/1000);
     return String(Math.floor(s/60)).padStart(2,"0") + ":" + String(s%60).padStart(2,"0");
@@ -5052,10 +5625,19 @@
       }
     }
     if (st.board === "psd"){
+      var psdLive = !!(st.psdAfter && ans && !ans.bps);
       document.querySelectorAll(".knob").forEach(function(k){
-        k.disabled = !!ans && k.dataset.id !== "lamp";
+        k.disabled = psdLive ? false : (!!ans && k.dataset.id !== "lamp");
       });
+      S.bypass = !!(ans && (st.psdAfter ? ans.bps : true) && st.msgOk);
       paintBoard(false);
+      if ($("boardNote")){
+        $("boardNote").innerHTML = !st.psdAfter
+          ? "버튼을 직접 눌러 취급해 보세요. 아래 보기를 고르는 것과 같습니다."
+          : (!ans ? "아래 보기에서 답을 고른 뒤, 조작반에서 직접 취급합니다."
+                  : (ans.bps ? "<b>BY-PASS</b> 취급 완료 — 조작반 BY-PASS 표시등 점등."
+                             : (st.psdAsk || "")));
+      }
     }
     if (st.board === "cb"){
       buildCb();
@@ -5213,15 +5795,20 @@
     S.locked = true;
     setMascot("ok");
     btn.classList.add("correct");
-    if (st.msgOk){
+    if (st.msgOk && !st.psdAfter){
       S.bypass = true;
       setMsg(st.msgOk[0], st.msgOk[1]);
     }
     if (st.board === "psd"){
       paintBoard(false);
-      document.querySelectorAll(".knob").forEach(function(k){
-        if (k.dataset.id !== "lamp") k.disabled = true;
-      });
+      if (st.psdAfter){
+        document.querySelectorAll(".knob").forEach(function(k){ k.disabled = false; });
+        if ($("boardNote")) $("boardNote").innerHTML = st.psdAsk || "";
+      } else {
+        document.querySelectorAll(".knob").forEach(function(k){
+          if (k.dataset.id !== "lamp") k.disabled = true;
+        });
+      }
     }
     if (st.board === "cb"){
       document.querySelectorAll(".cb").forEach(function(k){ k.disabled = true; });
@@ -5307,6 +5894,7 @@
       cb2Bind();
       if (!(S.answers[S.i] && S.answers[S.i].cbr2)) return;
     }
+    if (st.psdAfter && !(S.answers[S.i] && S.answers[S.i].bps)) return;
     showAfterPic(st);
     if (st.showBps){
       $("trainWrap").hidden = false;
@@ -5387,13 +5975,13 @@
                        svg: function(){ return cab({ waves:true, look:true, screen:"tcms3", notch:"B7", mode:"M" }); } };
   SCN_DOOR3.f_open = { t:"전체 출입문 · 안전문 개방",
                        q:"전체 출입문, 안전문을 개방합니다.",
-                       svg: train8Svg({ allOpen:true, psd:true }) };
+                       svg: train8Svg({ allOpen:true, psd:true, badIdx:2 }) };
   SCN_DOOR3.f_kit  = { t:"LTE-R 무전기 · 출입문 키",
                        q:"LTE-R 무전기와 출입문 키를<br>잊지 말고 챙깁니다.",
                        svg: kitScene() };
   SCN_DOOR3.f_go   = { t:"현장 출동",
                        q:"6호차 R2 출입문으로 출동해<br>현장을 확인합니다.",
-                       svg: train8Svg({ go:true, psd:true }) };
+                       svg: train8Svg({ go:true, psd:true, badIdx:2, noTop:true, goFrom:"right" }) };
   SCN_DOOR3.e_site = { t:"개별코크 · 이물질 확인",
                        q:"객실 안에서 출입문 개별코크와<br>이물질 여부를 확인합니다.",
                        svg: interiorSvg(null, true) };
@@ -5432,7 +6020,7 @@
                          q:"DBS(출입문 바이패스) 스위치를 BYPASS로 취급합니다.<br>개별 바이패스는 금지",
                          svg: dbsScene() };
   SCN_DOOR3.e_done = { t:"회송",
-                       q:"회송 출발합니다.<br>승객은 승강장에서 다음 열차를 기다립니다.",
+                       q:"승객 하차 후 회송 출발합니다.",
                        svg: departScene() };
   var MID_END   = ["g_req","g_order","e_bypass","e_done"];
   var SUM_DOOR3 = ["e_fault","e_reopen","e_still","e_pa","e_report","e_dir","f_open","f_kit","f_go","e_site","e_valve","g_req","g_order","e_bypass","e_done"];
@@ -5446,11 +6034,11 @@
       hint:"관제 보고나 현장 확인 전에, 운전실에서 할 수 있는 조치가 있어.",
       opts:[
         { t:"전체 출입문을 재취급한다", ok:true,
-          fb:"맞아. TCMS에 6호차 R2 출입문이 닫힘으로 현시돼 있어.<br>가장 먼저 전체 출입문을 재취급해 봐야 해.<br><b>다음 단계에서 운전실에서 직접 해 보자.</b>" },
+          fb:"맞아. TCMS에 <b>6호차 R2 출입문이 닫힘</b>으로 현시돼 있어. 가장 먼저 <b>전체 출입문을 재취급</b>해 봐야 해. <b>다음 단계에서 운전실에서 직접 해 보자.</b>" },
         { t:"곧바로 관제에 보고하고 지시를 기다린다", ok:false,
-          fb:"보고는 필요하지만 아직 일러. 운전실에서 할 수 있는 재취급을 먼저 해 보고, 그 결과까지 담아 보고해야 해." },
+          fb:"보고는 필요하지만 아직 일러. 운전실에서 할 수 있는 <b>재취급</b>을 먼저 해 보고, 그 결과까지 담아 보고해야 해." },
         { t:"바로 해당 출입문으로 가서 현장확인한다", ok:false,
-          fb:"현장확인은 뒤 순서야. 운전실에서 전체 출입문 재취급부터 해 봐야 해." }
+          fb:"현장확인은 뒤 순서야. 운전실에서 <b>전체 출입문 재취급</b>부터 해 봐야 해." }
       ],
       src:"교육자료 · 현상확인 ② TCMS 화면에 출입문 닫힘 현시 / 선행조치 · 전체 출입문 재취급",
       done:"TCMS 닫힘 현시 확인 · 전체 재취급 판단"
@@ -5465,7 +6053,7 @@
       coach:"전체 출입문 재취급해 보자.<br>운전실에서 순서대로 직접 취급해 봐!",
       prompt:"운전실 그림에서 순서대로 직접 취급해 보세요.",
       hint:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면스위치로 출입문 재취급",
-      okFb:"정확해.<br>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치 재취급.<br>그런데 재취급했는데도 6호차 R2 출입문이 열리지 않았어.",
+      okFb:"정확해.<br><b>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치 재취급.</b><br>그런데 재취급했는데도 <b>6호차 R2 출입문이 열리지 않았어.</b>",
       src:"현장 선행조치 · 전체 출입문 재취급 (B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치)",
       done:"전체 출입문 재취급 (B7 → 수동 · 수/수 → 측면 스위치)"
     },
@@ -5479,7 +6067,7 @@
       hint:"승객이 먼저 불안해져. 그리고 혼자 판단할 일이 아니야.",
       opts:[
         { t:"고객안내방송을 실시하고 관제에 상황을 보고한다", ok:true,
-          fb:"맞아. 승객에게 지연 사유를 알리고 관제에 상황을 보고해야 해.<br><b>영상으로 방송 문안과 관제 보고를 확인해 보자.</b>" },
+          fb:"맞아. 승객에게 <b>지연 사유를 안내</b>하고 <b>관제에 상황을 보고</b>해야 해.<br><b>영상으로 방송 문안과 관제 보고를 확인해 보자.</b>" },
         { t:"배전반에서 차단기를 리셋한다", ok:false,
           fb:"1개 출입문 고장 시 관련 차단기 확인은 현장에서 할 조치야.<br>그 전에 <b>고객 안내방송</b>과 <b>관제 상황보고</b>를 먼저 해야 해." },
         { t:"ZVBPS를 취급해 출입문 재취급을 해본다", ok:false,
@@ -5497,7 +6085,7 @@
       hint:"출입문 근처에 뭐가 있는지 확인해봐. 그리고 <b>빨간색 장치</b>를 확인해봐야 해!",
       opts:[
         { t:"출입문 개별코크와 이물질을 확인한다", ok:true,
-          fb:"맞아. 객실 안에서 출입문 개별코크와<br>출입문 이물질 여부를 확인해야 해." },
+          fb:"맞아. 객실 안에서 <b>출입문 개별코크</b>와<br><b>출입문 이물질</b> 여부를 확인해야 해." },
         { t:"출입문을 손으로 강제로 벌려 연다", ok:false,
           fb:"강제로 열면 안 돼. <b>개별코크</b>를 이용해보자." },
         { t:"확인 없이 바로 해당 출입문만 개별 바이패스한다", ok:false,
@@ -5515,9 +6103,9 @@
       hint:"출입문 위 배전반 안에 출입문 제어장치(DCU)가 있어.",
       opts:[
         { t:"DCU 고장 여부를 확인하고, TOB 취급으로 출입문 동작을 확인한다", ok:true,
-          fb:"맞아. 우진차는 출입문 위 배전반에서 DCU 고장 여부를 확인하고,<br>TOB 취급으로 출입문 동작을 확인해." },
+          fb:"맞아. 우진차는 출입문 위 배전반에서 <b>DCU 고장 여부</b>를 확인하고,<br><b>TOB 취급</b>으로 출입문 동작을 확인해." },
         { t:"출입문 전자변 및 공기 누설음을 확인한다", ok:false,
-          fb:"그건 1·2차분 차량의 조치야. 우진차는 DCU 고장 여부를 확인하고 TOB로 동작을 확인해." },
+          fb:"그건 <b>1·2차분</b> 차량의 조치야. 우진차는 <b>DCU 고장 여부</b>를 확인하고 <b>TOB</b>로 동작을 확인해." },
         { t:"객실 회로차단기를 차단한다", ok:false,
           fb:"출입문 위 배전반에서는 우진차는 <b>DCU와 TOB</b>를 확인해." }
       ],
@@ -5533,9 +6121,9 @@
       hint:"재취급할 때와 같은 제동 위치, 그리고 출입문 모드야.",
       opts:[
         { t:"주간제어기 B7, 출입문 모드 수/수", ok:true,
-          fb:"맞아. 주간제어기 B7, 출입문 모드 수/수 상태에서<br>TOB를 취급해 출입문 동작을 확인해." },
+          fb:"맞아. <b>주간제어기 B7, 출입문 모드 수/수</b> 상태에서<br><b>TOB</b>를 취급해 출입문 동작을 확인해." },
         { t:"주간제어기 N, 출입문 모드 자/자", ok:false,
-          fb:"제동이 확보되지 않은 상태야. 주간제어기 B7, 출입문 모드 수/수로 맞춰야 해." },
+          fb:"제동이 확보되지 않은 상태야. <b>주간제어기 B7, 출입문 모드 수/수</b>로 맞춰야 해." },
         { t:"주간제어기 EB, 출입문 모드 자/수", ok:false,
           fb:"<b>TOB 조건은 B7, 출입문 모드 수/수야.</b>" }
       ],
@@ -5555,11 +6143,11 @@
       hint:"기관사 혼자 결정할 일이 아니야. 바이패스는 범위도 중요해.",
       opts:[
         { t:"열림 불능 시 관제와 협의하여 전체 출입문 BY-PASS 취급 후 회송 조치한다", ok:true,
-          fb:"맞아. 1개 출입문이라도 고장 나면 관제와 협의해서<br>전체 출입문 BY-PASS를 취급하고 회송 조치해.<br>개별 바이패스는 취급하면 안 돼.<br><b>아래 배전반에서 스위치를 조작해보자.</b>" },
+          fb:"맞아. 1개 출입문이라도 고장 나면 <b>관제와 협의</b>해서<br><b>전체 출입문 BY-PASS</b>를 취급하고 회송 조치해.<br><b>개별 바이패스는 취급하면 안 돼.</b><br><b>아래 배전반에서 스위치를 조작해보자.</b>" },
         { t:"해당 출입문만 개별 바이패스하고 계속 운행한다", ok:false,
-          fb:"개별 바이패스는 금지야. 그리고 관제와 협의해서 회송해야 해." },
+          fb:"<b>개별 바이패스는 금지</b>야. 그리고 <b>관제와 협의</b>해서 회송해야 해." },
         { t:"관제 협의 없이 전체 출입문 BY-PASS 후 영업운전을 계속한다", ok:false,
-          fb:"혼자 판단할 일이 아니야. 관제와 협의한 뒤 전체 출입문 BY-PASS 취급 후 회송해야 해." }
+          fb:"혼자 판단할 일이 아니야. <b>관제와 협의</b>한 뒤 <b>전체 출입문 BY-PASS</b> 취급 후 회송해야 해." }
       ],
       src:"교육자료 · 1개 출입문 ④ 전체출입문 BY-PASS(개별바이패스 금지) ⑤ 열림불능 시 관제와 협의하여 회송조치",
       done:"관제 협의 → 전체 출입문 BY-PASS 직접 취급 → 회송"
@@ -5646,7 +6234,7 @@
       coach:"출입문을 열었는데 TCMS에 <b>4호차 1량</b>이 닫힘으로 현시돼 있어.<br>먼저 전체 출입문을 재취급해 보자. 운전실에서 직접 취급해 봐!",
       prompt:"① 출입문 재취급 — 운전실에서 순서대로 직접 취급해 보세요.",
       hint:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치에서 닫힘 → 열림.",
-      okFb:"정확해.<br>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치 재취급.<br>그런데 재취급했는데도 4호차 출입문이 열리지 않았어.",
+      okFb:"정확해.<br><b>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 출입문 스위치 재취급.</b><br>그런데 재취급했는데도 <b>4호차 출입문이 열리지 않았어.</b>",
       src:"교육자료 · 1량 출입문 열림 불능 ① 출입문 재취급 (B7 · 운전모드 수동 · 출입문모드 수/수 · 측면 스위치)",
       done:"출입문 재취급 (B7 → 수동 · 수/수 → 측면 스위치)"
     },
@@ -5661,9 +6249,9 @@
         { t:"안내방송·관제보고 후 현장으로 출동해 확인한다", ok:true,
           fb:"맞아. 승객 안내와 관제 보고를 하고 <b>현장확인</b>을 위해 4호차로 출동해.<br>영상으로 방송·보고·출동까지 확인해 보자." },
         { t:"방송과 보고 없이 그대로 다음 역까지 운행한다", ok:false,
-          fb:"그대로 운행하면 안 돼. 안내방송과 관제 보고 후 현장확인이야." },
+          fb:"그대로 운행하면 안 돼. <b>안내방송과 관제 보고</b> 후 현장확인이야." },
         { t:"바로 전체 출입문 BY-PASS를 취급한다", ok:false,
-          fb:"BY-PASS는 마지막 순서야. 먼저 현장확인을 해야 해." }
+          fb:"BY-PASS는 <b>마지막 순서</b>야. 먼저 <b>현장확인</b>을 해야 해." }
       ],
       src:"교육자료 · 1량 출입문 열림 불능 ② 현장확인 (안내방송 · 관제보고 후 출동)",
       done:"현장확인 — 안내방송 · 관제보고 후 출동"
@@ -5681,7 +6269,7 @@
         { t:"출입문 개별코크를 하나씩 확인한다", ok:false,
           fb:"1량 전체가 열리지 않는 상황이야. 개별코크보다 <b>대표코크</b>를 먼저 확인해." },
         { t:"확인 없이 바로 전체 출입문 BY-PASS를 취급한다", ok:false,
-          fb:"BY-PASS는 마지막 순서야. 먼저 대표코크를 확인해." }
+          fb:"BY-PASS는 <b>마지막 순서</b>야. 먼저 <b>대표코크</b>를 확인해." }
       ],
       src:"교육자료 · 1량 출입문 열림 불능 ③ 대표코크 확인",
       done:"전체 출입문 코크(대표코크) 확인"
@@ -5718,9 +6306,9 @@
         { t:"관제 지시에 의거 전체 출입문 BY-PASS 취급 후 회송한다", ok:true,
           fb:"맞아. 조치 불능 시 <b>관제 지시에 의거</b>해<br>전체 출입문 BY-PASS를 취급하고 회송해.<br>개별 바이패스는 취급하면 안 돼." },
         { t:"해당 차량만 개별 바이패스하고 계속 운행한다", ok:false,
-          fb:"개별 바이패스는 금지야. 그리고 관제 지시에 따라 회송해야 해." },
+          fb:"<b>개별 바이패스는 금지</b>야. 그리고 <b>관제 지시</b>에 따라 회송해야 해." },
         { t:"관제 보고 없이 전체 출입문 BY-PASS 후 영업운전을 계속한다", ok:false,
-          fb:"혼자 판단할 일이 아니야. 관제에 보고하고 지시에 따라 회송해야 해." }
+          fb:"혼자 판단할 일이 아니야. <b>관제에 보고</b>하고 지시에 따라 회송해야 해." }
       ],
       src:"교육자료 · 1량 출입문 열림 불능 ⑤ 조치 불능 시 관제 지시 의거 회송 (전체 출입문 BY-PASS · 개별 바이패스 금지)",
       done:"관제 지시 의거 → 전체 출입문 BY-PASS → 회송"
@@ -5795,20 +6383,23 @@
       });
       /* 명판 */
       var py = y + 72;
-      s += '<rect x="36" y="' + py + '" width="' + (span+12) + '" height="48" rx="2" fill="#efeedd" stroke="#b9b89a" stroke-width="1.2"/>';
+      s += '<rect x="36" y="' + py + '" width="' + (span+12) + '" height="52" rx="2" fill="#efeedd" stroke="#b9b89a" stroke-width="1.2"/>';
       function plate(id, i, ty){
-        var cx = 42 + i*w + bw/2, nm = CB_NAME[id] || "", slot = bw + 14;
+        var cx = 42 + i*w + bw/2, nm = CB_NAME[id] || "", slot = bw + 15;
         var hl = CB_HL.indexOf(id) >= 0;
-        s += '<text x="' + cx + '" y="' + ty + '" text-anchor="middle" font-size="' + (hl ? 11 : 9.4) +
+        /* 이름표 한 칸 — 이름 + 설명을 묶어 보이게 */
+        s += '<rect x="' + (cx - slot/2) + '" y="' + (ty - 9.5) + '" width="' + slot + '" height="21" rx="3" fill="' +
+             (hl ? '#ffe6f0' : '#faf9f0') + '" stroke="' + (hl ? C.pink : '#d2d0b8') + '" stroke-width="' + (hl ? 1.2 : .7) + '"/>';
+        s += '<text x="' + cx + '" y="' + ty + '" text-anchor="middle" font-size="' + (hl ? 10.4 : 9) +
              '" font-weight="800" fill="' + (hl ? C.pink : '#1d2228') + '">' + id + '</text>';
         if (!nm) return;
-        var fs = hl ? 8.4 : 7.4, nat = nm.length * fs * 0.98, at = "";
-        if (nat > slot) at = ' textLength="' + slot.toFixed(1) + '" lengthAdjust="spacingAndGlyphs"';
-        s += '<text x="' + cx + '" y="' + (ty+11) + '" text-anchor="middle" font-size="' + fs +
-             '" font-weight="' + (hl ? 800 : 600) + '" fill="' + (hl ? '#8d1148' : '#3b4249') + '"' + at + '>' + nm + '</text>';
+        var fs = hl ? 7.6 : 6.8, nat = nm.length * fs * 0.98, at = "";
+        if (nat > slot - 3) at = ' textLength="' + (slot-3).toFixed(1) + '" lengthAdjust="spacingAndGlyphs"';
+        s += '<text x="' + cx + '" y="' + (ty+9.6) + '" text-anchor="middle" font-size="' + fs +
+             '" font-weight="' + (hl ? 800 : 600) + '" fill="' + (hl ? '#8d1148' : '#5a6169') + '"' + at + '>' + nm + '</text>';
       }
-      ids.forEach(function(id, i){ if (i % 2 === r % 2) plate(id, i, py + 15); });
-      ids.forEach(function(id, i){ if (i % 2 !== r % 2) plate(id, i, py + 34); });
+      ids.forEach(function(id, i){ if (i % 2 === r % 2) plate(id, i, py + 14); });
+      ids.forEach(function(id, i){ if (i % 2 !== r % 2) plate(id, i, py + 37); });
     });
     if (marked){
       /* 클릭 영역 — 모든 차단기 */
@@ -5826,9 +6417,9 @@
     }
     return s + '</svg>';
   }
-  var CB_ZOOM = { DRN:"", DCRN:"우측 출입문", DCLN:"좌측 출입문" };
+  var CB_ZOOM = { DRN:"출입문 제어", DCRN:"우측 출입문", DCLN:"좌측 출입문" };
   function cbLabel(id){ return (CB_ZOOM[id] !== undefined) ? CB_ZOOM[id] : (CB_NAME[id] || ""); }
-  function cbZoomSvg(badge, only){
+  function cbZoomSvg(badge, only, anim){
     var P = C.pink;
     var all = [["DRN", CB_ZOOM.DRN], ["DCRN", CB_ZOOM.DCRN], ["DCLN", CB_ZOOM.DCLN]];
     var items = (only && typeof only === "string") ? [[only, cbLabel(only)]] : all;
@@ -5843,21 +6434,34 @@
       s += '<text x="' + (x+43) + '" y="58" text-anchor="middle" font-size="13" font-weight="800" fill="#1d2228">' + it[0] + '</text>';
       s += '<rect x="' + (x+6) + '" y="68" width="74" height="10" fill="#e8eaed"/>';
       s += '<text x="' + (x+43) + '" y="76" text-anchor="middle" font-size="5.5" fill="#7d838a">Schneider Electric</text>';
-      s += '<rect x="' + (x+30) + '" y="92" width="26" height="42" rx="5" fill="#2a2d31"/>';
-      s += '<rect x="' + (x+34) + '" y="100" width="18" height="14" rx="2" fill="#4a4f54"/>';
-      s += '<text x="' + (x+43) + '" y="146" text-anchor="middle" font-size="7" font-weight="700" fill="#5d646b">ON</text>';
+      if (anim){
+        s += '<rect x="' + (x+30) + '" y="92" width="26" height="42" rx="5" fill="#1b1d20"/>';
+        s += '<g class="cbdn"><rect x="' + (x+32) + '" y="94" width="22" height="19" rx="3" fill="#6b7177"/>';
+        s += '<rect x="' + (x+36) + '" y="98" width="14" height="6" rx="2" fill="#9aa0a6"/></g>';
+      } else {
+        s += '<rect x="' + (x+30) + '" y="92" width="26" height="42" rx="5" fill="#2a2d31"/>';
+        s += '<rect x="' + (x+34) + '" y="100" width="18" height="14" rx="2" fill="#4a4f54"/>';
+      }
+      if (anim){
+        s += '<text class="cbon" x="' + (x+60) + '" y="104" font-size="9.5" font-weight="800" fill="#1f7a3a">ON</text>';
+        s += '<text class="cboff" x="' + (x+56) + '" y="134" font-size="9.5" font-weight="800" fill="#b3202a">OFF</text>';
+      } else {
+        s += '<text x="' + (x+43) + '" y="146" text-anchor="middle" font-size="7" font-weight="700" fill="#5d646b">ON</text>';
+      }
       var hl = CB_HL.indexOf(it[0]) >= 0;
       if (hl) s += '<rect class="glow" x="' + (x-5) + '" y="28" width="96" height="130" rx="6" fill="none" stroke="' + P + '" stroke-width="2.6" stroke-dasharray="7 5"/>';
       else    s += '<rect x="' + (x-5) + '" y="28" width="96" height="130" rx="6" fill="none" stroke="#7e848a" stroke-width="2"/>';
       var nm = it[1], nfs = (nm.length > 11) ? 8 : 9.5;
       s += '<text x="' + (x+43) + '" y="178" text-anchor="middle" font-size="' + nfs + '" font-weight="800" fill="#1d2228">' + nm + '</text>';
     });
-    var bt = badge || ((items.length === 1)
-      ? (items[0][0] + (CB_HL.indexOf(items[0][0]) >= 0 ? " 확인 후 복귀" : " — 출입문과 무관한 차단기"))
-      : "DRN · DCRN · DCLN 확인 후 복귀");
-    var bw2 = Math.max(200, bt.length * 13 + 40);
-    s += '<rect x="' + (240-bw2/2) + '" y="202" width="' + bw2 + '" height="30" rx="15" fill="' + P + '"/>';
-    s += '<text x="240" y="222.5" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">' + bt + '</text>';
+    if (badge !== false){
+      var bt = badge || ((items.length === 1)
+        ? (items[0][0] + (CB_HL.indexOf(items[0][0]) >= 0 ? " 확인 후 복귀" : " — 출입문과 무관한 차단기"))
+        : "DRN · DCRN · DCLN 확인 후 복귀");
+      var bw2 = Math.max(200, bt.length * 13 + 40);
+      s += '<rect x="' + (240-bw2/2) + '" y="202" width="' + bw2 + '" height="30" rx="15" fill="' + P + '"/>';
+      s += '<text x="240" y="222.5" text-anchor="middle" font-size="14" font-weight="800" fill="#fff">' + bt + '</text>';
+    }
     return s + '</svg>';
   }
   var CB1S = { pos:0, cur:null, done:{} };
@@ -5901,7 +6505,7 @@
   var CB_TIP = '<span class="bigtip">👉 차단기를 <b>한 번 누르면</b>(PC는 마우스를 올리면) 확대되고, <b>한 번 더 누르면</b> 크게 볼 수 있습니다.</span><em>※ 점선 표시 = 출입문 관련 차단기</em>';
   var CUTS = { off:{} };
   function cbShortName(id){ return (id === "DRN") ? "출입문 제어" : (CB_NAME[id] || ""); }
-  function cutRowSvg(){
+  function cutRowSvg(noBadge){
     var P = C.pink, done = CB_HL.every(function(k){ return CUTS.off[k]; });
     var s = '<svg viewBox="0 0 480 250" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">';
     s += '<rect width="480" height="250" fill="#9aa0a6"/>';
@@ -5923,11 +6527,13 @@
         s += '<rect x="' + (x-5) + '" y="24" width="96" height="136" rx="6" fill="none" stroke="#17a24a" stroke-width="2.6"/>';
       s += '<rect class="cuthot" data-cb="' + id + '" x="' + (x-5) + '" y="24" width="96" height="136" fill="transparent" style="cursor:pointer"/>';
     });
-    var n = CB_HL.filter(function(k){ return CUTS.off[k]; }).length;
-    s += '<rect x="' + (done ? 124 : 104) + '" y="212" width="' + (done ? 232 : 272) + '" height="28" rx="14" fill="' +
-         (done ? "#17a24a" : P) + '"/>';
-    s += '<text x="240" y="231" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">' +
-         (done ? "회로차단기 차단 완료 (3 / 3)" : ("차단기를 눌러 차단(OFF) 하세요 (" + n + " / 3)")) + '</text>';
+    if (!noBadge){
+      var n = CB_HL.filter(function(k){ return CUTS.off[k]; }).length;
+      s += '<rect x="' + (done ? 124 : 104) + '" y="212" width="' + (done ? 232 : 272) + '" height="28" rx="14" fill="' +
+           (done ? "#17a24a" : P) + '"/>';
+      s += '<text x="240" y="231" text-anchor="middle" font-size="13" font-weight="800" fill="#fff">' +
+           (done ? "회로차단기 차단 완료 (3 / 3)" : ("차단기를 눌러 차단(OFF) 하세요 (" + n + " / 3)")) + '</text>';
+    }
     return s + '</svg>';
   }
   function showCutTask(ans){
@@ -5935,7 +6541,7 @@
     $("extraWrap").hidden = false;
     var ebc = $("extraWrap").querySelector(".extrab"); if (ebc) ebc.hidden = false;
     var hdc = $("extraWrap").querySelector(".extrab-h"); if (hdc) hdc.hidden = false;
-    $("extraHead").textContent = "객실 배전반 · 회로차단기 차단";
+    $("extraHead").textContent = "객실 배전반 · 차단기 차단";
     $("extraTag").textContent = "DRN · DCRN · DCLN";
     $("extraBox").innerHTML = cutRowSvg();
     $("extraNote").innerHTML = "All-Door BY-PASS 취급 전에 관련 회로차단기 3개를 모두 차단(OFF)합니다.";
@@ -6906,12 +7512,12 @@
       tcAlways:true,
       dual:true,
       msg:["전체 출입문 열림 불능","alert"],
-      coach:"출입문을 개방했어. 그런데 <b>출입문이 점등</b> 되어 있어.<br>TCMS 확인해 봤어? <b>전체 출입문이 열리지 않은 거 같아.</b><br>무엇을 해야 할까?",
+      coach:"출입문을 개방했어. 그런데 <b>출입문이 열리지 않은거 같아.</b><br>출입문등이랑 TCMS 확인해 봤어? 무엇을 해야 할까?",
       prompt:"전체 출입문 열림 불능 시 첫 번째 조치는?",
       hint:"관제 보고나 현장 확인 전에, 운전실에서 바로 해 볼 수 있는 조치가 있어.",
       opts:[
         { t:"출입문을 재취급한다", ok:true,
-          fb:"전체 출입문 열림 불능이야. 가장 먼저 <b>출입문을 재취급</b>해 봐야 해.<br>다음 단계에서 운전실에서 직접 해 보자." },
+          fb:"전체 출입문 열림 불능이야. 가장 먼저 <b>출입문을 재취급</b>해 봐야 해.<br><b>다음 단계에서 운전실에서 직접 해 보자.</b>" },
         { t:"곧바로 관제에 회송을 요청한다", ok:false,
           fb:"아직 일러. 운전실에서 할 수 있는 <b>출입문 재취급</b>부터 해 보고, 그 결과까지 담아 보고해야 해." },
         { t:"바이패스를 취급 후 출발하며 관제에게 보고한다", ok:false,
@@ -6930,7 +7536,7 @@
       coach:"전체 출입문 재취급해 보자.<br>운전실에서 순서대로 직접 취급해 봐!",
       prompt:"운전실 그림에서 순서대로 직접 취급해 보세요.",
       hint:"B7 → 운전모드 수동 · 출입문모드 수/수 → 측면스위치로 출입문 열림 취급",
-      okFb:"정확해.<br>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 제어대 열림 취급.<br>그런데 수동으로도 출입문이 열리지 않았어.",
+      okFb:"정확해.<br><b>B7 → 운전모드 수동 · 출입문모드 수/수 → 측면 제어대 열림 취급.</b><br>그런데 수동으로도 <b>출입문이 열리지 않았어.</b>",
       src:"응급조치 1 · 자동 열림 불능 시 — 운전모드 수동 · 출입문모드 수/수 · 측면 제어대 열림 스위치 취급",
       done:"수동 취급 (B7 → 수동 · 수/수 → 측면 열림)"
     },
@@ -6945,10 +7551,10 @@
       opts:[
         { t:"고객안내방송을 실시하고 관제에 상황을 보고한다", ok:true,
           fb:"맞아. 승객에게 지연 사유를 안내하고 관제에 현상과 시행한 조치를 보고해야 해.<br><b>영상으로 방송 문안과 관제 보고를 확인해 보자.</b>" },
-        { t:"방송 없이 바로 ZVBPS를 취급한다", ok:false,
-          fb:"ZVBPS는 뒤 순서야. 승객 안내와 관제 보고가 먼저야." },
+        { t:"차단기를 리셋한다.", ok:false,
+          fb:"차단기 리셋하기 전에 해야할 조치들이 있어. 승객이 기다리고 있어. <b>안내방송과 관제 보고를 하자.</b>" },
         { t:"그대로 다음 역까지 운행한다", ok:false,
-          fb:"출입문이 열리지 않는 상태로 운행하면 안 돼. 안내방송과 관제 보고부터 해." }
+          fb:"출입문이 열리지 않는 상태로 운행하면 안 돼. <b>안내방송과 관제 보고</b>부터 해." }
       ],
       src:"교육자료 · 고객안내방송 및 관제 상황보고",
       done:"고객안내방송 · 관제 상황보고"
@@ -7007,13 +7613,13 @@
       sideFb:"<b>열림</b>을 취급했어. 그런데도 <b>TCMS에는 출입문이 열리지 않은</b> 상태야.<br><b>ZVBPS는 취급 후 반드시 복귀</b>하는 거 잊지 마!",
       sideDone:"ZVBPS 취급 후 <b>열림</b> 취급 완료 — TCMS 전 차량 닫힘 현시 그대로",
       msg:["ZVBPS 취급 · 비상모드","warn"],
-      coach:"닫힘 버튼 경타 후 재취급해도 안 열려.<br>다음에는 어떤 조치를 해야 할까?",
+      coach:"닫힘 버튼 경타 후 재취급해도 안 열려. 다음에는 어떤 조치를 해야 할까?",
       prompt:"닫힘 경타 후 재취급해도 열리지 않습니다. 다음 조치는?",
       hint:"운전실 배전반에서 하는 조치가 있어. 우진차 3차분은 <b>비상모드</b>에서만 취급할 수 있어.",
       opts:[
         { t:"ZVS / ZVBPS 취급 후 출입문 취급", ok:true,
-          fb:"맞아. <b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해 봐야 해.<br><b>취급 후에는 반드시 복귀</b>해야 해." +
-             "<span class=\"goline\">위 운전실에서 직접 취급해보자. ZVBPS는 <b>비상모드</b>에서만 취급할 수 있어.</span>" },
+          fb:"맞아. <b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해 봐야 해. <b>취급 후에는 반드시 복귀</b>해야 해." +
+             "<span class=\"goline\"><b>위 운전실에서 직접 취급해보자.</b> ZVBPS는 <b>비상모드</b>에서만 취급할 수 있어.</span>" },
         { t:"전체 출입문 BY-PASS(DBS)를 취급한다", ok:false,
           fb:"<b>DBS</b>는 전체 출입문 바이패스야. 아직 DBS를 취급하긴 일러.<br><b>ZVS / ZVBPS</b>를 취급한 뒤 출입문을 취급해." },
         { t:"비상 개폐 손잡이를 쓰라고 객실에 방송한다", ok:false,
@@ -7032,7 +7638,7 @@
       hint:"차종마다 차단기 이름이 달라. 우진차는 <b>3개 차단기</b>를 확인해야 해.",
       opts:[
         { t:"DRN, DCRN, DCLN", ok:true,
-          fb:"맞아. 우진차는 <b>DRN · DCRN · DCLN</b>을 확인하고 차단되어 있으면 복귀시켜.<br>아래 배전반에서 <b>점선 표시된 차단기를 눌러</b> 확대해 확인해 보자." },
+          fb:"맞아. 우진차는 <b>DRN · DCRN · DCLN</b>을 확인하고 <b>차단되어 있으면 복귀시켜.</b><br>아래 배전반에서 <b>점선 표시된 차단기를 눌러</b> 확대해 확인해 보자." },
         { t:"RDEN, LDEN", ok:false,
           fb:"2차분 차단기야. 우진차는 <b>DRN · DCRN · DCLN</b>이야." },
         { t:"DCURN, DCULN", ok:false,
@@ -7050,11 +7656,11 @@
       hint:"열차를 재기동 해보자. 그래도 안 되면 반대쪽 운전실이 있어.",
       opts:[
         { t:"재기동 후 재취급하고, 조치 불능 시 후부 운전실에서 취급한다", ok:true,
-          fb:"맞아. <b>재기동 후 재취급</b>하고, 조치 불능 시 <b>후부 운전실에서 취급</b>해 봐야 해.<br>그리고 <b>승객 모두 하차 후 관제에 회송을 요청</b>해." },
+          fb:"맞아. <b>재기동 후 재취급</b>하고, <b>조치 불능 시</b> <b>후부 운전실에서 취급</b>해 봐야 해.<br>그리고 <b>승객 모두 하차 후 관제에 회송을 요청</b>해." },
         { t:"바로 관제에 회송을 요청한다", ok:false,
           fb:"아직 남은 조치가 있어. <b>재기동 후 재취급</b>과 <b>후부 운전실 취급</b>을 해 보고 보고해." },
         { t:"승객에게 비상 개폐 손잡이를 사용하라고 방송한다", ok:false,
-          fb:"임의로 안내하면 안 돼. 재기동 후 재취급, 후부 운전실 취급이 먼저야." }
+          fb:"임의로 안내하면 안 돼. <b>재기동 후 재취급, 후부 운전실 취급</b>이 먼저야." }
       ],
       src:"응급조치 5 · 재기동 후 재취급 / 조치 불능 시 후부 운전실에서 취급 / 승객 하차 후 관제 회송 요청",
       done:"재기동 후 재취급 · 후부 운전실 취급 · 관제 회송 요청"
@@ -7130,11 +7736,10 @@
         { t:"관련 회로차단기부터 모두 리셋한다", ok:false,
           fb:"차단기 확인 전에 <b>역전기 리셋</b>부터 해 봐야 해." },
         { t:"역전기를 리셋한다", ok:true,
-          fb:"맞아. TCMS 고장 시 가장 먼저 <b>역전기를 리셋(재투입)</b>해 봐야 해.<br>" +
-             "리셋하기 전에 <b>고객안내방송과 관제 상황보고는 필수</b>야.<br>" +
-             "<span class=\"warnline\">※ 역전기를 리셋할 때는 <b>반드시 출입문을 닫은 상태</b>에서 취급합니다.</span><br>" +
-             "<b>위 운전실</b>에서 <b>중앙 / 측면 출입문 닫힘</b>을 취급하고 <b>역전기를 리셋</b>해 본 뒤,<br>" +
-             "<b>시뮬레이션 영상</b>도 확인해 보자!" },
+          fb:"맞아. TCMS 고장 시 가장 먼저 <b>역전기를 리셋</b>해 봐야 해. " +
+             "리셋하기 전에 <b>고객안내방송과 관제 상황보고</b>는 필수야." +
+             "<span class=\"warnline\">※ 역전기를 리셋할 때는 <b>반드시 출입문을 닫은 상태</b>에서 취급합니다.</span>" +
+             "<b>위 운전실</b>에서 <b>중앙 / 측면 출입문 닫힘</b>을 취급하고 <b>역전기를 리셋</b>해 본 뒤, <b>시뮬레이션 영상</b>도 확인해 보자!" },
         { t:"그대로 다음 역까지 운행한다", ok:false,
           fb:"TCMS가 확인되지 않는 상태에서 열차를 그대로 운행할 수 없어.<br><b>역전기 리셋</b>부터 해 보자." }
       ],
@@ -7145,7 +7750,7 @@
       pts:33,
       board:"cb2", noTcms:true, cbTask:true,
       msg:["회로차단기 확인","warn"],
-      coach:"조치했는데 TCMS가 여전히 고장이야.<br>차단기를 확인해보자.<br><b>2차분 TCMS 고장</b> 시 어떤 차단기를 확인해야 할까?",
+      coach:"조치했는데 TCMS가 여전히 고장이야. 차단기를 확인해보자. <b>2차분 TCMS 고장</b> 시 어떤 차단기를 확인해야 할까?",
       prompt:"2차분 TCMS 고장 시 확인해야 할 회로차단기는?",
       hint:"배전반 아래쪽 줄에 있어. TCMS 표시기와 관련된 차단기야.",
       opts:[
@@ -7174,7 +7779,7 @@
       hint:"관제 보고하고 운전 방식을 바꿔서 역까지 가 보자.",
       opts:[
         { t:"그 자리에서 차단기 리셋을 계속 반복한다", ok:false,
-          fb:"계속 차단기만 리셋할 수는 없어. 운전 방식을 바꿔서 역까지 가 보자." },
+          fb:"계속 차단기만 리셋할 수는 없어. <b>운전 방식을 바꿔서</b> 역까지 가 보자." },
         { t:"즉시 승객을 하차시키고 회송한다", ok:false,
           fb:"TCMS 고장 시 회송은 하지 않아.<br><b>수동운전</b> 후 <b>다음 정거장에서 재설정</b>을 해보자." },
         { t:"수동운전으로 운행하고 다음 정거장에서 재설정한다", ok:true,
@@ -7224,7 +7829,7 @@
                svg: function(){ return radio("in", "8000열차 827편성"); } },
     c_go:    { t:"현장 출동",
                q:"4호차 R1 출입문으로 출동해<br>현장을 확인합니다.",
-               svg: function(){ return train8Svg({ go:true, psd:true, badIdx:3, halfBad:true, noTop:true,
+               svg: function(){ return train8Svg({ go:true, psd:true, badIdx:3, halfBad:true, noTop:true, goFrom:"right",
                                                  badge:"4호차 R1 · 닫힘 불능" }); } },
     c_site:  { t:"개별코크 · 이물질 확인",
                q:"객실 안에서 출입문 개별코크와<br>이물질 여부를 확인합니다.",
@@ -7247,7 +7852,7 @@
   SCN_D5.c_kit    = SCN_DOOR3.f_kit;
   SCN_D5.c_bypass = SCN_DOOR3.e_bypass;
   SCN_D5.c_done   = { t:"회송",
-                      q:"회송 출발합니다.",
+                      q:"승객 하차 후 회송 출발합니다.",
                       svg: departScene() };
   var MID_D5_A   = ["c_pa","c_report","c_dir","c_open","c_kit","c_go"];
   var MID_D5_END = ["c_req","c_order","c_bypass","c_done"];
@@ -7258,16 +7863,16 @@
     {
       pts:14,
       msg:["4호차 R1 출입문 열림 현시","alert"],
-      coach:"출입문 닫힘을 취급했는데, TCMS를 확인해보니<br><b>출입문 하나가 닫히지 않은 거 같아.</b><br>무엇을 해야 할까?",
+      coach:"출입문 닫힘을 취급했는데, TCMS를 확인해보니 <b>출입문 하나가 닫히지 않은 거 같아.</b> 무엇을 해야 할까?",
       prompt:"1개 출입문 닫힘 불능 시 첫 번째 조치는?",
       hint:"관제 보고나 현장 확인 전에, 운전실에서 바로 해 볼 수 있는 조치가 있어.",
       opts:[
         { t:"출입문을 재취급한다", ok:true,
-          fb:"맞아. TCMS에 <b>4호차 R1 출입문이 열림</b>으로 현시돼 있어.<br>가장 먼저 <b>전체 출입문을 재취급</b>해 봐야 해.<br>다음 단계에서 운전실에서 직접 해 보자." },
+          fb:"맞아. TCMS에 <b>4호차 R1 출입문이 열림</b>으로 현시돼 있어. 가장 먼저 <b>전체 출입문을 재취급</b>해 봐야 해. <b>다음 단계에서 운전실에서 직접 해 보자.</b>" },
         { t:"곧바로 관제에 보고하고 지시를 기다린다", ok:false,
           fb:"보고는 필요하지만 아직 일러. 운전실에서 할 수 있는 <b>재취급</b>을 먼저 해 보고, 그 결과까지 담아 보고해야 해." },
-        { t:"그대로 출발해 다음 역에서 조치한다", ok:false,
-          fb:"출입문이 열린 채로 출발하면 안 돼. <b>출입문 재취급</b>부터 해 봐야 해." }
+        { t:"바이패스하고 출발해 다음 역에서 조치한다", ok:false,
+          fb:"임의로 바이패스하고 출발하면 안 돼. <b>출입문 재취급</b>부터 해 봐야 해." }
       ],
       src:"현상확인 · TCMS 화면에 1개 출입문 열림 현시 / 선행조치 · 전체 출입문 재취급",
       done:"TCMS 열림 현시 확인 · 전체 재취급 판단"
@@ -7295,7 +7900,7 @@
       hint:"승객이 먼저 불안해져. 그리고 혼자 판단할 일이 아니야.",
       opts:[
         { t:"고객 안내방송을 실시하고 관제에 상황을 보고한다", ok:true,
-          fb:"맞아. 승객에게 지연 사유를 알리고 관제에 상황을 보고해야 해.<br><b>영상으로 방송 문안과 관제 보고를 확인해 보자.</b>" },
+          fb:"맞아. 승객에게 <b>지연 사유를 안내</b>하고 <b>관제에 상황을 보고</b>해야 해.<br><b>영상으로 방송 문안과 관제 보고를 확인해 보자.</b>" },
         { t:"배전반에서 차단기를 리셋한다", ok:false,
           fb:"1개 출입문 고장 시 관련 차단기 확인은 현장에서 할 조치야.<br>그 전에 <b>고객 안내방송</b>과 <b>관제 상황보고</b>를 먼저 해야 해." },
         { t:"ZVBPS를 취급해 출입문 재취급을 해본다", ok:false,
@@ -7313,7 +7918,7 @@
       hint:"출입문 근처에 뭐가 있는지 확인해봐. 그리고 <b>빨간색 장치</b>도 확인해봐야 해!",
       opts:[
         { t:"출입문 개별코크와 이물질을 확인한다", ok:true,
-          fb:"맞아. 객실 안에서 출입문 개별코크와<br>출입문 이물질 여부를 확인해야 해." },
+          fb:"맞아. 객실 안에서 <b>출입문 개별코크</b>와<br><b>출입문 이물질</b> 여부를 확인해야 해." },
         { t:"출입문을 손으로 강제로 닫는다", ok:false,
           fb:"강제로 닫으면 안 돼. <b>개별코크</b>를 이용해보자." },
         { t:"확인 없이 바로 출입문만 개별 바이패스한다", ok:false,
@@ -7331,9 +7936,9 @@
       hint:"출입문 위 배전반 안에 출입문 제어장치(DCU)가 있어.",
       opts:[
         { t:"DCU 고장 여부를 확인하고, TOB 취급으로 출입문 동작을 확인한다", ok:true,
-          fb:"맞아. 우진차는 출입문 위 배전반에서 DCU 고장 여부를 확인하고,<br>TOB 취급으로 출입문 동작을 확인해." },
+          fb:"맞아. 우진차는 출입문 위 배전반에서 <b>DCU 고장 여부</b>를 확인하고,<br><b>TOB 취급</b>으로 출입문 동작을 확인해." },
         { t:"출입문 전자변 및 공기 누설음을 확인한다", ok:false,
-          fb:"그건 1·2차분 차량의 조치야. 우진차는 DCU 고장 여부를 확인하고 TOB로 동작을 확인해." },
+          fb:"그건 <b>1·2차분</b> 차량의 조치야. 우진차는 <b>DCU 고장 여부</b>를 확인하고 <b>TOB</b>로 동작을 확인해." },
         { t:"객실 회로차단기를 차단한다", ok:false,
           fb:"우진차는 출입문 위 배전반에서 <b>DCU와 TOB</b>를 확인해야 해." }
       ],
@@ -7349,9 +7954,9 @@
       hint:"출입문 재취급할 때와 같은 제동 위치, 출입문 모드야.",
       opts:[
         { t:"주간제어기 B7, 출입문 모드 수/수", ok:true,
-          fb:"맞아. 주간제어기 B7, 출입문 모드 수/수 상태에서<br>TOB를 취급해 출입문 동작을 확인해." },
+          fb:"맞아. <b>주간제어기 B7, 출입문 모드 수/수</b> 상태에서<br><b>TOB</b>를 취급해 출입문 동작을 확인해." },
         { t:"주간제어기 N, 출입문 모드 자/자", ok:false,
-          fb:"제동이 확보되지 않은 상태야. 주간제어기 B7, 출입문 모드 수/수로 맞춰야 해." },
+          fb:"제동이 확보되지 않은 상태야. <b>주간제어기 B7, 출입문 모드 수/수</b>로 맞춰야 해." },
         { t:"주간제어기 EB, 출입문 모드 자/수", ok:false,
           fb:"<b>TOB 조건은 B7, 출입문 모드 수/수</b>야." }
       ],
@@ -7370,11 +7975,11 @@
       hint:"기관사 혼자 결정할 일이 아니야. 바이패스는 범위도 중요해.",
       opts:[
         { t:"관제와 협의하여 전체 출입문 BY-PASS 취급 후 회송 조치한다", ok:true,
-          fb:"맞아. 1개 출입문이라도 고장 나면 관제와 협의해서<br>전체 출입문 BY-PASS를 취급하고 회송 조치해.<br>개별 바이패스는 취급하면 안 돼.<br><b>아래 배전반에서 스위치를 조작해보자.</b>" },
+          fb:"맞아. 1개 출입문이라도 고장 나면 <b>관제와 협의</b>해서<br><b>전체 출입문 BY-PASS</b>를 취급하고 회송 조치해.<br><b>개별 바이패스는 취급하면 안 돼.</b><br><b>아래 배전반에서 스위치를 조작해보자.</b>" },
         { t:"해당 출입문만 개별 바이패스하고 계속 운행한다", ok:false,
-          fb:"개별 바이패스는 금지야. 그리고 관제와 협의해서 회송해야 해." },
+          fb:"<b>개별 바이패스는 금지</b>야. 그리고 <b>관제와 협의</b>해서 회송해야 해." },
         { t:"차단기를 차단 후 영업운전을 계속한다", ok:false,
-          fb:"관제와 협의한 뒤 전체 출입문 BY-PASS 취급 후 회송해야 해." }
+          fb:"<b>관제와 협의</b>한 뒤 <b>전체 출입문 BY-PASS</b> 취급 후 회송해야 해." }
       ],
       src:"교육자료 · 1개 출입문 ④ 전체출입문 BY-PASS(개별바이패스 금지) ⑤ 조치 불능 시 관제와 협의하여 회송조치",
       done:"관제 협의 → 전체 출입문 BY-PASS 직접 취급 → 회송"
@@ -7404,15 +8009,15 @@
                svg: function(){ return cab({ point:true, screen:"tcms3", openOne:"all",
                                              call:"전 차량 출입문 열림, 확인!" }); } },
     w_mode:  { t:"운전모드 변경 · 닫힘 취급",
-               q:"<b>주간제어기 B7</b> → <b>운전모드 수동 · 출입문모드 수/수</b>로 바꾸고<br>중앙 제어대와 측면 제어대에서 <b>닫힘</b>을 취급합니다.",
+               q:"<b>주간제어기 B7</b> → <b>운전모드 수동·출입문모드 수/수</b>에서<br>중앙 제어대와 측면 제어대에서 <b>닫힘</b>을 취급합니다.",
                svg: function(){ return centerDoorScene("운전모드 변경 · 닫힘 취급", "측면 제어대 닫힘 취급"); } },
     w_cb:    { t:"회로차단기 리셋",
                q:"객실 배전반에서 <b>DRN · DCRN · DCLN</b>을<br><b>OFF → ON</b>으로 리셋합니다.",
-               svg: function(){ return cbZoomSvg("DRN · DCRN · DCLN 차단 → 복귀 (RESET)"); } },
+               svg: function(){ return cbZoomSvg(false, null, true); } },
     w_cut:   { t:"회로차단기 차단",
                q:"<b>DRN · DCRN · DCLN</b>을 모두 <b>차단(OFF)</b>합니다.",
                svg: function(){ var sv = CUTS; CUTS = { off:{ DRN:true, DCRN:true, DCLN:true } };
-                                var o = cutRowSvg(); CUTS = sv; return o; } },
+                                var o = cutRowSvg(true); CUTS = sv; return o; } },
     w_bypass:{ t:"All-Door BY-PASS 취급",
                q:"<b>관제 승인</b> 후 <b>All-Door BY-PASS S/W</b>를 취급합니다. (우진차 <b>DBS</b>)<br>개별 바이패스는 금지입니다.",
                svg: dbsScene },
@@ -7425,7 +8030,7 @@
                say:"\u201c8000열차, 전체 출입문 닫힘 불능 확인했습니다. 차단기 차단, All-Door BY-PASS 취급, 승객 모두 하차하고 회송 조치하시기 바랍니다.\u201d",
                svg: function(){ return radio("in", (CUR.trainNo||"8000") + "열차 " + (CUR.trainSet||"800") + "편성"); } },
     w_done:  { t:"회송",
-               q:"회송 출발합니다.",
+               q:"승객 하차 후 회송 출발합니다.",
                svg: departScene }
   };
   var MID_D6_END = ["w_bypass","w_order","w_done"];
@@ -7440,7 +8045,7 @@
       hint:"다른 운전모드에선 닫히지 않을까? 운전모드를 바꿔서 직접 취급해봐.",
       opts:[
         { t:"운전모드를 변경하여 닫힘버튼을 취급한다", ok:true,
-          fb:"맞아. <b>운전모드를 변경</b>하고 <b>출입문모드 수/수</b>로 바꾼 뒤<br>중앙·측면 제어대에서 <b>닫힘</b>을 취급해 봐야 해.<br>다음 단계에서 운전실에서 직접 해 보자." },
+          fb:"맞아. <b>운전모드를 변경</b>하고 <b>출입문모드 수/수</b>로 바꾼 뒤 중앙·측면 제어대에서 <b>닫힘</b>을 취급해 봐야 해.<br><b>다음 단계에서 운전실에서 직접 해 보자.</b>" },
         { t:"곧바로 관제에 회송을 요청한다", ok:false,
           fb:"아직 해봐야 할 조치가 남았어. <b>운전모드를 바꿔 닫힘을 취급</b>해봐." },
         { t:"바이패스 취급해 다음 역으로 출발한다", ok:false,
@@ -7478,7 +8083,7 @@
       hint:"우진차 전체 출입문 고장 시 관련 차단기는 3개야.",
       opts:[
         { t:"DRN, DCRN, DCLN", ok:true,
-          fb:"맞아. 우진차(3차분)는 <b>DRN · DCRN · DCLN</b>을 확인해.<br>아래 배전반에서 <b>점선 표시된 차단기를 눌러 OFF → ON</b>으로 리셋해 보자." },
+          fb:"맞아. 우진차(3차분)는 <b>DRN · DCRN · DCLN</b>을 확인해.<br><b>위 배전반에서 점선 표시된 차단기를 눌러 OFF → ON으로 리셋해 보자.</b>" },
         { t:"RDEN, LDEN", ok:false,
           fb:"2차분 차단기야. 우진차는 <b>DRN · DCRN · DCLN</b>이야." },
         { t:"DCULN, DCURN", ok:false,
@@ -7499,7 +8104,7 @@
       hint:"기관사 혼자 결정할 일이 아니야. 바이패스는 관제 승인이 필요해.",
       opts:[
         { t:"회로차단기 차단 후 관제 승인을 받아 All-Door BY-PASS 취급 후 회송한다", ok:true,
-          fb:"맞아. 회로차단기 차단 후 관제 승인을 받아<br><b>All-Door BY-PASS S/W</b>를 취급 (3차분은 <b>DBS</b>),<br>관제와 협의해 회송해야 해.<br>개별 바이패스는 취급하면 안 돼.<br>아래에서 먼저 <b>차단기 3개를 모두 차단(OFF)</b>해 보자." },
+          fb:"맞아. 회로차단기 차단 후 관제 승인을 받아<br><b>All-Door BY-PASS S/W</b>를 취급 (3차분은 <b>DBS</b>) 후 회송해야 해.<br>아래에서 먼저 <b>차단기 3개를 모두 차단(OFF)</b>해 보자." },
         { t:"회로차단기는 그대로 두고 고장 출입문만 개별 바이패스한 뒤 계속 운행한다", ok:false,
           fb:"개별 바이패스는 금지야. <b>회로차단기 차단</b> 후 <b>All-Door BY-PASS</b>를 관제 승인을 받아 취급하고 회송해." },
         { t:"관제 보고 없이 All-Door BY-PASS를 취급하고 다음 역까지 영업운전한다", ok:false,
@@ -7613,9 +8218,9 @@
     { id:"psd", n:"06", title:"승강장 안전문 장애 발생 시", ready:true, meta:"4문항",
       desc:"상황을 단계별로 조치해 보세요.",
       sub:"8호선 · 승강장안전문 장애", device:"psd", trainNo:"8000", trainSet:"800",
-      steps:STEPS_PSD, scn:SCN_PSD, mid:MID_PSD, summary:SUM_PSD,
+      steps:STEPS_PSD, scn:SCN_PSD, mid:MID_PSD, summary:SUM_PSD, noSop:true, ruleDoc:"psd",
       briefTitle:"승강장 안전문 장애 발생",
-      briefBody:"잠실역에 정위치 정차하여 승객 취급 후 출입문을 닫았습니다.<br>그런데 <b>승강장안전문에 장애가 발생</b>하였습니다.<br>어떻게 하시겠습니까?",
+      briefBody:"정위치 정차하여 승객 취급 후<br>출입문을 닫았습니다.<br><b>승강장안전문에 장애가 발생</b>하였습니다.<br>어떻게 하시겠습니까?",
       note:"조치 절차는 제공된 <b>「안전한 승강장안전문 취급법(이례상황)」</b>을 따랐습니다. HMI 화면은 <b>기관사 안내장치</b> 자료를 참고해 재현한 것으로 실제 기기와 세부 차이가 있을 수 있습니다.",
       recap:["출입문·승강장안전문 <b>재취급</b>",
              "복구되지 않으면 <b>안내방송 후 관제 보고</b>",
@@ -7768,6 +8373,7 @@
     if (timer) clearInterval(timer);
     if ($("resDocsNote")) $("resDocsNote").hidden = true;
     if ($("btnRule")) $("btnRule").hidden = !!(CUR && CUR.noRule);
+    if ($("btnDoc"))  $("btnDoc").hidden  = !!(CUR && CUR.noSop);
     var total = Math.min(100, totalScore());
     var clean = S.answers.filter(function(l){ return l && l.clean; }).length;
     var g = total >= 95 ? "S" : total >= 85 ? "A" : total >= 70 ? "B" : "C";
@@ -7833,7 +8439,10 @@
     }
   });
   $("btnRule").addEventListener("click", function(){
-    openDoc("관련 규정 — 출입문 고장 시 조치", RULES_HTML);
+    if (CUR && CUR.ruleDoc === "psd")
+      openDoc("관련 규정 — 승강장안전문 고장 시 조치", PSD_RULES_HTML);
+    else
+      openDoc("관련 규정 — 출입문 고장 시 조치", RULES_HTML);
   });
   $("btnPrev").addEventListener("click", function(){
     if (S.i === 0){ showBrief(); return; }
