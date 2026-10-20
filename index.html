@@ -332,20 +332,6 @@
   /* ---------- 운전실 전경 (STEP3) / 표시등 ---------- */
   .cf-fit{margin:12px;overflow:hidden;overflow-anchor:none;touch-action:pan-y}
   .cf-fit.zoomed{touch-action:none;cursor:grab}
-  .cfzoom{display:flex;gap:6px;align-items:center;justify-content:flex-end;
-    padding:8px 14px 0;font-size:11px;flex-wrap:wrap}
-  .cfzoom .cfz-hint{margin-right:auto;color:var(--ink-3);font-size:10.5px;letter-spacing:.01em}
-  .cfzoom button{font:inherit;font-weight:800;border:1px solid var(--line-soft);background:#fff;
-    color:var(--ink-2);border-radius:999px;padding:4px 11px;cursor:pointer;line-height:1.25;
-    touch-action:manipulation;min-width:34px}
-  .cfzoom button:active{background:#f4f4f5}
-  .cfzoom #cfZpct{min-width:44px;text-align:center;font-weight:800;color:var(--accent)}
-  @media (max-width:560px){
-    .cfzoom{padding:8px 12px 0}
-    .cfzoom .cfz-hint{flex:1 1 100%;margin:0 0 4px;text-align:left}
-    .cfzoom button{padding:4px 9px}
-  }
-  .cf-fit > .cf{overflow-anchor:none}
   .cf{width:800px;transform-origin:top left;background:linear-gradient(180deg,#1b1d20,#0f1113);
     border:1px solid #3a3d42;border-radius:8px;padding:12px;color:#e8e6e3;user-select:none}
   .cf.det{width:auto;transform:none}
@@ -1215,7 +1201,7 @@
       <div class="menu-mascot"><img id="menuMascot" alt="또타" src=""></div>
     </div>
     <div class="menu-grid" id="menuGrid"></div>
-    <p class="vertag mono">ver 12.8 · 2026-10-20</p>
+    <p class="vertag mono">ver 12.9 · 2026-10-20</p>
   </section>
 
   <!-- ================= BRIEF ================= -->
@@ -1290,13 +1276,6 @@
           <span>운전실</span><span class="mono tag" id="cfTag">출입문 재취급</span>
         </div>
         <div class="cf-steps" id="cfSteps"></div>
-        <div class="cfzoom" id="cfZoom">
-          <span class="cfz-hint">손가락 두 개로 벌려서 확대 · 끌어서 이동</span>
-          <button type="button" data-z="out" aria-label="축소">&#8722;</button>
-          <span id="cfZpct">100%</span>
-          <button type="button" data-z="in" aria-label="확대">&#43;</button>
-          <button type="button" data-z="reset">원래대로</button>
-        </div>
         <div class="cf-fit" id="cfFit"><div class="cf" id="cfBox"></div></div>
         <p class="boardnote" id="cfNote"></p>
       </div>
@@ -5185,6 +5164,7 @@
   function cfZoomSet(z, ax, ay){
     var wrap = $("cfFit"); if (!wrap) return;
     var nz = Math.max(1, Math.min(3.5, z));
+    if (nz < 1.04) nz = 1;
     if (ax == null){ ax = wrap.clientWidth / 2; ay = cfWrapH() / 2; }
     var k = nz / CFZ.z;
     CFZ.x = ax - (ax - CFZ.x) * k;
